@@ -1,7 +1,7 @@
 # Falling-Void
 A game for our final group project at University. 
 
-## Team Mebers
+## Team Members
 
 ### Jake
 
@@ -9,7 +9,7 @@ A game for our final group project at University.
 
 ### Asher
 
-### Lilly
+### Lily
 
 ### Jolie
 
