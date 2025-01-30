@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// This is the base Character class for both the Player Character and the AI characters
 
 #pragma once
 
@@ -14,6 +14,26 @@ class FALLINGVOID_API AFVBaseCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AFVBaseCharacter();
+
+	// Health and MaxHealth should be editable and visible in Blueprint
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float Health{ 100 };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float MaxHealth{ 100 };
+
+
+	// Attack function that is callable in Blueprints
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	virtual void Attack();
+
+	// Function to take damage
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void TakeDamage(float Damage);
+
+	// Event that can be implemented in Blueprint when the player dies
+	UFUNCTION(BlueprintImplementableEvent, Category = "Player")
+	void OnPlayerDied();
 
 protected:
 	// Called when the game starts or when spawned

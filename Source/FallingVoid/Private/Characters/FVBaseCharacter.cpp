@@ -25,6 +25,21 @@ void AFVBaseCharacter::Tick(float DeltaTime)
 
 }
 
+void AFVBaseCharacter::Attack()
+{
+	
+}
+
+void AFVBaseCharacter::TakeDamage(float Damage)
+{
+	Health -= Damage;
+	if (Health <= 0.0f )
+	{
+		OnPlayerDied();
+	}
+}
+
+
 // Called to bind functionality to input
 void AFVBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
