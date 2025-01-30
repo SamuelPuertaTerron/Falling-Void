@@ -1,4 +1,5 @@
 // Copyright: Falling Void Studios
+// This is the base Character class for both the Player Character and the AI characters
 
 #pragma once
 
@@ -15,18 +16,16 @@ class FALLINGVOID_API AFVPlayerBase : public AFVBaseCharacter
 	GENERATED_BODY()
 
 public:
-	
+	// Sets default values for this character's properties
 	AFVPlayerBase();
 
-	// Health and MaxHealth should be editable and visible in Blueprint
+	// Down timer will be the timer that the player is down on the ground before dying
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
-	float DownTimer { 1.0f };
+	float DownTimer{ 0.5f };
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
-	float CameraSensitivity{ 0.5f };
-
-	// Attack function that is callable in Blueprints
-	virtual void Attack() override;
+	float MouseSensitivity{ 1.0f };
 
 protected:
 	// Called when the game starts or when spawned

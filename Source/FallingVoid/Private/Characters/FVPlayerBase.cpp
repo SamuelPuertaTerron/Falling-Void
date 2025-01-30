@@ -1,7 +1,8 @@
 // Copyright: Falling Void Studios
 
 
-#include "FVPlayerBase.h"
+#include "Characters/FVPlayerBase.h"
+
 
 // Sets default values
 AFVPlayerBase::AFVPlayerBase()
@@ -24,12 +25,6 @@ void AFVPlayerBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-void AFVPlayerBase::Attack()
-{
-
-}
-
 
 // Called to bind functionality to input
 void AFVPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
