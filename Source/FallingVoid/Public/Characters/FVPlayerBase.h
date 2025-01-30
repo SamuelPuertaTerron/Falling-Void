@@ -1,5 +1,5 @@
 // Copyright: Falling Void Studios
-// This is the base Character class for both the Player Character and the AI characters
+// This is the Base Player character class, this will contain the base scripts for the 
 
 #pragma once
 
@@ -7,9 +7,6 @@
 #include "Characters/FVBaseCharacter.h"
 #include "FVPlayerBase.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class FALLINGVOID_API AFVPlayerBase : public AFVBaseCharacter
 {

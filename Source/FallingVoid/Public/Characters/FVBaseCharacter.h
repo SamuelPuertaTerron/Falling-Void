@@ -1,3 +1,4 @@
+// Copyright: Falling Void Studios
 // This is the base Character class for both the Player Character and the AI characters
 
 #pragma once
