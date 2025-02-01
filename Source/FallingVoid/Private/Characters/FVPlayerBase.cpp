@@ -12,6 +12,13 @@ AFVPlayerBase::AFVPlayerBase()
 
 }
 
+void AFVPlayerBase::Attack()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AFVPlayerBase::Attack() called"));
+
+	//Super::Attack();
+}
+
 // Called when the game starts or when spawned
 void AFVPlayerBase::BeginPlay()
 {

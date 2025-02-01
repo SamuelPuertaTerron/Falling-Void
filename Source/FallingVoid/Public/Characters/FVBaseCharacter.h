@@ -34,7 +34,7 @@ public:
 
 	// Event that can be implemented in Blueprint when the player dies
 	UFUNCTION(BlueprintImplementableEvent, Category = "Player")
-	void OnPlayerDied();
+	void OnDied();
 
 protected:
 	// Called when the game starts or when spawned

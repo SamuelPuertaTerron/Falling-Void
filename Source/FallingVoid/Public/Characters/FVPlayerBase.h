@@ -24,6 +24,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float MouseSensitivity{ 1.0f };
 
+	virtual void Attack() override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
