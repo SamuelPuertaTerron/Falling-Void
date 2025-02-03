@@ -29,7 +29,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float DamageModifier { 1.5f };
 
-	// Attack function that is callable in Blueprints
+	// Attack function that gets called. 
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	virtual void Attack();
 
@@ -37,7 +37,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	void TakeDamage(float Damage);
 
-	// Event that can be implemented in Blueprint when the player dies
+	// Event that gets called when the Character had died. Implemneted all base characters.
 	UFUNCTION(BlueprintImplementableEvent, Category = "Player")
 	void OnDied();
 

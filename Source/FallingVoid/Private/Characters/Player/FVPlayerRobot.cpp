@@ -3,6 +3,8 @@
 #include "Characters/Player/FVPlayerRobot.h"
 
 #include "Characters/Enemies/FVEnemyBase.h"
+#include <FVGlobals.h>
+
 
 void AFVPlayerRobot::Attack()
 {
@@ -14,7 +16,7 @@ void AFVPlayerRobot::Attack()
 		const AActor* actor = Cast<AActor>(result.GetActor());
 		if (actor)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Shot Actor with name: %s"), *actor->GetName());
+			FVGlobals::LogToScreen("Shot Actor with name " + actor->GetName());
 		}
 	}
 
@@ -25,7 +27,7 @@ void AFVPlayerRobot::Attack()
 			const float damage = BaseDanage * DamageModifier;
 			enemy->TakeDamage(damage);
 
-			UE_LOG(LogTemp, Warning, TEXT("Shot Actor with name: %s"), *enemy->GetName());
+			FVGlobals::LogToScreen("Shot Enemy with name " + enemy->GetName());
 		}
 	}
 }

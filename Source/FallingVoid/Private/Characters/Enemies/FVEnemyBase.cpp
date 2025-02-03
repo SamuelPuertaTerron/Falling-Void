@@ -5,6 +5,8 @@
 
 #include "Characters/FVPlayerBase.h"
 
+#include "FVGlobals.h"
+
 void AFVEnemyBase::Attack()
 {
 	FHitResult result = Shoot();
@@ -13,8 +15,11 @@ void AFVEnemyBase::Attack()
 		AFVPlayerBase* player = Cast<AFVPlayerBase>(result.GetActor());
 		if (player)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Shot Actor with name: %s"), *player->GetName());
-			player->TakeDamage(25.0f);
+			FVGlobals::LogToScreen("Hit Player with name: " + player->GetName());
+
+			const float damage = BaseDanage * DamageModifier;
+
+			player->TakeDamage(damage);
 		}
 	}
 }
