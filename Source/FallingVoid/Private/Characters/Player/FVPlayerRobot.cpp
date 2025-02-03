@@ -22,7 +22,9 @@ void AFVPlayerRobot::Attack()
 		AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());
 		if (enemy)
 		{
-			enemy->TakeDamage(15.0f);
+			const float damage = BaseDanage * DamageModifier;
+			enemy->TakeDamage(damage);
+
 			UE_LOG(LogTemp, Warning, TEXT("Shot Actor with name: %s"), *enemy->GetName());
 		}
 	}

@@ -23,6 +23,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float MaxHealth{ 100 };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float BaseDanage{ 10.0f };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float DamageModifier { 1.5f };
 
 	// Attack function that is callable in Blueprints
 	UFUNCTION(BlueprintCallable, Category = "Player")
