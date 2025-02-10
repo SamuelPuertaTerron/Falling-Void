@@ -45,8 +45,7 @@
 SourceArt/**/*.png
 SourceArt/**/*.tga
 
-# Binary Files
-Binaries/*
+# Binary Files - Note: Binaries are ignored to make sure Designers can still open the project without the need for vs2022.
 Plugins/**/Binaries/*
 
 # Builds
