@@ -2,6 +2,7 @@
 
 
 #include "Characters/FVPlayerBase.h"
+#include "Blueprint/UserWidget.h"
 
 
 // Sets default values
