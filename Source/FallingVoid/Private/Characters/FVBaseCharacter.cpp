@@ -3,6 +3,8 @@
 
 #include "Characters/FVBaseCharacter.h"
 
+#include "FVGlobals.h"
+
 // Sets default values
 AFVBaseCharacter::AFVBaseCharacter()
 {
@@ -33,6 +35,9 @@ void AFVBaseCharacter::Attack()
 void AFVBaseCharacter::TakeDamage(float Damage)
 {
 	Health -= Damage;
+
+	FVGlobals::LogToScreen("Current Health on Actor " + GetName() + " is: " + FString::SanitizeFloat(Health));
+
 	if (Health <= 0.0f )
 	{
 		OnDied();

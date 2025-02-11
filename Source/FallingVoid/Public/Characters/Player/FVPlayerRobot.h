@@ -21,6 +21,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Robot")
 	float FireRange{ 1000.0f };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Robot")
+	bool IsShielding{ false };
 public:
 
 	virtual void Attack() override;
