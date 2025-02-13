@@ -2,7 +2,8 @@
 
 
 #include "Characters/FVPlayerBase.h"
-#include "Blueprint/UserWidget.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AISense_Sight.h"
 
 
 // Sets default values
@@ -11,6 +12,7 @@ AFVPlayerBase::AFVPlayerBase()
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	SetupStimuliSource();
 }
 
 void AFVPlayerBase::Attack()
@@ -39,4 +41,14 @@ void AFVPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AFVPlayerBase::SetupStimuliSource()
+{
+	StimuliSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimuli Source"));
+	if (StimuliSource)
+	{
+		StimuliSource->RegisterForSense(TSubclassOf<UAISense_Sight>());
+		StimuliSource->RegisterWithPerceptionSystem();
+	}
 }
