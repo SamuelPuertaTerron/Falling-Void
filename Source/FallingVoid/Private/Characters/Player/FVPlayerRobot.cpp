@@ -6,9 +6,26 @@
 #include <FVGlobals.h>
 
 
+void AFVPlayerRobot::StartShooting()
+{
+	GetWorld()->GetTimerManager().SetTimer(m_TimeBetweenShotsTimeHandle, this, &AFVPlayerRobot::Attack, FireRate, true);
+}
+
+void AFVPlayerRobot::EndShooting()
+{
+	GetWorld()->GetTimerManager().ClearTimer(m_TimeBetweenShotsTimeHandle);
+}
+
 void AFVPlayerRobot::Attack()
 {
 	//TODO: Add Fire Rate
+
+	if (CurrentAmmo <= 0)
+	{
+		
+	}
+
+	FVGlobals::LogToScreen("Called Attack function");
 
 	FHitResult result = Shoot();
 
@@ -30,6 +47,8 @@ void AFVPlayerRobot::Attack()
 			FVGlobals::LogToScreen("Shot Enemy with name " + enemy->GetName());
 		}
 	}
+
+	CurrentAmmo--;
 }
 
 FHitResult AFVPlayerRobot::Shoot()

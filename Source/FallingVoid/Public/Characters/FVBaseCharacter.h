@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float DamageModifier { 1.5f };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float DamageReductionModifier{ 1 };
+
 	// Attack function that gets called. 
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	virtual void Attack();
