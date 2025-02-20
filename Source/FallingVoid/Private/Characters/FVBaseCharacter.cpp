@@ -34,7 +34,7 @@ void AFVBaseCharacter::Attack()
 
 void AFVBaseCharacter::TakeDamage(float Damage)
 {
-	Health -= Damage * DamageReductionModifier * DamageModifier;
+	Health -= Damage * DamageModifier;
 
 	FVGlobals::LogToScreen("Current Health on Actor " + GetName() + " is: " + FString::SanitizeFloat(Health));
 

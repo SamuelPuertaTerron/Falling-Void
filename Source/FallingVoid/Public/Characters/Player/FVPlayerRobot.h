@@ -23,15 +23,20 @@ public:
 	float FireRange{ 1000.0f };
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Robot")
-	int MaxAmmo{ 10 };
+	int MaxAmmo{ 100 };
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Robot")
-	int CurrentAmmo{ 10 };
-
-
+	int CurrentAmmo{ 100 };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Player|Robot")
+	bool IsReloading{ false };
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Robot")
 	bool IsShielding{ false };
 public:
 
+	UFUNCTION(BlueprintCallable)
+	void StartReload();
+	UFUNCTION(BlueprintCallable)
+	void EndReload();
 
 
 	UFUNCTION(BlueprintCallable)

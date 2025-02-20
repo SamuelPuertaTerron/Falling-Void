@@ -6,6 +6,20 @@
 #include <FVGlobals.h>
 
 
+void AFVPlayerRobot::StartReload()
+{
+	if (IsShielding) return;
+
+	IsReloading = true;
+
+	CurrentAmmo = MaxAmmo;
+}
+
+void AFVPlayerRobot::EndReload()
+{
+	IsReloading = false;
+}
+
 void AFVPlayerRobot::StartShooting()
 {
 	GetWorld()->GetTimerManager().SetTimer(m_TimeBetweenShotsTimeHandle, this, &AFVPlayerRobot::Attack, FireRate, true);
@@ -18,14 +32,14 @@ void AFVPlayerRobot::EndShooting()
 
 void AFVPlayerRobot::Attack()
 {
-	//TODO: Add Fire Rate
-
-	if (CurrentAmmo <= 0)
+	if (IsReloading || IsShielding || CurrentAmmo <= 0)
 	{
-		
+		FVGlobals::LogToScreen("Stopped Shooting");
+		EndShooting();
+		return;
 	}
 
-	FVGlobals::LogToScreen("Called Attack function");
+	FVGlobals::LogToScreen("Called Attack function: " + FString::FromInt(CurrentAmmo));
 
 	FHitResult result = Shoot();
 
@@ -41,6 +55,7 @@ void AFVPlayerRobot::Attack()
 		AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());
 		if (enemy)
 		{
+			//Damage Modifier 
 			const float damage = BaseDanage * DamageModifier;
 			enemy->TakeDamage(damage);
 
