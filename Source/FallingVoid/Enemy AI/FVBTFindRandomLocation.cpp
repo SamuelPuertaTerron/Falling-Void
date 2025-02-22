@@ -34,6 +34,10 @@ EBTNodeResult::Type UFVBTFindRandomLocation::ExecuteTask(UBehaviorTreeComponent&
 				FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 				return EBTNodeResult::Succeeded;
 			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Closet Player Found"))
+			}
 		}
 	}
 
