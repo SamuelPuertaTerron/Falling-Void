@@ -24,13 +24,13 @@ public:
 	float MaxHealth{ 100 };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
-	float BaseDanage{ 10.0f };
+	float BaseDamage{ 10.0f };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
-	float DamageModifier { 1.5f };
+	float DamageBoost { 1.0f };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
-	float DamageReductionModifier{ 1 };
+	float DamageReduction{ 1.0f };
 
 	// Attack function that gets called. 
 	UFUNCTION(BlueprintCallable, Category = "Player")

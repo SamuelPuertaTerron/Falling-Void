@@ -56,7 +56,7 @@ void AFVPlayerRobot::Attack()
 		if (enemy)
 		{
 			//Damage Modifier 
-			const float damage = BaseDanage * DamageModifier;
+			const float damage = BaseDamage * DamageBoost;
 			enemy->TakeDamage(damage);
 
 			FVGlobals::LogToScreen("Shot Enemy with name " + enemy->GetName());
