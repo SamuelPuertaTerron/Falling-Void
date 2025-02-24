@@ -6,7 +6,6 @@
 #include "Characters/FVPlayerBase.h"
 
 #include "FVGlobals.h"
-#include "FVPlayerSamurai.h"
 #include "Characters/Player/FVPlayerRobot.h"
 
 void AFVEnemyBase::Attack()
@@ -26,11 +25,11 @@ void AFVEnemyBase::Attack()
 		}
 	}
 
-	if (AFVPlayerSamurai* playerSamurai = Cast<AFVPlayerSamurai>(result.GetActor()))
+	/*if (AFVPlayerSamurai* playerSamurai = Cast<AFVPlayerSamurai>(result.GetActor()))
 	{
 		const float damage = BaseDamage * DamageBoost * playerSamurai->DamageReduction;
 		playerSamurai->TakeDamage(damage);
-	}
+	}*/
 }
 
 FHitResult AFVEnemyBase::Shoot()
