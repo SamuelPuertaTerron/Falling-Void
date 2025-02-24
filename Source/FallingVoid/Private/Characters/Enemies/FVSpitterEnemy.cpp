@@ -2,6 +2,7 @@
 
 
 #include "Characters/Enemies/FVSpitterEnemy.h"
+#include "FVProjectile.h"
 
 void AFVSpitterEnemy::Attack()
 {
@@ -14,14 +15,16 @@ void AFVSpitterEnemy::Attack()
     SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn; //Ignores Collision
 
     FVector SpawnLocation = ShootingPosition;
-    FRotator SpawnRotation = GetActorRotation(); // Face same direction as enemy
+    FRotator SpawnRotation = GetActorRotation();
 
     // Spawn the projectile
-    AActor* SpawnedProjectile = World->SpawnActor<AActor>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+    AFVProjectile* SpawnedProjectile = World->SpawnActor<AFVProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
 
     if (SpawnedProjectile)
     {
         UE_LOG(LogTemp, Warning, TEXT("Projectile spawned successfully!"));
+        float damage = BaseDamage * DamageBoost;
+        SpawnedProjectile->SetDamage(damage);
     }
     else
     {

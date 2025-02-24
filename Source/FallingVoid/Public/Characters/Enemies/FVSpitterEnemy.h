@@ -6,6 +6,7 @@
 #include "Characters/Enemies/FVEnemyBase.h"
 #include "FVSpitterEnemy.generated.h"
 
+class AFVProjectile;
 /**
  * 
  */
@@ -19,7 +20,7 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
-	TSubclassOf<AActor> Projectile;
+	TSubclassOf<AFVProjectile> Projectile;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	FVector ShootingPosition{};
