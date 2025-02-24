@@ -1,86 +1,84 @@
 // Copyright: Falling Void Studios
 
-
 #include "FVBTFindPlayerLocation.h"
 
 #include "FVGlobals.h"
 #include "NavigationSystem.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "AIController.h"
 #include "Characters/FVPlayerBase.h"
 #include "Characters/Enemies/FVEnemyBase.h"
 
 UFVBTFindPlayerLocation::UFVBTFindPlayerLocation()
 {
-	NodeName = TEXT("Find Player Location");
+    NodeName = TEXT("Find Player Location");
 }
 
 EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	//Get the enemy actor
-	AFVEnemyBase* enemy = Cast<AFVEnemyBase>(OwnerComp.GetOwner());
-	if (!enemy)
-	{
-		return EBTNodeResult::Failed;
-	}
+    // Get the AI controller and its pawn
+    AAIController* AIController = OwnerComp.GetAIOwner();
+    if (!AIController) return EBTNodeResult::Failed;
 
-	//Get the enemy location
-	FVector enemyLocation = enemy->GetActorLocation();
+    AFVEnemyBase* Enemy = Cast<AFVEnemyBase>(AIController->GetPawn());
+    if (!Enemy) return EBTNodeResult::Failed;
 
-	//This will store the closet player that this enemy has found
-	AFVPlayerBase* closetPlayer = nullptr;
-	float closetDistance = 0;
+    // Get the enemy location
+    FVector EnemyLocation = Enemy->GetActorLocation();
 
-	//Find the closet player
-	for (FConstPlayerControllerIterator iterator = GetWorld()->GetPlayerControllerIterator(); iterator; ++iterator)
-	{
-		if (APlayerController* controller = iterator->Get())
-		{
-			if (AFVPlayerBase* playerCharacter = Cast<AFVPlayerBase>(controller->GetPawn()))
-			{
-				FVector playerLocation = playerCharacter->GetActorLocation();
-				float distance = FVector::Dist(enemyLocation, playerLocation);
+    // Variables for tracking the closest player
+    AFVPlayerBase* ClosestPlayer = nullptr;
+    float ClosestDistance = FLT_MAX; // Correctly initialize
 
-				//Check if this distance is closer than the prev distance
-				if (distance < closetDistance)
-				{
-					closetDistance = distance;
-					closetPlayer = playerCharacter;
-					FVGlobals::LogToScreen("Closet Player with name: " + closetPlayer->GetName());
-					UE_LOG(LogTemp, Warning, TEXT("Closet Player Found"))
-				}
-			}
-		}
-	}
+    // Get the world safely
+    UWorld* World = GetWorld();
+    if (!World) return EBTNodeResult::Failed;
 
-	if (closetPlayer)
-	{
-		//If search random than random search around the known players location
-		if (SearchRandom)
-		{
-			FNavLocation navLocation;
+    // Iterate over all player controllers
+    for (FConstPlayerControllerIterator Iterator = World->GetPlayerControllerIterator(); Iterator; ++Iterator)
+    {
+        APlayerController* Controller = Iterator->Get();
+        if (!Controller) continue;
 
-			//Get the navigation system and generate a random search area  around the player
-			if(const auto * nav = UNavigationSystemV1::GetCurrent(GetWorld()))
-			{
-				if (nav->GetRandomPointInNavigableRadius(closetPlayer->GetActorLocation(), SearchRadius, navLocation))
-				{
-					//Set the player location in the blackboard
-					OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), navLocation.Location);
-				}
+        AFVPlayerBase* PlayerCharacter = Cast<AFVPlayerBase>(Controller->GetPawn());
+        if (!PlayerCharacter) continue;
 
-				FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-				return EBTNodeResult::Succeeded;
-			}
-		}
-		else
-		{
-			//Set the player location in the blackboard
-			OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), closetPlayer->GetActorLocation());
+        float Distance = FVector::Dist(EnemyLocation, PlayerCharacter->GetActorLocation());
 
-			FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-			return EBTNodeResult::Succeeded;
-		}
-	}
+        // Check if this player is closer
+        if (Distance < ClosestDistance)
+        {
+            ClosestDistance = Distance;
+            ClosestPlayer = PlayerCharacter;
+        }
+    }
 
-	return EBTNodeResult::Failed;
+    if (ClosestPlayer)
+    {
+        FVGlobals::LogToScreen("Closest Player: " + ClosestPlayer->GetName());
+        UE_LOG(LogTemp, Warning, TEXT("Closest Player Found: %s"), *ClosestPlayer->GetName());
+
+        FVector TargetLocation = ClosestPlayer->GetActorLocation();
+
+        // If search random is enabled, find a random point around the player
+        if (SearchRandom)
+        {
+            FNavLocation NavLocation;
+            if (UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(World))
+            {
+                if (NavSystem->GetRandomPointInNavigableRadius(TargetLocation, SearchRadius, NavLocation))
+                {
+                    TargetLocation = NavLocation.Location;
+                }
+            }
+        }
+
+        // Set the player's location in the blackboard
+        OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), TargetLocation);
+        FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+        return EBTNodeResult::Succeeded;
+    }
+
+    FVGlobals::LogToScreen("No players found!");
+    return EBTNodeResult::Failed;
 }

@@ -36,7 +36,7 @@ EBTNodeResult::Type UFVBTFindRandomLocation::ExecuteTask(UBehaviorTreeComponent&
 			}
 			else
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Closet Player Found"))
+				UE_LOG(LogTemp, Warning, TEXT("Nav Mesh not found"))
 			}
 		}
 	}
