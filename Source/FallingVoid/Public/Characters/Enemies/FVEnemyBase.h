@@ -15,8 +15,6 @@ class FALLINGVOID_API AFVEnemyBase : public AFVBaseCharacter
 {
 	GENERATED_BODY()
 public:
-		virtual void Attack() override;
-
 		UBehaviorTree* GetBehaviorTree() const
 		{
 			return BehaviorTree;
@@ -41,7 +39,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	UBehaviorTree* BehaviorTree{};
 
-private:
+protected:
 
 	FHitResult Shoot();
 };

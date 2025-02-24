@@ -41,7 +41,11 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         if (!Controller) continue;
 
         AFVPlayerBase* PlayerCharacter = Cast<AFVPlayerBase>(Controller->GetPawn());
-        if (!PlayerCharacter) continue;
+        if (!PlayerCharacter) 
+            continue;
+
+        if (PlayerCharacter->GetIsDeadOrDowned())
+            continue;
 
         float Distance = FVector::Dist(EnemyLocation, PlayerCharacter->GetActorLocation());
 

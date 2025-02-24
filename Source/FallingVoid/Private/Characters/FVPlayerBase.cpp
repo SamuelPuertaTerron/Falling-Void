@@ -29,6 +29,26 @@ void AFVPlayerBase::BeginPlay()
 
 }
 
+bool AFVPlayerBase::GetIsDeadOrDowned() const
+{
+	return PlayerHealthState == EPlayerHealthState::Dead || PlayerHealthState == EPlayerHealthState::Downed;
+}
+
+bool AFVPlayerBase::GetIsAlive() const
+{
+	return PlayerHealthState == EPlayerHealthState::Alive;
+}
+
+bool AFVPlayerBase::NodeGetIsDeadOrDowned() const
+{
+	return GetIsDeadOrDowned();
+}
+
+bool AFVPlayerBase::NodeGetIsAlive() const
+{
+	return GetIsAlive();
+}
+
 // Called every frame
 void AFVPlayerBase::Tick(float DeltaTime)
 {
