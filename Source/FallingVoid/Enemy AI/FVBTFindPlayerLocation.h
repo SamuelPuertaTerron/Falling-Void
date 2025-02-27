@@ -18,6 +18,12 @@ public:
 	explicit UFVBTFindPlayerLocation();
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
+	UPROPERTY(EditAnywhere, Category = "Player")
+	FBlackboardKeySelector PlayerKeySelector;
+
+
+	UPROPERTY(EditAnywhere, Category = "Condition")
+	FBlackboardKeySelector AttackRangeKey;
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowPrivateAccess = "true"))
 	bool SearchRandom{ false };

@@ -36,7 +36,7 @@ void AFVBaseCharacter::TakeDamage(float Damage)
 {
 	Health -= Damage  /* *DamageBoost*/ * DamageReduction;
 
-	FVGlobals::LogToScreen("Current Health on Actor " + GetName() + " is: " + FString::SanitizeFloat(Health));
+	//FVGlobals::LogToScreen("Current Health on Actor " + GetName() + " is: " + FString::SanitizeFloat(Health));
 
 	if (Health <= 0.0f )
 	{

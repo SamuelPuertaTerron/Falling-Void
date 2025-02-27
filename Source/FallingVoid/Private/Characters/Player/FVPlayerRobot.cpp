@@ -34,12 +34,12 @@ void AFVPlayerRobot::Attack()
 {
 	if (IsReloading || IsShielding || CurrentAmmo <= 0)
 	{
-		FVGlobals::LogToScreen("Stopped Shooting");
+		//FVGlobals::LogToScreen("Stopped Shooting");
 		EndShooting();
 		return;
 	}
 
-	FVGlobals::LogToScreen("Called Attack function: " + FString::FromInt(CurrentAmmo));
+	//FVGlobals::LogToScreen("Called Attack function: " + FString::FromInt(CurrentAmmo));
 
 	FHitResult result = Shoot();
 
@@ -47,7 +47,7 @@ void AFVPlayerRobot::Attack()
 		const AActor* actor = Cast<AActor>(result.GetActor());
 		if (actor)
 		{
-			FVGlobals::LogToScreen("Shot Actor with name " + actor->GetName());
+			//FVGlobals::LogToScreen("Shot Actor with name " + actor->GetName());
 		}
 	}
 

@@ -17,7 +17,7 @@ AFVPlayerBase::AFVPlayerBase()
 
 void AFVPlayerBase::Attack()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AFVPlayerBase::Attack() called"));
+	//UE_LOG(LogTemp, Warning, TEXT("AFVPlayerBase::Attack() called"));
 
 	//Super::Attack();
 }

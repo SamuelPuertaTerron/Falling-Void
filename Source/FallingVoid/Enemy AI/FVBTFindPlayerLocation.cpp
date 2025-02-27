@@ -23,6 +23,8 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
     AFVEnemyBase* Enemy = Cast<AFVEnemyBase>(AIController->GetPawn());
     if (!Enemy) return EBTNodeResult::Failed;
 
+    OwnerComp.GetBlackboardComponent()->SetValueAsFloat(AttackRangeKey.SelectedKeyName, Enemy->AttackRange);
+
     // Get the enemy location
     FVector EnemyLocation = Enemy->GetActorLocation();
 
@@ -52,6 +54,7 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         // Check if this player is closer
         if (Distance < ClosestDistance)
         {
+            OwnerComp.GetBlackboardComponent()->SetValueAsObject(PlayerKeySelector.SelectedKeyName, PlayerCharacter);
             ClosestDistance = Distance;
             ClosestPlayer = PlayerCharacter;
         }
@@ -59,7 +62,7 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
 
     if (ClosestPlayer)
     {
-        FVGlobals::LogToScreen("Closest Player: " + ClosestPlayer->GetName());
+        //FVGlobals::LogToScreen("Closest Player: " + ClosestPlayer->GetName());
         UE_LOG(LogTemp, Warning, TEXT("Closest Player Found: %s"), *ClosestPlayer->GetName());
 
         FVector TargetLocation = ClosestPlayer->GetActorLocation();
@@ -83,6 +86,6 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         return EBTNodeResult::Succeeded;
     }
 
-    FVGlobals::LogToScreen("No players found!");
+    //FVGlobals::LogToScreen("No players found!");
     return EBTNodeResult::Failed;
 }

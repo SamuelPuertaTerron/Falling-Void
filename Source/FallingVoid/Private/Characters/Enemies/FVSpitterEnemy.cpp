@@ -18,16 +18,16 @@ void AFVSpitterEnemy::Attack()
     FRotator SpawnRotation = GetActorRotation();
 
     // Spawn the projectile
-    AFVProjectile* SpawnedProjectile = World->SpawnActor<AFVProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+    AFVProjectile* spawnedProjectile = World->SpawnActor<AFVProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
 
-    if (SpawnedProjectile)
+    if (spawnedProjectile)
     {
-        UE_LOG(LogTemp, Warning, TEXT("Projectile spawned successfully!"));
+        //UE_LOG(LogTemp, Warning, TEXT("Projectile spawned successfully!"));
         float damage = BaseDamage * DamageBoost;
-        SpawnedProjectile->SetDamage(damage);
+        spawnedProjectile->SetDamage(damage);
     }
     else
     {
-        UE_LOG(LogTemp, Error, TEXT("Failed to spawn projectile!"));
+        //UE_LOG(LogTemp, Error, TEXT("Failed to spawn projectile!"));
     }
 }
