@@ -70,10 +70,10 @@ Intermediate/*
 Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
-# DerivedDataCache/*
-# Binaries/Win64/FallingVoid.exp
-# Binaries/Win64/FallingVoid.pdb
-# Binaries/Win64/FallingVoid.target
-# Binaries/Win64/FallingVoidEditor.target
-# Binaries/Win64/UnrealEditor-FallingVoid.pdb
-# Binaries/Win64/UnrealEditor.modules
+ DerivedDataCache/*
+ Binaries/Win64/FallingVoid.exp
+ Binaries/Win64/FallingVoid.pdb
+ Binaries/Win64/FallingVoid.target
+ Binaries/Win64/FallingVoidEditor.target
+ Binaries/Win64/UnrealEditor-FallingVoid.pdb
+ Binaries/Win64/UnrealEditor.modules
