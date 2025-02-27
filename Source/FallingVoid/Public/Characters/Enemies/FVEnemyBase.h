@@ -32,6 +32,10 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
 		float MaxAge = { 5.0f };
 
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
+		float FireRate = { 0.5f };
+
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	float FireRange{ 1000.0f };
