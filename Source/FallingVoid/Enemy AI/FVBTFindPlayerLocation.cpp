@@ -54,7 +54,6 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         // Check if this player is closer
         if (Distance < ClosestDistance)
         {
-            OwnerComp.GetBlackboardComponent()->SetValueAsObject(PlayerKeySelector.SelectedKeyName, PlayerCharacter);
             ClosestDistance = Distance;
             ClosestPlayer = PlayerCharacter;
         }

@@ -9,6 +9,7 @@ UFVBTWait::UFVBTWait()
 {
 	NodeName = TEXT("Wait");
 	m_RemainingWaitTime = 0.0f;
+	bNotifyTick = true;
 }
 
 EBTNodeResult::Type UFVBTWait::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)

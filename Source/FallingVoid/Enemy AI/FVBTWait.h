@@ -6,6 +6,8 @@
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
 #include "FVBTWait.generated.h"
 
+UE_DEPRECATED_MACRO("5.3", "This is deprecated for ")
+
 /**
  *  Custom wait to implement the enemy attack time
  */

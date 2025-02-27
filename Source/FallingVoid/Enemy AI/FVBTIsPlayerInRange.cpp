@@ -1,6 +1,5 @@
 // Copyright: Falling Void Studios
 
-
 #include "FVBTIsPlayerInRange.h"
 
 #include "AIController.h"
