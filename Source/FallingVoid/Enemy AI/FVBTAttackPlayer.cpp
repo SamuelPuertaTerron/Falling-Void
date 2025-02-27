@@ -31,18 +31,12 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(enemy->GetActorLocation(), player->GetActorLocation());
 	enemy->SetActorRotation(LookAtRotation);
 
-	//Attack if the distance between this enemy and the player is less than the attack range
-	if (FVector::Dist(enemy->GetActorLocation(), player->GetActorLocation()) < enemy->AttackRange)
-	{
-		OwnerComp.GetBlackboardComponent()->SetValueAsFloat(WaitDurationKey.SelectedKeyName, enemy->AttackTime);
-
-		UE_LOG(LogTemp, Warning, TEXT("Attacked Player: %s"), *player->GetName());
-		enemy->Attack();
-		FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-		return EBTNodeResult::Succeeded;
-	}
+	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(WaitDurationKey.SelectedKeyName, enemy->AttackTime);
 
 	DrawDebugSphere(GetWorld(), enemy->GetActorLocation(), enemy->AttackRange, 12, FColor::Red, false, 2.0f);
 
-	return EBTNodeResult::Failed;
+	UE_LOG(LogTemp, Warning, TEXT("Attacked Player: %s"), *player->GetName());
+	enemy->Attack();
+	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+	return EBTNodeResult::Succeeded;
 }

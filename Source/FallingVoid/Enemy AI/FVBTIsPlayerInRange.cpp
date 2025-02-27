@@ -3,6 +3,7 @@
 #include "FVBTIsPlayerInRange.h"
 
 #include "AIController.h"
+#include "FVGlobals.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/FVBaseCharacter.h"
 #include "Characters/Enemies/FVEnemyBase.h"
@@ -32,6 +33,8 @@ bool UFVBTIsPlayerInRange::CalculateRawConditionValue(UBehaviorTreeComponent& Ow
 	}
 
 	float distanceToPlayer = FVector::Dist(enemy->GetActorLocation(), player->GetActorLocation());
+
+	FVGlobals::LogToScreen("Distance to the Player " + FString::SanitizeFloat(distanceToPlayer));
 
 	return distanceToPlayer <= dection;
 }

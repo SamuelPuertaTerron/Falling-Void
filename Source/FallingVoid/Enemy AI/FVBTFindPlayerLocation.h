@@ -20,6 +20,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Condition")
 	FBlackboardKeySelector AttackRangeKey;
+	UPROPERTY(EditAnywhere, Category = "Condition")
+	FBlackboardKeySelector PlayerKey;
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowPrivateAccess = "true"))
 	bool SearchRandom{ false };
