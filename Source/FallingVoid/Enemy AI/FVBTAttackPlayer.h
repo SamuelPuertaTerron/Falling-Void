@@ -18,6 +18,6 @@ public:
 	explicit UFVBTAttackPlayer();
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
-	UPROPERTY(EditAnywhere, Category = "Wait")
-	FBlackboardKeySelector WaitDurationKey;
+	UPROPERTY(EditAnywhere, Category = "Blackboard")
+	FBlackboardKeySelector AttackTimeKey;
 };

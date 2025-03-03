@@ -16,6 +16,17 @@ enum class EPlayerHealthState : uint8
 	Dead     UMETA(DisplayName = "Dead"),
 };
 
+UENUM(Blueprintable)
+enum class EPlayerInteractionState : uint8
+{
+	None = 0	 UMETA(DisplayName = "None"),
+	Interaction	 UMETA(DisplayName = "Interaction"),
+	Reviving	 UMETA(DisplayName = "Reviving"),
+	Healing		 UMETA(DisplayName = "Healing"),
+	BeingHealing UMETA(DisplayName = "Being Healing"),
+	Trapping	 UMETA(DisplayName = "Healing"),
+};
+
 UCLASS()
 class FALLINGVOID_API AFVPlayerBase : public AFVBaseCharacter
 {
@@ -35,12 +46,22 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float MouseSensitivity{ 1.0f };
 
-	virtual void Attack() override;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Player")
+	int MedkitsAmount{ 0 };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	int TrapAmount{ 0 };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	int SkillPoints{ 0 };
 
 	bool GetIsDeadOrDowned() const;
 	bool GetIsAlive() const;
 
+	UFUNCTION(BlueprintCallable, DisplayName = "Set Player Interaction State")
+	void SetInteractionState(const EPlayerInteractionState& state);
+
+	UFUNCTION(BlueprintPure, DisplayName = "GetPlayerInteractionState")
+	EPlayerInteractionState GetInteractionState() const;
+	 
 	UFUNCTION(BlueprintPure, DisplayName = "GetIsDeadOrDowned")
 	bool NodeGetIsDeadOrDowned() const;
 	UFUNCTION(BlueprintPure, DisplayName = "GetIsAlive")
@@ -60,4 +81,7 @@ private:
 	class UAIPerceptionStimuliSourceComponent* StimuliSource;
 
 	void SetupStimuliSource();
+
+private:
+	EPlayerInteractionState m_CurrentInteractionState;
 };

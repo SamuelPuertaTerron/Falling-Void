@@ -15,13 +15,6 @@ AFVPlayerBase::AFVPlayerBase()
 	SetupStimuliSource();
 }
 
-void AFVPlayerBase::Attack()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("AFVPlayerBase::Attack() called"));
-
-	//Super::Attack();
-}
-
 // Called when the game starts or when spawned
 void AFVPlayerBase::BeginPlay()
 {
@@ -37,6 +30,16 @@ bool AFVPlayerBase::GetIsDeadOrDowned() const
 bool AFVPlayerBase::GetIsAlive() const
 {
 	return PlayerHealthState == EPlayerHealthState::Alive;
+}
+
+void AFVPlayerBase::SetInteractionState(const EPlayerInteractionState& state)
+{
+	m_CurrentInteractionState = state;
+}
+
+EPlayerInteractionState AFVPlayerBase::GetInteractionState() const
+{
+	return m_CurrentInteractionState;
 }
 
 bool AFVPlayerBase::NodeGetIsDeadOrDowned() const

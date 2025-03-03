@@ -31,7 +31,7 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(enemy->GetActorLocation(), player->GetActorLocation());
 	enemy->SetActorRotation(LookAtRotation);
 
-	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(WaitDurationKey.SelectedKeyName, enemy->AttackTime);
+	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(AttackTimeKey.SelectedKeyName, enemy->AttackTime);
 
 	DrawDebugSphere(GetWorld(), enemy->GetActorLocation(), enemy->AttackRange, 12, FColor::Red, false, 2.0f);
 
