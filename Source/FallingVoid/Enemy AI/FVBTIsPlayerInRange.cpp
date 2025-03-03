@@ -5,7 +5,7 @@
 #include "AIController.h"
 #include "FVGlobals.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Characters/FVBaseCharacter.h"
+#include "Characters/FVPlayerBase.h"
 #include "Characters/Enemies/FVEnemyBase.h"
 
 UFVBTIsPlayerInRange::UFVBTIsPlayerInRange()
@@ -15,10 +15,12 @@ UFVBTIsPlayerInRange::UFVBTIsPlayerInRange()
 
 bool UFVBTIsPlayerInRange::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const
 {
-	AFVBaseCharacter* player = Cast<AFVBaseCharacter>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(PlayerKey.SelectedKeyName));
+	AFVPlayerBase* player = Cast<AFVPlayerBase>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(PlayerKey.SelectedKeyName));
 	if (!player)
 		return false;
 
+	if (player->GetIsDeadOrDowned())
+		return false;
 
 	float dection = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(AttackRangeKey.SelectedKeyName);
 

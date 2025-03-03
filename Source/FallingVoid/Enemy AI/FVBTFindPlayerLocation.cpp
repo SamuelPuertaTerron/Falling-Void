@@ -46,9 +46,6 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         if (!PlayerCharacter) 
             continue;
 
-        if (PlayerCharacter->GetIsDeadOrDowned())
-            continue;
-
         float Distance = FVector::Dist(EnemyLocation, PlayerCharacter->GetActorLocation());
 
         // Check if this player is closer
@@ -62,8 +59,11 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
 
     if (ClosestPlayer)
     {
+        if (ClosestPlayer->GetIsDeadOrDowned())
+            return EBTNodeResult::Failed;
+
         //FVGlobals::LogToScreen("Closest Player: " + ClosestPlayer->GetName());
-        UE_LOG(LogTemp, Warning, TEXT("Closest Player Found: %s"), *ClosestPlayer->GetName());
+        //UE_LOG(LogTemp, Warning, TEXT("Closest Player Found: %s"), *ClosestPlayer->GetName());
 
         FVector TargetLocation = ClosestPlayer->GetActorLocation();
 

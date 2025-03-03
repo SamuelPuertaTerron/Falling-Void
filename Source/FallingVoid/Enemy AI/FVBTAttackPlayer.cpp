@@ -4,6 +4,7 @@
 #include "FVBTAttackPlayer.h"
 
 #include "Characters/Enemies/FVEnemyBase.h"
+#include "Characters/FVPlayerBase.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -23,8 +24,11 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 	if (!enemy)
 		return EBTNodeResult::Failed;
 
-	AFVBaseCharacter* player = Cast<AFVBaseCharacter>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(GetSelectedBlackboardKey()));
+	AFVPlayerBase* player = Cast<AFVPlayerBase>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(GetSelectedBlackboardKey()));
 	if (!player)
+		return EBTNodeResult::Failed;
+
+	if (player->GetIsDeadOrDowned())
 		return EBTNodeResult::Failed;
 
 	//Look at player

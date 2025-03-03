@@ -13,7 +13,6 @@ float AFVEnemyBase::GetDamage()
 	return BaseDamage * DamageBoost;
 }
 
-
 FHitResult AFVEnemyBase::Shoot()
 {
 	FVector location = GetActorLocation();
