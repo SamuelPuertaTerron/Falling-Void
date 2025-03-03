@@ -42,6 +42,8 @@ public:
 	//The current player state for the health system. All Done in Blueprints
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player", DisplayName = "Player State")
 	EPlayerHealthState PlayerHealthState{ EPlayerHealthState::Alive };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player", DisplayName = "Player Interaction State")
+	EPlayerInteractionState PlayerInteractionState{ EPlayerInteractionState::None };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float MouseSensitivity{ 1.0f };
