@@ -35,7 +35,7 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 
 	DrawDebugSphere(GetWorld(), enemy->GetActorLocation(), enemy->AttackRange, 12, FColor::Red, false, 2.0f);
 
-	UE_LOG(LogTemp, Warning, TEXT("Attacked Player: %s"), *player->GetName());
+	//UE_LOG(LogTemp, Warning, TEXT("Attacked Player: %s"), *player->GetName());
 	enemy->Attack();
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 	return EBTNodeResult::Succeeded;

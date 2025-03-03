@@ -8,29 +8,11 @@
 #include "FVGlobals.h"
 #include "Characters/Player/FVPlayerRobot.h"
 
-/*void AFVEnemyBase::Attack()
+float AFVEnemyBase::GetDamage()
 {
-	FHitResult result = Shoot();
+	return BaseDamage * DamageBoost;
+}
 
-	AFVPlayerRobot* playerRobot = Cast<AFVPlayerRobot>(result.GetActor());
-	if (playerRobot)
-	{
-		FVGlobals::LogToScreen("Hit Player with name: " + playerRobot->GetName());
-
-		//TODO: Make sure that the enemy hits the shield
-		if (!playerRobot->IsShielding)
-		{
-			const float damage = BaseDamage * DamageBoost * playerRobot->DamageReduction;
-			playerRobot->TakeDamage(damage);
-		}
-	}
-
-	if (AFVPlayerSamurai* playerSamurai = Cast<AFVPlayerSamurai>(result.GetActor()))
-	{
-		const float damage = BaseDamage * DamageBoost * playerSamurai->DamageReduction;
-		playerSamurai->TakeDamage(damage);
-	}
-}*/
 
 FHitResult AFVEnemyBase::Shoot()
 {
@@ -56,5 +38,5 @@ FHitResult AFVEnemyBase::Shoot()
 
 	DrawDebugLine(GetWorld(), location, endTrace, FColor::Red, false, 1.0f);
 
-	return hit;
+	return hit; 
 }

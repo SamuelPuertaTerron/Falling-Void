@@ -38,3 +38,4 @@ bool UFVBTIsPlayerInRange::CalculateRawConditionValue(UBehaviorTreeComponent& Ow
 
 	return distanceToPlayer <= dection;
 }
+ 

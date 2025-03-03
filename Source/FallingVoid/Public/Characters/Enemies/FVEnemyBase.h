@@ -41,6 +41,9 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
 		float AttackTime = { 0.5f };
 
+		UFUNCTION(BlueprintPure, Category = "Enemy")
+		float GetDamage();
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	float FireRange{ 1000.0f };
