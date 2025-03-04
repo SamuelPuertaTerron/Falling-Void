@@ -22,7 +22,7 @@ bool UFVBTIsPlayerInRange::CalculateRawConditionValue(UBehaviorTreeComponent& Ow
 	if (player->GetIsDeadOrDowned())
 		return false;
 
-	float dection = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(AttackRangeKey.SelectedKeyName);
+	float detection = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(AttackRangeKey.SelectedKeyName);
 
 	AAIController* aiController = OwnerComp.GetAIOwner();
 	if (!aiController)
@@ -36,8 +36,6 @@ bool UFVBTIsPlayerInRange::CalculateRawConditionValue(UBehaviorTreeComponent& Ow
 
 	float distanceToPlayer = FVector::Dist(enemy->GetActorLocation(), player->GetActorLocation());
 
-	FVGlobals::LogToScreen("Distance to the Player " + FString::SanitizeFloat(distanceToPlayer));
-
-	return distanceToPlayer <= dection;
+	return distanceToPlayer <= detection;
 }
  

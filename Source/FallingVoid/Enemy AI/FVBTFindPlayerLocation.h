@@ -27,4 +27,9 @@ private:
 	bool SearchRandom{ false };
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowPrivateAccess = "true"))
 	float SearchRadius{ 150.0f };
+
+	UPROPERTY(EditAnywhere, Category = "Range")
+	bool IsRangedEnemy;
+	UPROPERTY(EditAnywhere, Category = "Range")
+	float RangeAmountModifier {5.0f};
 };

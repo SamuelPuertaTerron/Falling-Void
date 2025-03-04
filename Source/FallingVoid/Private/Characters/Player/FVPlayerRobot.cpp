@@ -3,7 +3,7 @@
 #include "Characters/Player/FVPlayerRobot.h"
 
 #include "Characters/Enemies/FVEnemyBase.h"
-#include <FVGlobals.h>
+#include "FVGlobals.h"
 
 
 void AFVPlayerRobot::StartReload()
@@ -43,13 +43,13 @@ void AFVPlayerRobot::Attack()
 
 	FHitResult result = Shoot();
 
-	{
+	/*{
 		const AActor* actor = Cast<AActor>(result.GetActor());
 		if (actor)
 		{
 			//FVGlobals::LogToScreen("Shot Actor with name " + actor->GetName());
 		}
-	}
+	}*/
 
 	{
 		AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());

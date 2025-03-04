@@ -8,6 +8,7 @@
 #include "AIController.h"
 #include "Characters/FVPlayerBase.h"
 #include "Characters/Enemies/FVEnemyBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UFVBTFindPlayerLocation::UFVBTFindPlayerLocation()
 {
@@ -32,6 +33,8 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
     AFVPlayerBase* ClosestPlayer = nullptr;
     float ClosestDistance = FLT_MAX; // Correctly initialize
 
+    float Distance = 0.0f;
+
     // Get the world safely
     UWorld* World = GetWorld();
     if (!World) return EBTNodeResult::Failed;
@@ -46,7 +49,7 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         if (!PlayerCharacter) 
             continue;
 
-        float Distance = FVector::Dist(EnemyLocation, PlayerCharacter->GetActorLocation());
+        Distance = FVector::Dist(EnemyLocation, PlayerCharacter->GetActorLocation());
 
         // Check if this player is closer
         if (Distance < ClosestDistance)
@@ -67,23 +70,47 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
 
         FVector TargetLocation = ClosestPlayer->GetActorLocation();
 
-        // If search random is enabled, find a random point around the player
-        if (SearchRandom)
+        //If Ranged Enemy the enemy will stay a certain distance from the player
+        if (IsRangedEnemy)
         {
-            FNavLocation NavLocation;
-            if (UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(World))
+            Distance *= RangeAmountModifier;
+
+	        if (Distance > Enemy->AttackRange)
+	        {
+                return EBTNodeResult::Succeeded;
+	        }
+	        else
+	        {
+                // Calculate the new target position behind the attack range
+                FVector direction = (EnemyLocation - ClosestPlayer->GetActorLocation()).GetSafeNormal();
+                TargetLocation = ClosestPlayer->GetActorLocation() + (direction * Enemy->AttackRange);
+
+                // Set the player's location in the blackboard
+                OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), TargetLocation);
+                FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+                return EBTNodeResult::Succeeded;
+	        }
+        }
+        else
+        {
+        	// If search random is enabled, find a random point around the player
+            if (SearchRandom)
             {
-                if (NavSystem->GetRandomPointInNavigableRadius(TargetLocation, SearchRadius, NavLocation))
+                FNavLocation NavLocation;
+                if (UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(World))
                 {
-                    TargetLocation = NavLocation.Location;
+                    if (NavSystem->GetRandomPointInNavigableRadius(TargetLocation, SearchRadius, NavLocation))
+                    {
+                        TargetLocation = NavLocation.Location;
+                    }
                 }
             }
-        }
 
-        // Set the player's location in the blackboard
-        OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), TargetLocation);
-        FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-        return EBTNodeResult::Succeeded;
+            // Set the player's location in the blackboard
+            OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), TargetLocation);
+            FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+            return EBTNodeResult::Succeeded;
+        }
     }
 
     //FVGlobals::LogToScreen("No players found!");

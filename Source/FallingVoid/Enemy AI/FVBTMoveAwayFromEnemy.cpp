@@ -6,7 +6,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/Enemies/FVEnemyBase.h"
 #include "AIController.h"
-#include <NavigationSystem.h>
+#include "NavigationSystem.h"
 
 UFVBTMoveAwayFromEnemy::UFVBTMoveAwayFromEnemy()
 {
@@ -15,38 +15,36 @@ UFVBTMoveAwayFromEnemy::UFVBTMoveAwayFromEnemy()
 
 EBTNodeResult::Type UFVBTMoveAwayFromEnemy::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	AFVPlayerBase* player = Cast<AFVPlayerBase>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(PlayerKey.SelectedKeyName));
-	if (!player)
-		return EBTNodeResult::Failed;
-	if (player->GetIsDeadOrDowned())
-		return EBTNodeResult::Failed;
+    AFVPlayerBase* player = Cast<AFVPlayerBase>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(PlayerKey.SelectedKeyName));
+    if (!player)
+        return EBTNodeResult::Failed;
+    if (player->GetIsDeadOrDowned())
+        return EBTNodeResult::Failed;
 
-	AAIController* aiController = OwnerComp.GetAIOwner();
-	if (!aiController)
-		return EBTNodeResult::Failed;
+    AAIController* aiController = OwnerComp.GetAIOwner();
+    if (!aiController)
+        return EBTNodeResult::Failed;
 
-	AFVEnemyBase* enemy = Cast<AFVEnemyBase>(aiController->GetPawn());
-	if (!enemy)
-		return EBTNodeResult::Failed;
+    AFVEnemyBase* enemy = Cast<AFVEnemyBase>(aiController->GetPawn());
+    if (!enemy)
+        return EBTNodeResult::Failed;
 
-	FVector enemyLocation = enemy->GetActorLocation();
-	FVector playerLocation = player->GetActorLocation();
+    FVector enemyLocation = enemy->GetActorLocation();
+    FVector playerLocation = player->GetActorLocation();
 
-	FVector moveAwayFromPlayerDirection = playerLocation - enemyLocation;
-	moveAwayFromPlayerDirection.Normalize();
+    FVector moveAwayFromPlayerDirection = (enemyLocation - playerLocation).GetSafeNormal();
+    FVector moveTargetLocation = enemyLocation + moveAwayFromPlayerDirection * FMath::RandRange(MoveAwayRadiusMin, MoveAwayRadiusMax);
 
-	FVector targetLocation;
+    if (UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(GetWorld()))
+    {
+        FNavLocation NavLocation;
+        if (NavSystem->GetRandomPointInNavigableRadius(moveTargetLocation, FMath::RandRange(100.0f, 300.0f), NavLocation))
+        {
+            moveTargetLocation = NavLocation.Location;
+        }
+    }
 
-	if (UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(GetWorld()))
-	{
-		FNavLocation NavLocation;
-		if (NavSystem->GetRandomPointInNavigableRadius(targetLocation, FMath::RandRange(MoveAwayRadiusMin, MoveAwayRadiusMin), NavLocation)) 
-		{
-			targetLocation = NavLocation.Location;
-		}
-	}
+    OwnerComp.GetBlackboardComponent()->SetValueAsVector(TargetLocationKey.SelectedKeyName, moveTargetLocation);
 
-	OwnerComp.GetBlackboardComponent()->SetValueAsVector(TargetLocationKey.SelectedKeyName, targetLocation);
-
-	return EBTNodeResult::Succeeded;
+    return EBTNodeResult::Succeeded;
 }

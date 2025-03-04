@@ -65,6 +65,6 @@ void AFVEnemyAIController::OnTargetSpotted(AActor* actor, const FAIStimulus stim
 	if (const AFVPlayerBase* player = Cast<AFVPlayerBase>(actor))
 	{
 		GetBlackboardComponent()->SetValueAsBool("SpottedPlayer", stimulus.WasSuccessfullySensed());
-		FVGlobals::LogToScreen("Has Spotted Player");
+		//FVGlobals::LogToScreen("Has Spotted Player");
 	}
 }
