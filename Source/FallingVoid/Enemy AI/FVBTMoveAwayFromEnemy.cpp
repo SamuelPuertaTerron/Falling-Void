@@ -44,6 +44,8 @@ EBTNodeResult::Type UFVBTMoveAwayFromEnemy::ExecuteTask(UBehaviorTreeComponent& 
         }
     }
 
+    //Set the player to be nullptr so that the player is no longer in range of this enemy
+    OwnerComp.GetBlackboardComponent()->SetValueAsObject(PlayerKey.SelectedKeyName, nullptr);
     OwnerComp.GetBlackboardComponent()->SetValueAsVector(TargetLocationKey.SelectedKeyName, moveTargetLocation);
 
     return EBTNodeResult::Succeeded;

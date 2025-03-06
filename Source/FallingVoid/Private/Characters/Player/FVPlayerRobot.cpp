@@ -41,27 +41,30 @@ void AFVPlayerRobot::Attack()
 
 	//FVGlobals::LogToScreen("Called Attack function: " + FString::FromInt(CurrentAmmo));
 
+	FHitItem item = {};
 	FHitResult result = Shoot();
 
-	/*{
-		const AActor* actor = Cast<AActor>(result.GetActor());
-		if (actor)
-		{
-			//FVGlobals::LogToScreen("Shot Actor with name " + actor->GetName());
-		}
-	}*/
-
+	
+	AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());
+	if (enemy)
 	{
-		AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());
-		if (enemy)
-		{
-			//Damage Modifier 
-			//const float damage = BaseDamage * DamageBoost;
-			enemy->TakeDamage(BaseDamage);
+		//Damage Modifier 
+		//const float damage = BaseDamage * DamageBoost;
+		enemy->TakeDamage(BaseDamage);
 
-			FVGlobals::LogToScreen("Shot Enemy with name " + enemy->GetName());
-		}
+		FVGlobals::LogToScreen("Shot Enemy with name " + enemy->GetName());
+
+		item.Enemy = enemy;
 	}
+	else
+	{
+		item.Actor = result.GetActor();
+	}
+
+	item.Location = result.Location;
+	item.Rotation = result.ImpactNormal.ToOrientationRotator();
+
+	OnBulletShot(item);
 
 	CurrentAmmo--;
 }

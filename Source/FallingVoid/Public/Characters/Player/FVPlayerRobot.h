@@ -6,6 +6,27 @@
 #include "Characters/FVPlayerBase.h"
 #include "FVPlayerRobot.generated.h"
 
+class AFVEnemyBase;
+
+USTRUCT(Blueprintable)
+struct FHitItem
+{
+	GENERATED_BODY()
+
+	//Only set if it has hit the enemy
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AFVEnemyBase* Enemy;
+	//Set if it has hit anything but the enemy (Use the Enemy variable instead)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AActor* Actor;
+	//The location of the hit 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector Location;
+	//The rotation of the hit
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FRotator Rotation;
+};
+
 /**
  * 
  */
@@ -31,6 +52,11 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Robot")
 	bool IsShielding{ false };
+
+	//An Event which gets called from BP when a bullet is shot
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnBulletShot(FHitItem item);
+
 public:
 
 	UFUNCTION(BlueprintCallable)

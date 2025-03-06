@@ -68,16 +68,17 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         //FVGlobals::LogToScreen("Closest Player: " + ClosestPlayer->GetName());
         //UE_LOG(LogTemp, Warning, TEXT("Closest Player Found: %s"), *ClosestPlayer->GetName());
 
-        FVector TargetLocation = ClosestPlayer->GetActorLocation();
+        FVector TargetLocation;
 
         //If Ranged Enemy the enemy will stay a certain distance from the player
         if (IsRangedEnemy)
         {
-            Distance *= RangeAmountModifier;
-
-	        if (Distance > Enemy->AttackRange)
+	        if (Distance > Enemy->AttackRange * RangeAmountModifier)
 	        {
-                return EBTNodeResult::Succeeded;
+                TargetLocation = ClosestPlayer->GetActorLocation();
+                OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), TargetLocation);
+
+                //UE_LOG(LogTemp, Error, TEXT("Enemy is far from the player"));
 	        }
 	        else
 	        {
@@ -87,12 +88,17 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
 
                 // Set the player's location in the blackboard
                 OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), TargetLocation);
-                FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-                return EBTNodeResult::Succeeded;
+
+                //UE_LOG(LogTemp, Error, TEXT("Enemy is too close to the player"));
 	        }
+
+            FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+            return EBTNodeResult::Succeeded;
         }
-        else
+        else if (!IsRangedEnemy)
         {
+            TargetLocation = ClosestPlayer->GetActorLocation();
+
         	// If search random is enabled, find a random point around the player
             if (SearchRandom)
             {

@@ -6,7 +6,7 @@
 
 AFVMeleeEnemy::AFVMeleeEnemy()
 {
-    CollisionComponent = nullptr;
+    //CollisionComponent = nullptr;
 }
 
 void AFVMeleeEnemy::Attack()
@@ -19,13 +19,7 @@ void AFVMeleeEnemy::Attack()
 
     CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
-    GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
-        {
-            if (CollisionComponent)
-            {
-                CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-            }
-        });
+    GetWorld()->GetTimerManager().SetTimer(m_TimerHandler, this, &AFVMeleeEnemy::ResetCollision, 0.5f, false);
 }
 
 void AFVMeleeEnemy::SetCollision(UCapsuleComponent* component)
