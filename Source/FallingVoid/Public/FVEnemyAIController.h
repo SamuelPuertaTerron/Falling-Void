@@ -17,14 +17,13 @@ class FALLINGVOID_API AFVEnemyAIController : public AAIController
 	GENERATED_BODY()
 public:
 	explicit AFVEnemyAIController(const FObjectInitializer& ObjectInitializer);
+	void SetupPerception();
 
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 private:
 	class UAISenseConfig_Sight* SightConfig;
-
-	void SetupPerception();
 
 	UFUNCTION()
 	void OnTargetSpotted(AActor* actor, const FAIStimulus stimulus);

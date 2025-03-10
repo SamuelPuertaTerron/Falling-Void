@@ -14,11 +14,10 @@ void AFVSpitterEnemy::Attack()
     FActorSpawnParameters SpawnParams;
     SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn; //Ignores Collision
 
-    FVector SpawnLocation = ShootingPosition;
     FRotator SpawnRotation = GetActorRotation();
 
     // Spawn the projectile
-    AFVProjectile* spawnedProjectile = World->SpawnActor<AFVProjectile>(Projectile, SpawnLocation, SpawnRotation, SpawnParams);
+    AFVProjectile* spawnedProjectile = World->SpawnActor<AFVProjectile>(Projectile, ShootingPosition, SpawnRotation, SpawnParams);
 
     if (spawnedProjectile)
     {
