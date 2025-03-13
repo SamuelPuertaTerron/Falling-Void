@@ -61,6 +61,7 @@ void AFVPlayerRobot::Attack()
 		item.Actor = result.GetActor();
 	}
 
+	//Bug: Spawning at (0, 0, 0)
 	item.Location = result.Location;
 	item.Rotation = result.ImpactNormal.ToOrientationRotator();
 
