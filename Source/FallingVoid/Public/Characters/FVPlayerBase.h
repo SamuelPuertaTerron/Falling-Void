@@ -23,8 +23,9 @@ enum class EPlayerInteractionState : uint8
 	Interaction	 UMETA(DisplayName = "Interaction"),
 	Reviving	 UMETA(DisplayName = "Reviving"),
 	Healing		 UMETA(DisplayName = "Healing"),
+	OtherHealing UMETA(DisplayName = "Healing Other"),
 	BeingHealing UMETA(DisplayName = "Being Healing"),
-	Trapping	 UMETA(DisplayName = "Healing"),
+	Trapping	 UMETA(DisplayName = "Trapping"),
 };
 
 UCLASS()
