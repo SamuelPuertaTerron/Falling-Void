@@ -44,6 +44,10 @@ public:
 		UFUNCTION(BlueprintPure, Category = "Enemy")
 		float GetDamage();
 
+		//An Event which gets called from BP when a bullet is shot
+		UFUNCTION(BlueprintImplementableEvent)
+		void OnTakenDamage();
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	float FireRange{ 1000.0f };

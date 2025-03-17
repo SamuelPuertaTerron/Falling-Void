@@ -19,9 +19,6 @@ public:
 
 	virtual void Attack() override;
 
-	UFUNCTION(BlueprintCallable, Category = "Enemy")
-	void SetCollision(class UCapsuleComponent* component);
-
 	//Uproperty defines here
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Enemy")

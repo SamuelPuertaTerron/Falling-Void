@@ -15,6 +15,7 @@ UFVBTFindRandomLocation::UFVBTFindRandomLocation(const FObjectInitializer& FObje
 
 EBTNodeResult::Type UFVBTFindRandomLocation::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(WaitDuration.SelectedKeyName, 0.5f);
 	//Attempt to get the enemy AI Controller
 	if (const AFVEnemyAIController* enemyAI = Cast<AFVEnemyAIController>(OwnerComp.GetAIOwner()))
 	{

@@ -13,19 +13,52 @@ AFVSpawnManager::AFVSpawnManager()
 
 }
 
-void AFVSpawnManager::SpawnEnemies()
+void AFVSpawnManager::SpawnEnemies(const FSpawnCollection& collection)
 {
-	for (int i = 0; i < MaxSpawnAmount; i++)
+	// Check if there are any spawn positions or enemy types defined
+	if (collection.SpawnPositionList.Num() == 0 || collection.EnemiesList.Num() == 0)
 	{
-		FVector spawnLocation = SpawnPositionList[FMath::RandRange(0, SpawnPositionList.Max() - 1)].Get()->GetActorLocation();
-		FRotator spawnRotation = SpawnPositionList[FMath::RandRange(0, SpawnPositionList.Max() - 1)].Get()->GetActorRotation();
+		UE_LOG(LogTemp, Warning, TEXT("No spawn positions or enemy types defined!"));
+		return;
+	}
 
-		TSubclassOf<AFVEnemyBase> spawnEnemy = EnemiesList[FMath::RandRange(0, EnemiesList.Max() - 1)];
+	// Ensure we don't exceed the number of available spawn positions
+	int32 ActualSpawnAmount = FMath::Min(collection.MaxSpawnAmount, collection.SpawnPositionList.Num());
 
-		AFVEnemyBase* enemy = GetWorld()->SpawnActor<AFVEnemyBase>(spawnEnemy, spawnLocation, spawnRotation);
-		/*AFVEnemyAIController* enemyController = Cast<AFVEnemyAIController>(enemy->GetController());
+	for (int32 i = 0; i < ActualSpawnAmount; i++)
+	{
+		// Get a random spawn position
+		int32 RandomPositionIndex = FMath::RandRange(0, collection.SpawnPositionList.Num() - 1);
+		FVector SpawnLocation = collection.SpawnPositionList[RandomPositionIndex]->GetActorLocation();
+		FRotator SpawnRotation = collection.SpawnPositionList[RandomPositionIndex]->GetActorRotation();
 
-		enemyController->SetupPerception();*/
+		// Get a random enemy type
+		int32 RandomEnemyIndex = FMath::RandRange(0, collection.EnemiesList.Num() - 1);
+		TSubclassOf<AFVEnemyBase> SpawnEnemy = collection.EnemiesList[RandomEnemyIndex];
+
+		// Spawn the enemy
+		if (SpawnEnemy)
+		{
+			AFVEnemyBase* Enemy = GetWorld()->SpawnActor<AFVEnemyBase>(SpawnEnemy, SpawnLocation, SpawnRotation);
+			if (Enemy)
+			{
+				// Optionally, you can perform additional setup on the spawned enemy here
+				// For example, setting up AI controllers or perception systems
+				AFVEnemyAIController* EnemyController = Cast<AFVEnemyAIController>(Enemy->GetController());
+				if (EnemyController)
+				{
+				   EnemyController->SetupPerception();
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Failed to spawn enemy!"));
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Invalid enemy class!"));
+		}
 	}
 }
 

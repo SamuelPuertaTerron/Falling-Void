@@ -22,6 +22,8 @@ public:
 	FBlackboardKeySelector AttackRangeKey;
 	UPROPERTY(EditAnywhere, Category = "Condition")
 	FBlackboardKeySelector PlayerKey;
+	UPROPERTY(EditAnywhere, Category = "Condition")
+	FBlackboardKeySelector WaitDuration;
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowPrivateAccess = "true"))
 	bool SearchRandom{ false };

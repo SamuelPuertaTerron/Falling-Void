@@ -60,6 +60,8 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         }
     }
 
+    OwnerComp.GetBlackboardComponent()->SetValueAsFloat(WaitDuration.SelectedKeyName, 0.5f);
+
     if (ClosestPlayer)
     {
         if (ClosestPlayer->GetIsDeadOrDowned())

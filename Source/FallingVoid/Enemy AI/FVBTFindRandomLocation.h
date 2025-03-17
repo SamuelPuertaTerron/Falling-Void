@@ -21,4 +21,6 @@ public:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AI", meta=(AllowPrivateAccess = "true"))
 	float SearchRadius = { 1500.0f };
+	UPROPERTY(EditAnywhere, Category = "Condition")
+	FBlackboardKeySelector WaitDuration;
 };

@@ -6,12 +6,16 @@
 
 AFVMeleeEnemy::AFVMeleeEnemy()
 {
-    //CollisionComponent = nullptr;
+    // Initialize the CollisionComponent
+    auto mesh = TSubclassOf<USkeletalMeshComponent>();
+
+    CollisionComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Attack Collision"));
+    CollisionComponent->SetupAttachment(GetMesh(), "hand_r");
 }
 
 void AFVMeleeEnemy::Attack()
 {
-    if (!CollisionComponent)
+    if (CollisionComponent == nullptr)
     {
         UE_LOG(LogTemp, Error, TEXT("Collision Component has not been set in the inspector"));
         return;
@@ -19,12 +23,7 @@ void AFVMeleeEnemy::Attack()
 
     CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
-    GetWorld()->GetTimerManager().SetTimer(m_TimerHandler, this, &AFVMeleeEnemy::ResetCollision, 0.5f, false);
-}
-
-void AFVMeleeEnemy::SetCollision(UCapsuleComponent* component)
-{
-    CollisionComponent = component;
+    GetWorld()->GetTimerManager().SetTimer(m_TimerHandler, this, &AFVMeleeEnemy::ResetCollision, FireRate, false);
 }
 
 void AFVMeleeEnemy::ResetCollision()
