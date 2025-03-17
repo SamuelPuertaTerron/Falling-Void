@@ -31,7 +31,7 @@ FHitResult AFVEnemyBase::Shoot()
 	FCollisionQueryParams traceParams(SCENE_QUERY_STAT(Shoot), true, GetInstigator());
 	traceParams.TraceTag = traceTag;
 
-	GetWorld()->DebugDrawTraceTag;
+	//GetWorld()->DebugDrawTraceTag;
 	FHitResult hit(ForceInit);
 	GetWorld()->LineTraceSingleByChannel(hit, location, endTrace, ECC_Visibility, traceParams);
 
