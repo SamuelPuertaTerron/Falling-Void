@@ -5,8 +5,8 @@
 
 void FVGlobals::LogToScreen(const FString& message, FColor color)
 {
-	if (GEngine && m_ShouldLog)
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, color, message);
+	/*if (GEngine && m_ShouldLog)
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, color, message);*/
 }
 
 void FVGlobals::SetShouldLog(bool value)

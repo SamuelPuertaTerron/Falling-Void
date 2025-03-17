@@ -37,7 +37,7 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 
 	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(AttackTimeKey.SelectedKeyName, enemy->AttackTime);
 
-	DrawDebugSphere(GetWorld(), enemy->GetActorLocation(), enemy->AttackRange, 12, FColor::Red, false, 2.0f);
+	//DrawDebugSphere(GetWorld(), enemy->GetActorLocation(), enemy->AttackRange, 12, FColor::Red, false, 2.0f);
 
 	UE_LOG(LogTemp, Warning, TEXT("Attacked Player: %s"), *player->GetName());
 	enemy->Attack();

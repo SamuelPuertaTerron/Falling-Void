@@ -35,7 +35,7 @@ FHitResult AFVEnemyBase::Shoot()
 	FHitResult hit(ForceInit);
 	GetWorld()->LineTraceSingleByChannel(hit, location, endTrace, ECC_Visibility, traceParams);
 
-	DrawDebugLine(GetWorld(), location, endTrace, FColor::Red, false, 1.0f);
+	//DrawDebugLine(GetWorld(), location, endTrace, FColor::Red, false, 1.0f);
 
 	return hit; 
 }
