@@ -4,22 +4,34 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "FVSpawnPoint.h"
+
 #include "FVSpawnManager.generated.h"
 
 class AFVEnemyBase;
 
-USTRUCT(Blueprintable)
-struct FSpawnCollection
+USTRUCT(BlueprintType)
+struct FEnemySpawnData
 {
 	GENERATED_BODY()
 
-	//Only set if it has hit the enemy
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int MaxSpawnAmount;
+	TSubclassOf<AActor> EnemyClass; // The enemy type to spawn
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<TSubclassOf<AFVEnemyBase>> EnemiesList;
+	int32 Count; // Number of this enemy type to spawn
+};
+
+USTRUCT(BlueprintType)
+struct FSpawnWaveData
+{
+	GENERATED_BODY()
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<TObjectPtr<AActor>> SpawnPositionList;
+	TArray<FEnemySpawnData> EnemySpawnDatas;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float WaveDelay;
 };
 
 UCLASS()
@@ -32,11 +44,48 @@ public:
 	AFVSpawnManager();
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnEnemies(const FSpawnCollection& collection);
+	void StartWave();
+
+	UFUNCTION(BlueprintCallable)
+	void StartNextWave();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void SpawnEnemies();
+
+	UFUNCTION()
+	void OnEnemyDestroyed(AActor* enemy);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Spawning")
+	void OnWaveCompleted();
+	UFUNCTION(BlueprintImplementableEvent, Category = "Spawning")
+	void OnAllWavesCompleted();
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Spawning")
+	TArray<AFVSpawnPoint*> SpawnPoints;
+
+	// Array of active enemies
+	UPROPERTY(VisibleAnywhere, Category = "Spawning")
+	TArray<AActor*> ActiveEnemies;
+
+	// Track the number of enemies left
+	UPROPERTY(VisibleAnywhere, Category = "Spawning")
+	int32 EnemiesRemaining;
+
+	// Array of waves
+	UPROPERTY(EditAnywhere, Category = "Waves")
+	TArray<FSpawnWaveData> Waves;
+
+	// Current wave index
+	UPROPERTY(VisibleAnywhere, Category = "Waves")
+	int32 CurrentWaveIndex;
+
+	// Timer handle for wave spawning
+	FTimerHandle m_WaveTimerHandle;
+
+	void StartWaveAfterDelay(float Delay);
 
 public:	
 	// Called every frame

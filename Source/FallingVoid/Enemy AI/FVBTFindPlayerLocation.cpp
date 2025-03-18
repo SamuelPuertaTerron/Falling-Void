@@ -13,16 +13,31 @@
 UFVBTFindPlayerLocation::UFVBTFindPlayerLocation()
 {
     NodeName = TEXT("Find Player Location");
+    bNotifyTick = true; // Enable ticking for this task
 }
 
 EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+    // Initialize the task
+    return EBTNodeResult::InProgress; // Task will continue to tick
+}
+
+void UFVBTFindPlayerLocation::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+{
     // Get the AI controller and its pawn
     AAIController* AIController = OwnerComp.GetAIOwner();
-    if (!AIController) return EBTNodeResult::Failed;
+    if (!AIController)
+    {
+        FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+        return;
+    }
 
     AFVEnemyBase* Enemy = Cast<AFVEnemyBase>(AIController->GetPawn());
-    if (!Enemy) return EBTNodeResult::Failed;
+    if (!Enemy)
+    {
+        FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+        return;
+    }
 
     OwnerComp.GetBlackboardComponent()->SetValueAsFloat(AttackRangeKey.SelectedKeyName, Enemy->AttackRange);
 
@@ -37,7 +52,11 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
 
     // Get the world safely
     UWorld* World = GetWorld();
-    if (!World) return EBTNodeResult::Failed;
+    if (!World)
+    {
+        FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+        return;
+    }
 
     // Iterate over all player controllers
     for (FConstPlayerControllerIterator Iterator = World->GetPlayerControllerIterator(); Iterator; ++Iterator)
@@ -46,7 +65,7 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         if (!Controller) continue;
 
         AFVPlayerBase* PlayerCharacter = Cast<AFVPlayerBase>(Controller->GetPawn());
-        if (!PlayerCharacter) 
+        if (!PlayerCharacter)
             continue;
 
         Distance = FVector::Dist(EnemyLocation, PlayerCharacter->GetActorLocation());
@@ -60,48 +79,41 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
         }
     }
 
-    OwnerComp.GetBlackboardComponent()->SetValueAsFloat(WaitDuration.SelectedKeyName, 0.5f);
+    OwnerComp.GetBlackboardComponent()->SetValueAsFloat(WaitDuration.SelectedKeyName, Enemy->AttackTime);
 
     if (ClosestPlayer)
     {
         if (ClosestPlayer->GetIsDeadOrDowned())
-            return EBTNodeResult::Failed;
-
-        //FVGlobals::LogToScreen("Closest Player: " + ClosestPlayer->GetName());
-        //UE_LOG(LogTemp, Warning, TEXT("Closest Player Found: %s"), *ClosestPlayer->GetName());
+        {
+            FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+            return;
+        }
 
         FVector TargetLocation;
 
-        //If Ranged Enemy the enemy will stay a certain distance from the player
+        // If Ranged Enemy the enemy will stay a certain distance from the player
         if (IsRangedEnemy)
         {
-	        if (Distance > Enemy->AttackRange * RangeAmountModifier)
-	        {
+            if (Distance > Enemy->AttackRange * RangeAmountModifier)
+            {
                 TargetLocation = ClosestPlayer->GetActorLocation();
                 OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), TargetLocation);
-
-                //UE_LOG(LogTemp, Error, TEXT("Enemy is far from the player"));
-	        }
-	        else
-	        {
+            }
+            else
+            {
                 // Calculate the new target position behind the attack range
                 FVector direction = (EnemyLocation - ClosestPlayer->GetActorLocation()).GetSafeNormal();
                 TargetLocation = ClosestPlayer->GetActorLocation() + (direction * Enemy->AttackRange);
 
                 // Set the player's location in the blackboard
                 OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), TargetLocation);
-
-                //UE_LOG(LogTemp, Error, TEXT("Enemy is too close to the player"));
-	        }
-
-            FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-            return EBTNodeResult::Succeeded;
+            }
         }
         else if (!IsRangedEnemy)
         {
             TargetLocation = ClosestPlayer->GetActorLocation();
 
-        	// If search random is enabled, find a random point around the player
+            // If search random is enabled, find a random point around the player
             if (SearchRandom)
             {
                 FNavLocation NavLocation;
@@ -116,11 +128,16 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
 
             // Set the player's location in the blackboard
             OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), TargetLocation);
-            FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
-            return EBTNodeResult::Succeeded;
         }
     }
+    else
+    {
+        FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+        return;
+    }
 
-    //FVGlobals::LogToScreen("No players found!");
-    return EBTNodeResult::Failed;
+    UE_LOG(LogTemp, Warning, TEXT("Moving To Player"));
+
+    // Continue ticking
+    //FinishLatentTask(OwnerComp, EBTNodeResult::InProgress);
 }

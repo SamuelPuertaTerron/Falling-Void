@@ -4,6 +4,7 @@
 #include "FVSpawnManager.h"
 #include "Characters/Enemies/FVEnemyBase.h"
 #include "FVEnemyAIController.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AFVSpawnManager::AFVSpawnManager()
@@ -11,62 +12,100 @@ AFVSpawnManager::AFVSpawnManager()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+    CurrentWaveIndex = -1;
 }
 
-void AFVSpawnManager::SpawnEnemies(const FSpawnCollection& collection)
+void AFVSpawnManager::StartWave()
 {
-	// Check if there are any spawn positions or enemy types defined
-	if (collection.SpawnPositionList.Num() == 0 || collection.EnemiesList.Num() == 0)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No spawn positions or enemy types defined!"));
-		return;
-	}
+	EnemiesRemaining = 0;
 
-	// Ensure we don't exceed the number of available spawn positions
-	int32 ActualSpawnAmount = FMath::Min(collection.MaxSpawnAmount, collection.SpawnPositionList.Num());
+	SpawnEnemies();
+}
 
-	for (int32 i = 0; i < ActualSpawnAmount; i++)
-	{
-		// Get a random spawn position
-		int32 RandomPositionIndex = FMath::RandRange(0, collection.SpawnPositionList.Num() - 1);
-		FVector SpawnLocation = collection.SpawnPositionList[RandomPositionIndex]->GetActorLocation();
-		FRotator SpawnRotation = collection.SpawnPositionList[RandomPositionIndex]->GetActorRotation();
+void AFVSpawnManager::StartNextWave()
+{
+    CurrentWaveIndex++;
+    UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
 
-		// Get a random enemy type
-		int32 RandomEnemyIndex = FMath::RandRange(0, collection.EnemiesList.Num() - 1);
-		TSubclassOf<AFVEnemyBase> SpawnEnemy = collection.EnemiesList[RandomEnemyIndex];
-
-		// Spawn the enemy
-		if (SpawnEnemy)
-		{
-			AFVEnemyBase* Enemy = GetWorld()->SpawnActor<AFVEnemyBase>(SpawnEnemy, SpawnLocation, SpawnRotation);
-			if (Enemy)
-			{
-				// Optionally, you can perform additional setup on the spawned enemy here
-				// For example, setting up AI controllers or perception systems
-				AFVEnemyAIController* EnemyController = Cast<AFVEnemyAIController>(Enemy->GetController());
-				if (EnemyController)
-				{
-				   EnemyController->SetupPerception();
-				}
-			}
-			else
-			{
-				UE_LOG(LogTemp, Error, TEXT("Failed to spawn enemy!"));
-			}
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Invalid enemy class!"));
-		}
-	}
+    if (Waves.IsValidIndex(CurrentWaveIndex))
+    {
+        StartWaveAfterDelay(Waves[CurrentWaveIndex].WaveDelay);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("All Waves Completed!"));
+        OnAllWavesCompleted();
+    }
 }
 
 // Called when the game starts or when spawned
 void AFVSpawnManager::BeginPlay()
 {
-	Super::BeginPlay();
-	
+    Super::BeginPlay();
+
+    // Find all SpawnPoint actors in the level
+    TArray<AActor*> FoundActors;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFVSpawnPoint::StaticClass(), FoundActors);
+
+    // Cast AActor* to AFVSpawnPoint* and store them in SpawnPoints
+    for (AActor* Actor : FoundActors)
+    {
+        if (AFVSpawnPoint* SpawnPoint = Cast<AFVSpawnPoint>(Actor))
+        {
+            SpawnPoints.Add(SpawnPoint);
+        }
+    }
+}
+
+void AFVSpawnManager::SpawnEnemies()
+{
+    UWorld* World = GetWorld();
+    if (!World) return;
+
+    if (!Waves.IsValidIndex(CurrentWaveIndex))
+        return;
+
+    FSpawnWaveData currentWave = Waves[CurrentWaveIndex];
+
+    for (const FEnemySpawnData& EnemyData : currentWave.EnemySpawnDatas)
+    {
+        for (int32 i = 0; i < EnemyData.Count; i++)
+        {
+            const AFVSpawnPoint* point = SpawnPoints[FMath::RandRange(0, SpawnPoints.Num() -1)];
+
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.Owner = this;
+            SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+            AFVEnemyBase* SpawnedEnemy = World->SpawnActor<AFVEnemyBase>(EnemyData.EnemyClass, point->GetActorLocation(), FRotator::ZeroRotator, SpawnParams);
+            if (SpawnedEnemy)
+            {
+                ActiveEnemies.Add(SpawnedEnemy);
+                EnemiesRemaining++;
+    
+                // Bind to the enemy's OnDestroyed event
+                SpawnedEnemy->OnDestroyed.AddDynamic(this, &AFVSpawnManager::OnEnemyDestroyed);
+            }
+        }
+    }
+}
+
+void AFVSpawnManager::OnEnemyDestroyed(AActor* enemy)
+{
+    ActiveEnemies.Remove(enemy);
+    EnemiesRemaining--;
+
+    if (EnemiesRemaining <= 0)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Wave Completed"));
+        OnWaveCompleted();
+        StartNextWave();
+    }
+}
+
+void AFVSpawnManager::StartWaveAfterDelay(float Delay)
+{
+    GetWorld()->GetTimerManager().SetTimer(m_WaveTimerHandle, this, &AFVSpawnManager::StartWave, Delay, false);
 }
 
 // Called every frame

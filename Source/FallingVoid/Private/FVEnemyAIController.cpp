@@ -14,7 +14,7 @@
 
 AFVEnemyAIController::AFVEnemyAIController(const FObjectInitializer& ObjectInitializer)
 {
-	SetupPerception();
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 void AFVEnemyAIController::OnPossess(APawn* InPawn)
@@ -33,38 +33,15 @@ void AFVEnemyAIController::OnPossess(APawn* InPawn)
 	}
 }
 
-void AFVEnemyAIController::SetupPerception()
+void AFVEnemyAIController::Tick(float DeltaSeconds)
 {
-	SightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Config"));
+	Super::Tick(DeltaSeconds);
 
-	if (AFVEnemyBase* const owner = Cast<AFVEnemyBase>(GetPawn()))
+	AFVPlayerBase* PlayerActor = Cast<AFVPlayerBase>(GetBlackboardComponent()->GetValueAsObject("Player"));
+	if (PlayerActor)
 	{
-		
-	}
-
-	if (SightConfig)
-	{
-		SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component")));
-		SightConfig->SightRadius = 500.0f;
-		SightConfig->LoseSightRadius = 25.0f;
-		SightConfig->PeripheralVisionAngleDegrees = 90.0f;
-		SightConfig->SetMaxAge(5.0f);
-		SightConfig->AutoSuccessRangeFromLastSeenLocation = 520.0f;
-		SightConfig->DetectionByAffiliation.bDetectEnemies = true;
-		SightConfig->DetectionByAffiliation.bDetectFriendlies = true;
-		SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
-
-		GetPerceptionComponent()->SetDominantSense(*SightConfig->GetSenseImplementation());
-		GetPerceptionComponent()->OnTargetPerceptionUpdated.AddDynamic(this, &AFVEnemyAIController::OnTargetSpotted);
-		GetPerceptionComponent()->ConfigureSense(*SightConfig);
-	}
-}
-
-void AFVEnemyAIController::OnTargetSpotted(AActor* actor, const FAIStimulus stimulus)
-{
-	if (const AFVPlayerBase* player = Cast<AFVPlayerBase>(actor))
-	{
-		GetBlackboardComponent()->SetValueAsBool("SpottedPlayer", stimulus.WasSuccessfullySensed());
-		//FVGlobals::LogToScreen("Has Spotted Player");
+		//UE_LOG(LogTemp, Warning, TEXT("Updating Player Position"));
+		// Update the player's location in the blackboard
+		GetBlackboardComponent()->SetValueAsVector("TargetLocation", PlayerActor->GetActorLocation());
 	}
 }
