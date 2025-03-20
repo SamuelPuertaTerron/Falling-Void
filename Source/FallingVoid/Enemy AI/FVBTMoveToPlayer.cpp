@@ -37,6 +37,13 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
         return;
     }
 
+    AFVEnemyBase* enemy = Cast<AFVEnemyBase>(AIController->GetPawn());
+    if (!enemy)
+    {
+        FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+        return;
+    }
+
     // Get the player's location from the Blackboard
     UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
     if (!Blackboard)
@@ -45,21 +52,43 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
         return;
     }
 
-    FVector TargetLocation = Blackboard->GetValueAsVector(PlayerLocationKey.SelectedKeyName);
-    AFVPlayerBase* Player = Cast<AFVPlayerBase>(Blackboard->GetValueAsObject(PlayerKey.SelectedKeyName));
+    FVector targetLocation = Blackboard->GetValueAsVector(PlayerLocationKey.SelectedKeyName);
+    AFVPlayerBase* player = Cast<AFVPlayerBase>(Blackboard->GetValueAsObject(PlayerKey.SelectedKeyName));
 
-    if (!Player)
+    if (!player)
     {
         FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
         return;
     }
 
-    // Update the target location to the player's current location
-    TargetLocation = Player->GetActorLocation();
-    Blackboard->SetValueAsVector(PlayerLocationKey.SelectedKeyName, TargetLocation);
+    if (IsRangedEnemy)
+    {
+        float Distance = FVector::Dist(enemy->GetActorLocation(), player->GetActorLocation());
+
+        if (Distance > enemy->AttackRange)
+        {
+            targetLocation = player->GetActorLocation();
+            OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
+        }
+        else
+        {
+            // Calculate the new target position behind the attack range
+            FVector direction = (enemy->GetActorLocation() - player->GetActorLocation()).GetSafeNormal();
+            targetLocation = player->GetActorLocation() + (direction * enemy->AttackRange);
+
+            // Set the player's location in the blackboard
+            OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
+        }
+    }
+    else
+    {
+        // Update the target location to the player's current location for the melee enemy only
+        targetLocation = player->GetActorLocation();
+        Blackboard->SetValueAsVector(PlayerLocationKey.SelectedKeyName, targetLocation);
+    }
 
     // Move the enemy toward the target location
-    EPathFollowingRequestResult::Type MoveResult = AIController->MoveToLocation(TargetLocation, AcceptanceRadius);
+    EPathFollowingRequestResult::Type MoveResult = AIController->MoveToLocation(targetLocation, AcceptanceRadius);
 
 	switch (MoveResult)
     {

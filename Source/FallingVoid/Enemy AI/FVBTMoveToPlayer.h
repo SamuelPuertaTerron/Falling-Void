@@ -30,8 +30,12 @@ protected:
     FBlackboardKeySelector PlayerKey;
 
     // Acceptance radius for the MoveTo operation
+    UPROPERTY(EditAnywhere, Category = "Range")
+    bool IsRangedEnemy = { false };
+
+    // Acceptance radius for the MoveTo operation
     UPROPERTY(EditAnywhere, Category = "Movement")
-    float AcceptanceRadius = 50.0f;
+    float AcceptanceRadius = { 50.0f };
 
 private:
     // Helper function to move the enemy toward the target location
