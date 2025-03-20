@@ -81,11 +81,13 @@ void AFVSpawnManager::SpawnEnemies()
 
             const AFVSpawnPoint* point = SpawnPoints[randomIndex];
 
+            FVector spawnLocation = point->GetActorLocation() + (FMath::VRand() * SpawnRadius);
+
             FActorSpawnParameters SpawnParams;
             SpawnParams.Owner = this;
             SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-            AFVEnemyBase* SpawnedEnemy = World->SpawnActor<AFVEnemyBase>(EnemyData.EnemyClass, point->GetActorLocation(), FRotator::ZeroRotator, SpawnParams);
+            AFVEnemyBase* SpawnedEnemy = World->SpawnActor<AFVEnemyBase>(EnemyData.EnemyClass, spawnLocation, FRotator::ZeroRotator, SpawnParams);
             if (SpawnedEnemy)
             {
                 ActiveEnemies.Add(SpawnedEnemy);
@@ -94,8 +96,6 @@ void AFVSpawnManager::SpawnEnemies()
                 // Bind to the enemy's OnDestroyed event
                 SpawnedEnemy->OnDestroyed.AddDynamic(this, &AFVSpawnManager::OnEnemyDestroyed);
             }
-
-            randomIndex = -1;
         }
     }
 }

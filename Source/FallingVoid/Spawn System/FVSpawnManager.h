@@ -63,6 +63,9 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Spawning")
 	void OnAllWavesCompleted();
 private:
+	UPROPERTY(EditAnywhere, Category = "Waves")
+	float SpawnRadius = {15.0f};
+
 	UPROPERTY(VisibleAnywhere, Category = "Spawning")
 	TArray<AFVSpawnPoint*> SpawnPoints;
 
