@@ -37,11 +37,44 @@ void AFVEnemyAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	AFVPlayerBase* PlayerActor = Cast<AFVPlayerBase>(GetBlackboardComponent()->GetValueAsObject("Player"));
-	if (PlayerActor)
-	{
-		//UE_LOG(LogTemp, Warning, TEXT("Updating Player Position"));
-		// Update the player's location in the blackboard
-		GetBlackboardComponent()->SetValueAsVector("TargetLocation", PlayerActor->GetActorLocation());
-	}
+    // Get the enemy location
+    AFVEnemyBase* enemy = Cast<AFVEnemyBase>(GetPawn());
+    FVector enemyLocation = enemy->GetActorLocation();
+
+    float closestDistance = FLT_MAX; // Correctly initialize
+
+
+    // Get the world safely
+    UWorld* world = GetWorld();
+    if (!world)
+    {
+        return;
+    }
+
+    // Iterate over all player controllers
+    for (FConstPlayerControllerIterator Iterator = world->GetPlayerControllerIterator(); Iterator; ++Iterator)
+    {
+        APlayerController* Controller = Iterator->Get();
+        if (!Controller) continue;
+
+        AFVPlayerBase* PlayerCharacter = Cast<AFVPlayerBase>(Controller->GetPawn());
+        if (!PlayerCharacter)
+            continue;
+
+        if (PlayerCharacter->GetIsDeadOrDowned())
+        {
+            continue;
+        }
+
+         float Distance = FVector::Dist(enemyLocation, PlayerCharacter->GetActorLocation());
+
+        // Check if this player is closer
+        if (Distance < closestDistance)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("Found Closet Player with name %s"), *PlayerCharacter->GetName());
+            closestDistance = Distance;
+            GetBlackboardComponent()->SetValueAsObject("Player", PlayerCharacter);
+        }
+    }
+
 }

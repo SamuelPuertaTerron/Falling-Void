@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "BehaviorTree/BehaviorTreeTypes.h"
 #include "FVEnemyAIController.generated.h"
 
 class FObjectInitializer;
@@ -17,10 +18,12 @@ class FALLINGVOID_API AFVEnemyAIController : public AAIController
 public:
 	explicit AFVEnemyAIController(const FObjectInitializer& ObjectInitializer);
 
+	UPROPERTY(EditAnywhere, Category = "Condition")
+	FBlackboardKeySelector PlayerKey;
+
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 	virtual void Tick(float DeltaSeconds) override;
-
 private:
 };

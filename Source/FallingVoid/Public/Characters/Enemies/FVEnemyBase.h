@@ -21,7 +21,7 @@ public:
 		}
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
-		float SightRadius = { 500.0f };
+		float SightRadius = { 1500.0f };
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
 		float LoseSightRadius = { 25.0f };

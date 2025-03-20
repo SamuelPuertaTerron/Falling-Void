@@ -71,7 +71,15 @@ void AFVSpawnManager::SpawnEnemies()
     {
         for (int32 i = 0; i < EnemyData.Count; i++)
         {
-            const AFVSpawnPoint* point = SpawnPoints[FMath::RandRange(0, SpawnPoints.Num() -1)];
+            int randomIndex = FMath::RandRange(0, SpawnPoints.Num() - 1);
+
+            if (!SpawnPoints.IsValidIndex(randomIndex))
+            {
+                UE_LOG(LogTemp, Warning, TEXT("Spawn Point index out of range. Size of SpawnPoints is %d"), SpawnPoints.Num());
+                continue;
+            }
+
+            const AFVSpawnPoint* point = SpawnPoints[randomIndex];
 
             FActorSpawnParameters SpawnParams;
             SpawnParams.Owner = this;
@@ -86,6 +94,8 @@ void AFVSpawnManager::SpawnEnemies()
                 // Bind to the enemy's OnDestroyed event
                 SpawnedEnemy->OnDestroyed.AddDynamic(this, &AFVSpawnManager::OnEnemyDestroyed);
             }
+
+            randomIndex = -1;
         }
     }
 }
