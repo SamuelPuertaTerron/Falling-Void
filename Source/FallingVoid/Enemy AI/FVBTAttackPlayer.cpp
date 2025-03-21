@@ -24,6 +24,12 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 	if (!enemy)
 		return EBTNodeResult::Failed;
 
+	if (!OwnerComp.GetBlackboardComponent()->GetValueAsBool("CanMove"))
+	{
+		FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+		return EBTNodeResult::Failed;
+	}
+
 	AFVPlayerBase* player = Cast<AFVPlayerBase>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(GetSelectedBlackboardKey()));
 	if (!player)
 		return EBTNodeResult::Failed;

@@ -52,6 +52,12 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
         return;
     }
 
+    if (!Blackboard->GetValueAsBool("CanMove"))
+    {
+        FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+        return;
+    }
+
     FVector targetLocation = Blackboard->GetValueAsVector(PlayerLocationKey.SelectedKeyName);
     AFVPlayerBase* player = Cast<AFVPlayerBase>(Blackboard->GetValueAsObject(PlayerKey.SelectedKeyName));
 

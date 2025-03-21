@@ -3,14 +3,29 @@
 
 #include "Characters/Enemies/FVEnemyBase.h"
 
+#include "FVEnemyAIController.h"
 #include "Characters/FVPlayerBase.h"
 
 #include "FVGlobals.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/Player/FVPlayerRobot.h"
 
 float AFVEnemyBase::GetDamage()
 {
 	return BaseDamage * DamageBoost;
+}
+
+void AFVEnemyBase::Stun(float delay)
+{
+	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
+	controller->GetBlackboardComponent()->SetValueAsBool("CanMove", false);
+	GetWorldTimerManager().SetTimer(m_SunTimer, this, &AFVEnemyBase::StunEnemy, delay, false);
+}
+
+void AFVEnemyBase::StunEnemy()
+{
+	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
+	controller->GetBlackboardComponent()->SetValueAsBool("CanMove", true);
 }
 
 FHitResult AFVEnemyBase::Shoot()

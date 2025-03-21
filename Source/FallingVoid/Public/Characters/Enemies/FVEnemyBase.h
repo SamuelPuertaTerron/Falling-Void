@@ -48,6 +48,11 @@ public:
 		UFUNCTION(BlueprintImplementableEvent)
 		void OnTakenDamage();
 
+		UFUNCTION(BlueprintCallable, Category="Enemy")
+		void Stun(float delay);
+
+		void StunEnemy();
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	float FireRange{ 1000.0f };
@@ -58,4 +63,7 @@ protected:
 protected:
 
 	FHitResult Shoot();
+
+private:
+	FTimerHandle m_SunTimer;
 };
