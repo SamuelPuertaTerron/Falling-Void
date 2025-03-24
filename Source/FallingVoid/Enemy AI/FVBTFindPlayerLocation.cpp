@@ -112,28 +112,28 @@ void UFVBTFindPlayerLocation::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
     float Distance = FVector::Dist(enemy->GetActorLocation(), player->GetActorLocation());
     FVector targetLocation = player->GetActorLocation();
 
-    if (IsRangedEnemy)
-    {
-        if (Distance > enemy->AttackRange * RangeAmountModifier)
-        {
-            targetLocation = player->GetActorLocation();
-            OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
-        }
-        else
-        {
-            // Calculate the new target position behind the attack range
-            FVector direction = (enemy->GetActorLocation() - player->GetActorLocation()).GetSafeNormal();
-            targetLocation = player->GetActorLocation() + (direction * enemy->AttackRange);
+    //if (IsRangedEnemy)
+    //{
+    //    if (Distance > enemy->AttackRange * RangeAmountModifier)
+    //    {
+    //        targetLocation = player->GetActorLocation();
+    //        OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
+    //    }
+    //    else
+    //    {
+    //        // Calculate the new target position behind the attack range
+    //        FVector direction = (enemy->GetActorLocation() - player->GetActorLocation()).GetSafeNormal();
+    //        targetLocation = player->GetActorLocation() + (direction * enemy->AttackRange);
 
-            // Set the player's location in the blackboard
-            OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
-        }
-    }
-    else
-    {
-        OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
-    }
+    //        // Set the player's location in the blackboard
+    //        OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
+    //    }
+    //}
+    //else
+    //{
+    //}
 
+    OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
 
     UE_LOG(LogTemp, Warning, TEXT("Moving To Player with his location being %s"), *targetLocation.ToString());
     FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);

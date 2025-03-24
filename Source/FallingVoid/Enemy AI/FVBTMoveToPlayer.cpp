@@ -96,7 +96,7 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
     }
 
     // Move the enemy toward the target location
-    EPathFollowingRequestResult::Type MoveResult = AIController->MoveToLocation(targetLocation, AcceptanceRadius);
+    EPathFollowingRequestResult::Type MoveResult = AIController->MoveToLocation(targetLocation);
 
 	switch (MoveResult)
     {

@@ -43,9 +43,7 @@ public:
 	// Sets default values for this actor's properties
 	AFVSpawnManager();
 
-	/// <summary>
-	/// Starts the waves starting at wave index 0. 
-	/// </summary>
+	//Starts the series of Waves from the list if not null. 
 	UFUNCTION(BlueprintCallable)
 	void StartNextWave();
 
