@@ -71,6 +71,7 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
  DerivedDataCache/*
+ Binaries/*
  Binaries/Win64/*.exp
  Binaries/Win64/*.pdb
  Binaries/Win64/*.target
