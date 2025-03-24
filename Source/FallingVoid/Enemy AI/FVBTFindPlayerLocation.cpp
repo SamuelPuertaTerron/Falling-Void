@@ -86,6 +86,12 @@ void UFVBTFindPlayerLocation::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
         return;
     }
 
+    if (!OwnerComp.GetBlackboardComponent()->GetValueAsBool("CanMove"))
+    {
+        FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+        return;
+    }
+
     AFVEnemyBase* enemy = Cast<AFVEnemyBase>(AIController->GetPawn());
     if (!enemy)
     {

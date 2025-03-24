@@ -60,9 +60,7 @@ public:
 public:
 
 	UFUNCTION(BlueprintCallable)
-	void StartReload();
-	UFUNCTION(BlueprintCallable)
-	void EndReload();
+	void Reload(float reloadTime);
 
 
 	UFUNCTION(BlueprintCallable)
@@ -74,6 +72,9 @@ public:
 private:
 	float m_TimeBetweenShots;
 	FTimerHandle m_TimeBetweenShotsTimeHandle;
+	FTimerHandle m_ReloadTimeHandle;
+
+	void ReloadInternal();
 private:
 	FHitResult Shoot();
 };

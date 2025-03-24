@@ -44,14 +44,17 @@ public:
 		UFUNCTION(BlueprintPure, Category = "Enemy")
 		float GetDamage();
 
-		//An Event which gets called from BP when a bullet is shot
+		//An Event which gets called from BP when the enemy takes damage
 		UFUNCTION(BlueprintImplementableEvent)
 		void OnTakenDamage();
 
 		UFUNCTION(BlueprintCallable, Category="Enemy")
 		void Stun(float delay);
 
-		void StunEnemy();
+		/// <summary>
+		/// Stops movement of the current enemy
+		/// </summary>
+		void StopMovement();
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
@@ -62,7 +65,10 @@ protected:
 
 protected:
 
+	virtual void BeginPlay() override;
+
 	FHitResult Shoot();
+	void StunEnemy();
 
 private:
 	FTimerHandle m_SunTimer;

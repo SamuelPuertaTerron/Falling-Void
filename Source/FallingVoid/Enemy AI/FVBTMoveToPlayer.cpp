@@ -54,6 +54,8 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
 
     if (!Blackboard->GetValueAsBool("CanMove"))
     {
+        enemy->StopMovement();
+        UE_LOG(LogTemp, Warning, TEXT("Blackboard State FALSE"))
         FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
         return;
     }

@@ -31,7 +31,7 @@ struct FSpawnWaveData
 	TArray<FEnemySpawnData> EnemySpawnDatas;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float WaveDelay;
+	float WaveDelay; //Delay between waves
 };
 
 UCLASS()
@@ -43,9 +43,9 @@ public:
 	// Sets default values for this actor's properties
 	AFVSpawnManager();
 
-	UFUNCTION(BlueprintCallable)
-	void StartWave();
-
+	/// <summary>
+	/// Starts the waves starting at wave index 0. 
+	/// </summary>
 	UFUNCTION(BlueprintCallable)
 	void StartNextWave();
 
@@ -89,6 +89,8 @@ private:
 	FTimerHandle m_WaveTimerHandle;
 
 	void StartWaveAfterDelay(float Delay);
+
+	void StartWave();
 
 public:	
 	// Called every frame

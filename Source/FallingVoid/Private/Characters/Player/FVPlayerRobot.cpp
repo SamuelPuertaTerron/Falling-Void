@@ -6,18 +6,13 @@
 #include "FVGlobals.h"
 
 
-void AFVPlayerRobot::StartReload()
+void AFVPlayerRobot::Reload(float reloadTime)
 {
-	if (IsShielding) return;
+	if (IsReloading && GetIsDeadOrDowned()) return;
 
 	IsReloading = true;
 
-	CurrentAmmo = MaxAmmo;
-}
-
-void AFVPlayerRobot::EndReload()
-{
-	IsReloading = false;
+	GetWorld()->GetTimerManager().SetTimer(m_ReloadTimeHandle, this, &AFVPlayerRobot::ReloadInternal , reloadTime, false);
 }
 
 void AFVPlayerRobot::StartShooting()
@@ -43,7 +38,6 @@ void AFVPlayerRobot::Attack()
 
 	FHitItem item = {};
 	FHitResult result = Shoot();
-
 	
 	AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());
 	if (enemy)
@@ -63,12 +57,27 @@ void AFVPlayerRobot::Attack()
 	}
 
 	//Bug: Spawning at (0, 0, 0)
+	/*if (result.Location == FVector::Zero())
+	{
+		item.Location = {-10000, -10000, -10000};
+	}
+	else
+	{
+		item.Location = result.Location;
+	}*/
+
 	item.Location = result.Location;
+
 	item.Rotation = result.ImpactNormal.ToOrientationRotator();
 
 	OnBulletShot(item);
 
 	CurrentAmmo--;
+}
+
+void AFVPlayerRobot::ReloadInternal()
+{
+	CurrentAmmo = MaxAmmo;
 }
 
 FHitResult AFVPlayerRobot::Shoot()

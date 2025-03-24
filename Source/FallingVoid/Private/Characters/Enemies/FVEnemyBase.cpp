@@ -19,6 +19,7 @@ void AFVEnemyBase::Stun(float delay)
 {
 	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
 	controller->GetBlackboardComponent()->SetValueAsBool("CanMove", false);
+	UE_LOG(LogTemp, Warning, TEXT("Set CanMove to false"));
 	GetWorldTimerManager().SetTimer(m_SunTimer, this, &AFVEnemyBase::StunEnemy, delay, false);
 }
 
@@ -26,6 +27,21 @@ void AFVEnemyBase::StunEnemy()
 {
 	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
 	controller->GetBlackboardComponent()->SetValueAsBool("CanMove", true);
+	UE_LOG(LogTemp, Warning, TEXT("Set CanMove to True"));
+}
+
+void AFVEnemyBase::StopMovement()
+{
+	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
+	controller->StopMovement();
+}
+
+void AFVEnemyBase::BeginPlay()
+{
+	Super::BeginPlay();
+	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
+	controller->GetBlackboardComponent()->SetValueAsBool("CanMove", true);
+	UE_LOG(LogTemp, Warning, TEXT("Set CanMove to True"));
 }
 
 FHitResult AFVEnemyBase::Shoot()
