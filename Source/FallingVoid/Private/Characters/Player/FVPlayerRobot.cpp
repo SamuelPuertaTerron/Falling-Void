@@ -78,6 +78,7 @@ void AFVPlayerRobot::Attack()
 void AFVPlayerRobot::ReloadInternal()
 {
 	CurrentAmmo = MaxAmmo;
+	IsReloading = false;
 }
 
 FHitResult AFVPlayerRobot::Shoot()
