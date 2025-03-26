@@ -6,11 +6,13 @@ Class name just be descriptive and describe the module they contain.
 
 Class names must be in Pascal Case and must contain the prefix FV to distinguish from Unreal Engine classes for example `FVPlayerBase.h`. 
 
+Class Names for Behaviour Tree must be prefixed with `BT` for example `FVBTAttackPlayer.h`
+
 ## Variables
 
 UPROPERTY variables should follow the Unreal Engine nameing convection.
 
-Each UPROPERTY variable must be iniatlized with {}. 
+Each UPROPERTY generic variable types like float, int and bools must be iniatlized with {}. Unreal Object Types can be left blank. 
 
 Private variables should be prefix `m_` followed by Pascal Case. 
 

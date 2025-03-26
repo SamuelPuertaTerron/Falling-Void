@@ -38,8 +38,8 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 		return EBTNodeResult::Failed;
 
 	//Look at player
-	FRotator LookAtRotation = UKismetMathLibrary::FindLookAtRotation(enemy->GetActorLocation(), player->GetActorLocation());
-	enemy->SetActorRotation(LookAtRotation);
+	FRotator lookAtRotation = UKismetMathLibrary::FindLookAtRotation(enemy->GetActorLocation(), player->GetActorLocation());
+	enemy->SetActorRotation(lookAtRotation);
 
 	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(AttackTimeKey.SelectedKeyName, enemy->AttackTime);
 

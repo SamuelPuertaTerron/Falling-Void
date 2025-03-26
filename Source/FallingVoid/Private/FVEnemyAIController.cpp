@@ -52,28 +52,28 @@ void AFVEnemyAIController::Tick(float DeltaSeconds)
     }
 
     // Iterate over all player controllers
-    for (FConstPlayerControllerIterator Iterator = world->GetPlayerControllerIterator(); Iterator; ++Iterator)
+    for (FConstPlayerControllerIterator iterator = world->GetPlayerControllerIterator(); iterator; ++iterator)
     {
-        APlayerController* Controller = Iterator->Get();
-        if (!Controller) continue;
+        APlayerController* controller = iterator->Get();
+        if (!controller) continue;
 
-        AFVPlayerBase* PlayerCharacter = Cast<AFVPlayerBase>(Controller->GetPawn());
-        if (!PlayerCharacter)
+        AFVPlayerBase* playerCharacter = Cast<AFVPlayerBase>(controller->GetPawn());
+        if (!playerCharacter)
             continue;
 
-        if (PlayerCharacter->GetIsDeadOrDowned())
+        if (playerCharacter->GetIsDeadOrDowned())
         {
             continue;
         }
 
-         float Distance = FVector::Dist(enemyLocation, PlayerCharacter->GetActorLocation());
+         float Distance = FVector::Dist(enemyLocation, playerCharacter->GetActorLocation());
 
         // Check if this player is closer
         if (Distance < closestDistance)
         {
             //UE_LOG(LogTemp, Warning, TEXT("Found Closet Player with name %s"), *PlayerCharacter->GetName());
             closestDistance = Distance;
-            GetBlackboardComponent()->SetValueAsObject("Player", PlayerCharacter);
+            GetBlackboardComponent()->SetValueAsObject("Player", playerCharacter);
         }
     }
 

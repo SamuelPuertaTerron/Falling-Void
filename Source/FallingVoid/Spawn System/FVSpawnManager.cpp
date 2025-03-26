@@ -44,32 +44,32 @@ void AFVSpawnManager::BeginPlay()
     Super::BeginPlay();
 
     // Find all SpawnPoint actors in the level
-    TArray<AActor*> FoundActors;
-    UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFVSpawnPoint::StaticClass(), FoundActors);
+    TArray<AActor*> foundActors;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFVSpawnPoint::StaticClass(), foundActors);
 
     // Cast AActor* to AFVSpawnPoint* and store them in SpawnPoints
-    for (AActor* Actor : FoundActors)
+    for (AActor* actor : foundActors)
     {
-        if (AFVSpawnPoint* SpawnPoint = Cast<AFVSpawnPoint>(Actor))
+        if (AFVSpawnPoint* spawnPoint = Cast<AFVSpawnPoint>(actor))
         {
-            SpawnPoints.Add(SpawnPoint);
+            SpawnPoints.Add(spawnPoint);
         }
     }
 }
 
 void AFVSpawnManager::SpawnEnemies()
 {
-    UWorld* World = GetWorld();
-    if (!World) return;
+    UWorld* world = GetWorld();
+    if (!world) return;
 
     if (!Waves.IsValidIndex(CurrentWaveIndex))
         return;
 
     FSpawnWaveData currentWave = Waves[CurrentWaveIndex];
 
-    for (const FEnemySpawnData& EnemyData : currentWave.EnemySpawnDatas)
+    for (const FEnemySpawnData& enemyData : currentWave.EnemySpawnDatas)
     {
-        for (int32 i = 0; i < EnemyData.Count; i++)
+        for (int32 i = 0; i < enemyData.Count; i++)
         {
             int randomIndex = FMath::RandRange(0, SpawnPoints.Num() - 1);
 
@@ -83,18 +83,18 @@ void AFVSpawnManager::SpawnEnemies()
 
             FVector spawnLocation = point->GetActorLocation() + (FMath::VRand() * SpawnRadius);
 
-            FActorSpawnParameters SpawnParams;
-            SpawnParams.Owner = this;
-            SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+            FActorSpawnParameters spawnParams;
+            spawnParams.Owner = this;
+            spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-            AFVEnemyBase* SpawnedEnemy = World->SpawnActor<AFVEnemyBase>(EnemyData.EnemyClass, spawnLocation, FRotator::ZeroRotator, SpawnParams);
-            if (SpawnedEnemy)
+            AFVEnemyBase* spawnedEnemy = world->SpawnActor<AFVEnemyBase>(enemyData.EnemyClass, spawnLocation, FRotator::ZeroRotator, SpawnParams);
+            if (spawnedEnemy)
             {
-                ActiveEnemies.Add(SpawnedEnemy);
+                ActiveEnemies.Add(spawnedEnemy);
                 EnemiesRemaining++;
     
                 // Bind to the enemy's OnDestroyed event
-                SpawnedEnemy->OnDestroyed.AddDynamic(this, &AFVSpawnManager::OnEnemyDestroyed);
+                spawnedEnemy->OnDestroyed.AddDynamic(this, &AFVSpawnManager::OnEnemyDestroyed);
             }
         }
     }

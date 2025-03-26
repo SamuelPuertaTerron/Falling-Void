@@ -39,32 +39,32 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
     UPrimitiveComponent* OtherComp,
     int32 OtherBodyIndex,
     bool bFromSweep,
-    const FHitResult& SweepResult)
-{
+    const FHitResult& SweepResult) 
+{ 
     if (!OtherActor || OtherActor == this)
         return;
 
     AFVEnemyBase* enemy = Cast<AFVEnemyBase>(OtherActor);
     if (enemy)
     {
-        const float DistanceToEnemy = FVector::Distance(GetActorLocation(), enemy->GetActorLocation());
+        const float distanceToEnemy = FVector::Distance(GetActorLocation(), enemy->GetActorLocation());
 
-        float DamageMultiplier = 1.f;
-        if (DistanceToEnemy > MaxAttackRange)
+        float damageMultiplier = 1.f;
+        if (distanceToEnemy > MaxAttackRange)
         {
-            DamageMultiplier = FMath::Lerp(
+            damageMultiplier = FMath::Lerp(
                 1.f,
                 MinDamageMultiplier,
-                FMath::Clamp((DistanceToEnemy - MaxAttackRange) / (MinDamageRange - MaxAttackRange), 0.f, 1.f)
+                FMath::Clamp((distanceToEnemy - MaxAttackRange) / (MinDamageRange - MaxAttackRange), 0.f, 1.f)
             );
         }
 
-        const float FinalDamage = BaseDamage * DamageBoost * DamageMultiplier;
+        const float finalDamage = BaseDamage * DamageBoost * damageMultiplier;
 
-        enemy->TakeDamage(FinalDamage);
+        enemy->TakeDamage(finalDamage);
         enemy->OnTakenDamage();
         UE_LOG(LogTemp, Warning, TEXT("Attacked Enemy at distance: %.2f, Damage multiplier: %.2f, Final damage: %.2f"),
-            DistanceToEnemy, DamageMultiplier, FinalDamage);
+            distanceToEnemy, damageMultiplier, finalDamage);
     	// Optional: Spawn hit effect at SweepResult.Location
     }
 }

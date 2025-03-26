@@ -30,14 +30,14 @@ void UFVBTMoveToPlayer::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
 {
     // Get the AI controller
-    AAIController* AIController = OwnerComp.GetAIOwner();
-    if (!AIController)
+    AAIController* aiController = OwnerComp.GetAIOwner();
+    if (!aiController)
     {
         FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
         return;
     }
 
-    AFVEnemyBase* enemy = Cast<AFVEnemyBase>(AIController->GetPawn());
+    AFVEnemyBase* enemy = Cast<AFVEnemyBase>(aiController->GetPawn());
     if (!enemy)
     {
         FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
@@ -45,14 +45,14 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
     }
 
     // Get the player's location from the Blackboard
-    UBlackboardComponent* Blackboard = OwnerComp.GetBlackboardComponent();
-    if (!Blackboard)
+    UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
+    if (!blackboard)
     {
         FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
         return;
     }
 
-    if (!Blackboard->GetValueAsBool("CanMove"))
+    if (!blackboard->GetValueAsBool("CanMove"))
     {
         enemy->StopMovement();
         UE_LOG(LogTemp, Warning, TEXT("Blackboard State FALSE"))
@@ -60,8 +60,8 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
         return;
     }
 
-    FVector targetLocation = Blackboard->GetValueAsVector(PlayerLocationKey.SelectedKeyName);
-    AFVPlayerBase* player = Cast<AFVPlayerBase>(Blackboard->GetValueAsObject(PlayerKey.SelectedKeyName));
+    FVector targetLocation;
+    AFVPlayerBase* player = Cast<AFVPlayerBase>(blackboard->GetValueAsObject(PlayerKey.SelectedKeyName));
 
     if (!player)
     {
@@ -71,9 +71,9 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
 
     if (IsRangedEnemy)
     {
-        float Distance = FVector::Dist(enemy->GetActorLocation(), player->GetActorLocation());
+        float distance = FVector::Dist(enemy->GetActorLocation(), player->GetActorLocation());
 
-        if (Distance > enemy->AttackRange)
+        if (distance > enemy->AttackRange)
         {
             targetLocation = player->GetActorLocation();
             OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
@@ -92,13 +92,13 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
     {
         // Update the target location to the player's current location for the melee enemy only
         targetLocation = player->GetActorLocation();
-        Blackboard->SetValueAsVector(PlayerLocationKey.SelectedKeyName, targetLocation);
+        blackboard->SetValueAsVector(PlayerLocationKey.SelectedKeyName, targetLocation);
     }
 
     // Move the enemy toward the target location
-    EPathFollowingRequestResult::Type MoveResult = AIController->MoveToLocation(targetLocation);
+    EPathFollowingRequestResult::Type moveResult = aiController->MoveToLocation(targetLocation);
 
-	switch (MoveResult)
+	switch (moveResult)
     {
     case EPathFollowingRequestResult::Failed:
         UE_LOG(LogTemp, Warning, TEXT("MoveTo failed!"));

@@ -35,12 +35,12 @@ EBTNodeResult::Type UFVBTMoveAwayFromEnemy::ExecuteTask(UBehaviorTreeComponent& 
     FVector moveAwayFromPlayerDirection = (enemyLocation - playerLocation).GetSafeNormal();
     FVector moveTargetLocation = enemyLocation + moveAwayFromPlayerDirection * FMath::RandRange(MoveAwayRadiusMin, MoveAwayRadiusMax);
 
-    if (UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetCurrent(GetWorld()))
+    if (UNavigationSystemV1* navSystem = UNavigationSystemV1::GetCurrent(GetWorld()))
     {
-        FNavLocation NavLocation;
-        if (NavSystem->GetRandomPointInNavigableRadius(moveTargetLocation, FMath::RandRange(100.0f, 300.0f), NavLocation))
+        FNavLocation navLocation;
+        if (navSystem->GetRandomPointInNavigableRadius(moveTargetLocation, FMath::RandRange(100.0f, 300.0f), NavLocation))
         {
-            moveTargetLocation = NavLocation.Location;
+            moveTargetLocation = navLocation.Location;
         }
     }
 
