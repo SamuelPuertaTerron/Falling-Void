@@ -135,6 +135,6 @@ void UFVBTFindPlayerLocation::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
 
     OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), targetLocation);
 
-    UE_LOG(LogTemp, Warning, TEXT("Moving To Player with his location being %s"), *targetLocation.ToString());
+    //UE_LOG(LogTemp, Warning, TEXT("Moving To Player with his location being %s"), *targetLocation.ToString());
     FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 }

@@ -71,7 +71,7 @@ void AFVEnemyAIController::Tick(float DeltaSeconds)
         // Check if this player is closer
         if (Distance < closestDistance)
         {
-            UE_LOG(LogTemp, Warning, TEXT("Found Closet Player with name %s"), *PlayerCharacter->GetName());
+            //UE_LOG(LogTemp, Warning, TEXT("Found Closet Player with name %s"), *PlayerCharacter->GetName());
             closestDistance = Distance;
             GetBlackboardComponent()->SetValueAsObject("Player", PlayerCharacter);
         }
