@@ -25,6 +25,7 @@ void AFVSpawnManager::StartWave()
 void AFVSpawnManager::StartNextWave()
 {
     CurrentWaveIndex++;
+    CurrentWave = CurrentWaveIndex;
     UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
 
     if (Waves.IsValidIndex(CurrentWaveIndex))
@@ -87,7 +88,7 @@ void AFVSpawnManager::SpawnEnemies()
             spawnParams.Owner = this;
             spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-            AFVEnemyBase* spawnedEnemy = world->SpawnActor<AFVEnemyBase>(enemyData.EnemyClass, spawnLocation, FRotator::ZeroRotator, SpawnParams);
+            AFVEnemyBase* spawnedEnemy = world->SpawnActor<AFVEnemyBase>(enemyData.EnemyClass, spawnLocation, FRotator::ZeroRotator, spawnParams);
             if (spawnedEnemy)
             {
                 ActiveEnemies.Add(spawnedEnemy);

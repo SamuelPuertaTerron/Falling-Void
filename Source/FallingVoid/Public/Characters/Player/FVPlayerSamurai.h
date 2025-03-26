@@ -49,6 +49,8 @@ public:
 private:
 	void SetCollisionEnabled(bool enabled);
 
+	FHitResult FireRaycast();
+
 private:
 	FTimerHandle m_TimerHandler;
 };

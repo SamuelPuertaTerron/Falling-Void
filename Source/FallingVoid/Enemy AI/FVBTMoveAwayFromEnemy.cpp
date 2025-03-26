@@ -38,7 +38,7 @@ EBTNodeResult::Type UFVBTMoveAwayFromEnemy::ExecuteTask(UBehaviorTreeComponent& 
     if (UNavigationSystemV1* navSystem = UNavigationSystemV1::GetCurrent(GetWorld()))
     {
         FNavLocation navLocation;
-        if (navSystem->GetRandomPointInNavigableRadius(moveTargetLocation, FMath::RandRange(100.0f, 300.0f), NavLocation))
+        if (navSystem->GetRandomPointInNavigableRadius(moveTargetLocation, FMath::RandRange(100.0f, 300.0f), navLocation))
         {
             moveTargetLocation = navLocation.Location;
         }

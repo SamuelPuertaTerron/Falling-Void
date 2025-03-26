@@ -44,7 +44,9 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
     if (!OtherActor || OtherActor == this)
         return;
 
-    AFVEnemyBase* enemy = Cast<AFVEnemyBase>(OtherActor);
+    FHitResult result = FireRaycast();
+
+    AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());
     if (enemy)
     {
         const float distanceToEnemy = FVector::Distance(GetActorLocation(), enemy->GetActorLocation());
@@ -72,4 +74,25 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
 void AFVPlayerSamurai::SetCollisionEnabled(bool enabled)
 {
     CollisionComponent->SetCollisionEnabled(enabled ? ECollisionEnabled::Type::QueryOnly : ECollisionEnabled::Type::NoCollision);
+}
+
+FHitResult AFVPlayerSamurai::FireRaycast()
+{
+    FVector location = GetActorLocation();
+    FRotator rotation = GetActorRotation();
+    FVector endTrace = FVector::ZeroVector;
+
+    const APlayerController* playerController = GetWorld()->GetFirstPlayerController();
+
+    if (playerController)
+    {
+        playerController->GetPlayerViewPoint(location, rotation);
+        endTrace = location + (rotation.Vector() * MaxAttackRange);
+    }
+
+    FCollisionQueryParams traceParams(SCENE_QUERY_STAT(Shoot), true, GetInstigator());
+    FHitResult hit(ForceInit);
+    GetWorld()->LineTraceSingleByChannel(hit, location, endTrace, ECC_Visibility, traceParams);
+
+    return hit;
 }
