@@ -38,6 +38,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Samurai")
 	float AttackDuration{ 0.25f };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Samurai")
+	float AttackRange{ 0.3f };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Samurai")
 	float MaxAttackRange{ 500.0f };

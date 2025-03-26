@@ -49,15 +49,13 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
     AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());
     if (enemy)
     {
-        const float distanceToEnemy = FVector::Distance(GetActorLocation(), enemy->GetActorLocation());
-
         float damageMultiplier = 1.f;
-        if (distanceToEnemy > MaxAttackRange)
+        if (result.Distance > MaxAttackRange)
         {
             damageMultiplier = FMath::Lerp(
                 1.f,
                 MinDamageMultiplier,
-                FMath::Clamp((distanceToEnemy - MaxAttackRange) / (MinDamageRange - MaxAttackRange), 0.f, 1.f)
+                FMath::Clamp((result.Distance - MaxAttackRange) / (MinDamageRange - MaxAttackRange), 0.f, 1.f)
             );
         }
 
@@ -66,8 +64,7 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
         enemy->TakeDamage(finalDamage);
         enemy->OnTakenDamage();
         UE_LOG(LogTemp, Warning, TEXT("Attacked Enemy at distance: %.2f, Damage multiplier: %.2f, Final damage: %.2f"),
-            distanceToEnemy, damageMultiplier, finalDamage);
-    	// Optional: Spawn hit effect at SweepResult.Location
+            result.Distance, damageMultiplier, finalDamage);
     }
 }
 
@@ -87,7 +84,7 @@ FHitResult AFVPlayerSamurai::FireRaycast()
     if (playerController)
     {
         playerController->GetPlayerViewPoint(location, rotation);
-        endTrace = location + (rotation.Vector() * MaxAttackRange);
+        endTrace = location + (rotation.Vector() * AttackRange);
     }
 
     FCollisionQueryParams traceParams(SCENE_QUERY_STAT(Shoot), true, GetInstigator());

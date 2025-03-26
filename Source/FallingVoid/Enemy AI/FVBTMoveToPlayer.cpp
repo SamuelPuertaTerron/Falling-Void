@@ -60,7 +60,7 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
         return;
     }
 
-    FVector targetLocation;
+    FVector targetLocation = blackboard->GetValueAsVector(PlayerLocationKey.SelectedKeyName);
     AFVPlayerBase* player = Cast<AFVPlayerBase>(blackboard->GetValueAsObject(PlayerKey.SelectedKeyName));
 
     if (!player)
