@@ -25,6 +25,7 @@ public:
 	class UCapsuleComponent* CollisionComponent;
 
 private:
+	/** Reset the attacking collision to no collision when none attacking */
 	void ResetCollision();
 
 private:

@@ -28,6 +28,8 @@ void AFVSpawnManager::StartNextWave()
     CurrentWave = CurrentWaveIndex;
     UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
 
+    OnWaveChanged(CurrentWave);
+
     if (Waves.IsValidIndex(CurrentWaveIndex))
     {
         StartWaveAfterDelay(Waves[CurrentWaveIndex].WaveDelay);

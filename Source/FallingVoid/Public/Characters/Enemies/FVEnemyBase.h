@@ -7,6 +7,7 @@
 #include "Runtime/AIModule/Classes/BehaviorTree/BehaviorTree.h"
 #include "FVEnemyBase.generated.h"
 
+class AFVEnemyAIController;
 /**
  * 
  */
@@ -19,18 +20,6 @@ public:
 		{
 			return BehaviorTree;
 		}
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
-		float SightRadius = { 1500.0f };
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
-		float LoseSightRadius = { 25.0f };
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
-		float VisionConeAngle = { 90.0f };
-
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
-		float MaxAge = { 5.0f };
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
 		float FireRate = { 0.5f };
@@ -45,22 +34,32 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
 		float SpeedModifer = { 600.0f };
 
-		UFUNCTION(BlueprintPure, Category = "Enemy")
-		float GetDamage();
+		/** This walk speed is cache in begin play */
+		UPROPERTY(VisibleAnywhere)
+		float CacheWalkSpeed;
 
+
+		/** Returns the damage from this enemy which is the base damage x damage boost. */
+		UFUNCTION(BlueprintPure, Category = "Enemy")
+		float GetDamage() const;
+
+		/** Sets the movement speed of this enemy */
+		UFUNCTION(BlueprintCallable, Category = "Enemy")
+		void SetWalkSpeed(float modifier = -1);
+
+		/** Gets called whenever the enemy takes damage. Calls the OnTakeDamage() blueprint event. */
 		virtual void TakeDamage(float damage) override;
 
-		//An Event which gets called from BP when the enemy takes damage
+		/** An Event which gets called from BP when the enemy takes damage */
 		UFUNCTION(BlueprintImplementableEvent)
 		void OnTakenDamage();
 
+		/** Make the enemy not able to move or attack for a delay */
 		UFUNCTION(BlueprintCallable, Category="Enemy")
 		void Stun(float delay);
 
-		/// <summary>
-		/// Stops movement of the current enemy
-		/// </summary>
-		void StopMovement();
+		/** Stops movement of the current enemy */
+		void StopMovement() const;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
@@ -74,8 +73,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	FHitResult Shoot();
-	void StunEnemy();
+
+	/** Make the enemy not able to move or attack for a delay */
+	void StunEnemy() const;
 
 private:
 	FTimerHandle m_SunTimer;
+
+	UPROPERTY()
+	AFVEnemyAIController* m_pController;
 };

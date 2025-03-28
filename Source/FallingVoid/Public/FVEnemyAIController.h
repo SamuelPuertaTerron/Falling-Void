@@ -21,6 +21,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Condition")
 	FBlackboardKeySelector PlayerKey;
 
+	/* Functions that might be used multiple times */
+
+	/** Sets the can move key to the blackboard if it exist */
+	void SetCanMoveBlackboard(bool value);
+
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 

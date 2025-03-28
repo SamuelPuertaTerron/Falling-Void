@@ -6,11 +6,11 @@
 #include "FVEnemyAIController.h"
 #include "Characters/FVPlayerBase.h"
 
-#include "FVGlobals.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Characters/Player/FVPlayerRobot.h"
 
-float AFVEnemyBase::GetDamage()
+#include "GameFramework/CharacterMovementComponent.h"
+
+float AFVEnemyBase::GetDamage() const
 {
 	return BaseDamage * DamageBoost;
 }
@@ -27,31 +27,42 @@ void AFVEnemyBase::TakeDamage(float damage)
 
 void AFVEnemyBase::Stun(float delay)
 {
-	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
-	controller->GetBlackboardComponent()->SetValueAsBool("CanMove", false);
-	UE_LOG(LogTemp, Warning, TEXT("Set CanMove to false"));
+	m_pController->SetCanMoveBlackboard(false);
 	GetWorldTimerManager().SetTimer(m_SunTimer, this, &AFVEnemyBase::StunEnemy, delay, false);
 }
 
-void AFVEnemyBase::StunEnemy()
+void AFVEnemyBase::StunEnemy() const
 {
-	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
-	controller->GetBlackboardComponent()->SetValueAsBool("CanMove", true);
-	UE_LOG(LogTemp, Warning, TEXT("Set CanMove to True"));
+	m_pController->SetCanMoveBlackboard(true);
 }
 
-void AFVEnemyBase::StopMovement()
+void AFVEnemyBase::StopMovement() const
 {
 	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
 	controller->StopMovement();
 }
 
+void AFVEnemyBase::SetWalkSpeed(float modifier)
+{
+	UCharacterMovementComponent* movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
+
+	if (modifier == -1.0f)
+	{
+		movement->MaxWalkSpeed = CacheWalkSpeed * SpeedModifer;
+	}
+	else
+	{
+		movement->MaxWalkSpeed = CacheWalkSpeed * modifier;
+	}
+}
+
 void AFVEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
-	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
-	controller->GetBlackboardComponent()->SetValueAsBool("CanMove", true);
-	UE_LOG(LogTemp, Warning, TEXT("Set CanMove to True"));
+	m_pController = Cast<AFVEnemyAIController>(GetController());
+	m_pController->SetCanMoveBlackboard(true);
+
+	SetWalkSpeed();
 }
 
 FHitResult AFVEnemyBase::Shoot()

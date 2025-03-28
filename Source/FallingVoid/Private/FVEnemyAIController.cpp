@@ -17,6 +17,23 @@ AFVEnemyAIController::AFVEnemyAIController(const FObjectInitializer& ObjectIniti
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+void AFVEnemyAIController::SetCanMoveBlackboard(bool value)
+{
+    UBlackboardComponent* blackboardComp = GetBlackboardComponent();
+    if (blackboardComp)
+    {
+        FBlackboard::FKey KeyID = blackboardComp->GetKeyID("CanMove");
+        if (KeyID != FBlackboard::InvalidKey)
+        {
+            blackboardComp->SetValueAsBool("CanMove", value);
+        }
+        else
+        {
+            UE_LOG(LogTemp, Warning, TEXT("CanMove key not found in Blackboard!"));
+        }
+    }
+}
+
 void AFVEnemyAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);

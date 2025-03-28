@@ -63,6 +63,9 @@ protected:
 	void OnWaveCompleted();
 	UFUNCTION(BlueprintImplementableEvent, Category = "Spawning")
 	void OnAllWavesCompleted();
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnWaveChanged(int32 wave);
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Waves")
 	float SpawnRadius = {15.0f};
