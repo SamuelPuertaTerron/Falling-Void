@@ -15,6 +15,16 @@ float AFVEnemyBase::GetDamage()
 	return BaseDamage * DamageBoost;
 }
 
+void AFVEnemyBase::TakeDamage(float damage)
+{
+	Health -= damage;
+	OnTakenDamage();
+	if (Health <= 0.0f)
+	{
+		OnDied();
+	}
+}
+
 void AFVEnemyBase::Stun(float delay)
 {
 	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());

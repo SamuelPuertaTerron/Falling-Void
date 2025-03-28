@@ -83,7 +83,7 @@ void AFVSpawnManager::SpawnEnemies()
             const AFVSpawnPoint* point = SpawnPoints[randomIndex];
 
             FVector spawnLocation = point->GetActorLocation() + (FMath::VRand() * SpawnRadius);
-
+            UE_LOG(LogTemp, Warning, TEXT("Spawn Point Position %s"), *spawnLocation.ToString());
             FActorSpawnParameters spawnParams;
             spawnParams.Owner = this;
             spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;

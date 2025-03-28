@@ -41,8 +41,14 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
 		float AttackTime = { 0.5f };
 
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
+		float SpeedModifer = { 600.0f };
+
 		UFUNCTION(BlueprintPure, Category = "Enemy")
 		float GetDamage();
+
+		virtual void TakeDamage(float damage) override;
 
 		//An Event which gets called from BP when the enemy takes damage
 		UFUNCTION(BlueprintImplementableEvent)
