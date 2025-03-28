@@ -38,7 +38,7 @@ public:
 
 	// Function to take damage
 	UFUNCTION(BlueprintCallable, Category = "Player")
-	void TakeDamage(float damage);
+	virtual void TakeDamage(float damage);
 
 	// Event that gets called when the Character had died. Implemneted all base characters.
 	UFUNCTION(BlueprintImplementableEvent, Category = "Player")
