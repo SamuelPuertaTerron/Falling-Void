@@ -50,6 +50,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawning")
 	int CurrentWave{ 0 };
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawning")
+	int MaxWaves{ 0 };
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

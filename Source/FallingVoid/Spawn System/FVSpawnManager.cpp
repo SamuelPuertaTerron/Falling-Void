@@ -58,6 +58,13 @@ void AFVSpawnManager::BeginPlay()
             SpawnPoints.Add(spawnPoint);
         }
     }
+
+    /*
+    f(Waves.Num() > 0)
+    {
+        MaxWaves = Waves.Num() - 1;
+    }
+    */
 }
 
 void AFVSpawnManager::SpawnEnemies()

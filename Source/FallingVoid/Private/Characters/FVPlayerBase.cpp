@@ -56,16 +56,21 @@ void AFVPlayerBase::TakeDamage(float damage)
 {
 	float currDamage = damage;
 
+	float armourDamageAmount = Armour;
+
 	if(Armour >= currDamage)
 	{
 		Armour -= currDamage;
+		armourDamageAmount -= Armour;
+		UE_LOG(LogTemp, Error, TEXT("Taken Armour Damage!"));
 	}
-	else if (currDamage > 0 && Armour <= 0) 
+	else if (armourDamageAmount > 0 && Armour <= 0)
 	{
 		//Note: Fixed negative damage. 
 		float tempDamageReduction = DamageReduction;
 		Health -= currDamage * FMath::Clamp(tempDamageReduction, 0.0f, FLT_MAX);
 		Armour = 0;
+		UE_LOG(LogTemp, Error, TEXT("Taken Health from Armour"));
 	}
 	else
 	{
