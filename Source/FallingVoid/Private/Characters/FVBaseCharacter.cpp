@@ -34,17 +34,8 @@ void AFVBaseCharacter::Attack()
 
 void AFVBaseCharacter::TakeDamage(float damage)
 {
-	float tempDamageReduction = DamageReduction;
-	Health -= damage  /* *DamageBoost*/ * FMath::Clamp(tempDamageReduction, 0.0f, FLT_MAX);
-
-	//FVGlobals::LogToScreen("Current Health on Actor " + GetName() + " is: " + FString::SanitizeFloat(Health));
-
-	if (Health <= 0.0f )
-	{
-		OnDied();
-	}
+	UE_LOG(LogTemp, Error, TEXT("Override Me!"));
 }
-
 
 // Called to bind functionality to input
 void AFVBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

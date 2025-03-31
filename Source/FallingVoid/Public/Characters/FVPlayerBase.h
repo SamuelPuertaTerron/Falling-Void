@@ -56,6 +56,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	int SkillPoints{ 0 };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float Armour{ 0 };
+
 	bool GetIsDeadOrDowned() const;
 	bool GetIsAlive() const;
 
@@ -64,11 +67,13 @@ public:
 
 	UFUNCTION(BlueprintPure, DisplayName = "GetPlayerInteractionState")
 	EPlayerInteractionState GetInteractionState() const;
-	 
+
 	UFUNCTION(BlueprintPure, DisplayName = "GetIsDeadOrDowned")
 	bool NodeGetIsDeadOrDowned() const;
 	UFUNCTION(BlueprintPure, DisplayName = "GetIsAlive")
 	bool NodeGetIsAlive() const;
+
+	virtual void TakeDamage(float damage);
 
 protected:
 	// Called when the game starts or when spawned

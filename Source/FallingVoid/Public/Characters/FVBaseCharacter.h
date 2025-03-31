@@ -36,7 +36,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	virtual void Attack();
 
-	// Function to take damage
+	// Virtual Function to take damage. Gets overriden in Enemy Base and Player Base classes. 
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	virtual void TakeDamage(float damage);
 

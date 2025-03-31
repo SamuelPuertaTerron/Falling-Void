@@ -52,6 +52,25 @@ bool AFVPlayerBase::NodeGetIsAlive() const
 	return GetIsAlive();
 }
 
+void AFVPlayerBase::TakeDamage(float damage)
+{
+	if(Armour > 0)
+	{
+		Armour -= damage;
+	}
+	else
+	{
+		//Note: Fixed negative damage. 
+		float tempDamageReduction = DamageReduction;
+		Health -= damage * FMath::Clamp(tempDamageReduction, 0.0f, FLT_MAX);
+
+		if (Health <= 0.0f)
+		{
+			OnDied();
+		}
+	}
+}
+
 // Called every frame
 void AFVPlayerBase::Tick(float DeltaTime)
 {

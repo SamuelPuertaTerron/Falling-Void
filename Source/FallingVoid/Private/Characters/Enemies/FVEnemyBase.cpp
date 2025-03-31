@@ -49,6 +49,7 @@ void AFVEnemyBase::SetWalkSpeed(float modifier)
 	if (modifier == -1.0f)
 	{
 		movement->MaxWalkSpeed = CacheWalkSpeed * SpeedModifer;
+		UE_LOG(LogTemp, Warning, TEXT("Cache Walked Speed: %f"), movement->MaxWalkSpeed);
 	}
 	else
 	{
@@ -61,6 +62,9 @@ void AFVEnemyBase::BeginPlay()
 	Super::BeginPlay();
 	m_pController = Cast<AFVEnemyAIController>(GetController());
 	m_pController->SetCanMoveBlackboard(true);
+
+	UCharacterMovementComponent* movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
+	CacheWalkSpeed = movement->MaxWalkSpeed;
 
 	SetWalkSpeed();
 }
