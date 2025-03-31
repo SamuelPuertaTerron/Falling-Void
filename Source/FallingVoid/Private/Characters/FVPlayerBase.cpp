@@ -54,9 +54,18 @@ bool AFVPlayerBase::NodeGetIsAlive() const
 
 void AFVPlayerBase::TakeDamage(float damage)
 {
-	if(Armour > 0)
+	float currDamage = damage;
+
+	if(Armour >= currDamage)
 	{
-		Armour -= damage;
+		Armour -= currDamage;
+	}
+	else if (currDamage > 0 && Armour <= 0) 
+	{
+		//Note: Fixed negative damage. 
+		float tempDamageReduction = DamageReduction;
+		Health -= currDamage * FMath::Clamp(tempDamageReduction, 0.0f, FLT_MAX);
+		Armour = 0;
 	}
 	else
 	{
