@@ -66,7 +66,7 @@ void AFVEnemyBase::BeginPlay()
 	UCharacterMovementComponent* movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	CacheWalkSpeed = movement->MaxWalkSpeed;
 
-	SetWalkSpeed();
+	//SetWalkSpeed();
 }
 
 FHitResult AFVEnemyBase::Shoot()
