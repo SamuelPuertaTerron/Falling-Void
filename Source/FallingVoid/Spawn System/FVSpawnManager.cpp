@@ -4,6 +4,7 @@
 #include "FVSpawnManager.h"
 #include "Characters/Enemies/FVEnemyBase.h"
 #include "FVEnemyAIController.h"
+#include "FVGlobals.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -28,6 +29,8 @@ void AFVSpawnManager::StartNextWave()
     CurrentWave = CurrentWaveIndex;
     UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
 
+    UE_LOG(LogTemp, Warning, TEXT("Wave Count! %d"), Waves.Num());
+
     OnWaveChanged(CurrentWave);
 
     if (Waves.IsValidIndex(CurrentWaveIndex))
@@ -39,6 +42,23 @@ void AFVSpawnManager::StartNextWave()
         UE_LOG(LogTemp, Warning, TEXT("All Waves Completed!"));
         OnAllWavesCompleted();
     }
+}
+
+int AFVSpawnManager::GetMaxEnemiesThisWave()
+{
+    int enemyCount{0};
+
+    if (!Waves.IsValidIndex(CurrentWaveIndex))
+        return -1;
+
+    FSpawnWaveData currentWave = Waves[CurrentWaveIndex];
+
+    for (const FEnemySpawnData& enemyData : currentWave.EnemySpawnDatas)
+    {
+        enemyCount += enemyData.Count;
+    }
+
+    return enemyCount;
 }
 
 // Called when the game starts or when spawned
@@ -59,12 +79,8 @@ void AFVSpawnManager::BeginPlay()
         }
     }
 
-    /*
-    f(Waves.Num() > 0)
-    {
-        MaxWaves = Waves.Num() - 1;
-    }
-    */
+    MaxWaves = Waves.Num();
+    LOG("Max Waves: ", MaxWaves);
 }
 
 void AFVSpawnManager::SpawnEnemies()
@@ -92,7 +108,6 @@ void AFVSpawnManager::SpawnEnemies()
             const AFVSpawnPoint* point = SpawnPoints[randomIndex];
 
             FVector spawnLocation = point->GetActorLocation() + (FMath::VRand() * SpawnRadius);
-            UE_LOG(LogTemp, Warning, TEXT("Spawn Point Position %s"), *spawnLocation.ToString());
             FActorSpawnParameters spawnParams;
             spawnParams.Owner = this;
             spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;

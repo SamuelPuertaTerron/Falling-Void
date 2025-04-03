@@ -48,6 +48,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player|Samurai")
 	float MinDamageMultiplier{ 0.3f };
 
+	
+
 private:
 	void SetCollisionEnabled(bool enabled);
 

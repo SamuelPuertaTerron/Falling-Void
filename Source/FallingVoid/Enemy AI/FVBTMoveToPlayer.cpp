@@ -30,7 +30,7 @@ void UFVBTMoveToPlayer::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeM
 void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
 {
     // Get the AI controller
-    AAIController* aiController = OwnerComp.GetAIOwner();
+    /*AAIController* aiController = OwnerComp.GetAIOwner();
     if (!aiController)
     {
         FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
@@ -93,10 +93,25 @@ void UFVBTMoveToPlayer::MoveToPlayer(UBehaviorTreeComponent& OwnerComp)
         // Update the target location to the player's current location for the melee enemy only
         targetLocation = player->GetActorLocation();
         blackboard->SetValueAsVector(PlayerLocationKey.SelectedKeyName, targetLocation);
+    }*/
+
+    AAIController* aiController = OwnerComp.GetAIOwner();
+    if (!aiController)
+    {
+        FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+        return;
+    }
+
+    // Get the player's location from the Blackboard
+    UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
+    if (!blackboard)
+    {
+        FinishLatentTask(OwnerComp, EBTNodeResult::Failed);
+        return;
     }
 
     // Move the enemy toward the target location
-    EPathFollowingRequestResult::Type moveResult = aiController->MoveToLocation(targetLocation);
+    EPathFollowingRequestResult::Type moveResult = aiController->MoveToLocation(blackboard->GetValueAsVector(PlayerLocationKey.SelectedKeyName), AcceptanceRadius);
 
 	switch (moveResult)
     {

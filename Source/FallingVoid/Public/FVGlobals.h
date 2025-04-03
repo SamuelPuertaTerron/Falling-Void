@@ -18,3 +18,6 @@ public:
 private:
 	inline static bool m_ShouldLog = true;
 };
+
+#define LOG(Message, ...) 	UE_LOG(LogTemp, Warning, TEXT(Message), ##__VA_ARGS__);
+

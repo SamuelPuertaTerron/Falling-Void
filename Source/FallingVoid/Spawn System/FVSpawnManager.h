@@ -53,6 +53,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawning")
 	int MaxWaves{ 0 };
 
+	// Track the number of enemies left
+	UPROPERTY(VisibleAnywhere, Category = "Spawning")
+	int32 EnemiesRemaining;
+
+	/* Returns the max number of enemies for this round */
+	int GetMaxEnemiesThisWave();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -79,10 +86,6 @@ private:
 	// Array of active enemies
 	UPROPERTY(VisibleAnywhere, Category = "Spawning")
 	TArray<AActor*> ActiveEnemies;
-
-	// Track the number of enemies left
-	UPROPERTY(VisibleAnywhere, Category = "Spawning")
-	int32 EnemiesRemaining;
 
 	// Array of waves
 	UPROPERTY(EditAnywhere, Category = "Waves")

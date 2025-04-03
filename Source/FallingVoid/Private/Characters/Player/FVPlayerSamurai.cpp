@@ -3,6 +3,7 @@
 
 #include "Characters/Player/FVPlayerSamurai.h"
 
+#include "FVGlobals.h"
 #include "Characters/Enemies/FVEnemyBase.h"
 #include "Components/CapsuleComponent.h"
 
@@ -45,7 +46,7 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
         return;
 
     FHitResult result = FireRaycast();
-
+    UE_LOG(LogTemp, Warning, TEXT("Started Attacking %s"), *GetNameSafe(result.GetActor()));
     AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());
     if (enemy)
     {
@@ -74,21 +75,24 @@ void AFVPlayerSamurai::SetCollisionEnabled(bool enabled)
 
 FHitResult AFVPlayerSamurai::FireRaycast()
 {
-    FVector location = GetActorLocation();
+    FVector startLocation = CollisionComponent->GetComponentLocation();
     FRotator rotation = GetActorRotation();
-    FVector endTrace = FVector::ZeroVector;
-
-    const APlayerController* playerController = GetWorld()->GetFirstPlayerController();
-
-    if (playerController)
-    {
-        playerController->GetPlayerViewPoint(location, rotation);
-        endTrace = location + (rotation.Vector() * AttackRange);
-    }
+    FVector endTrace = startLocation + (rotation.Vector() * AttackRange);;
 
     FCollisionQueryParams traceParams(SCENE_QUERY_STAT(Shoot), true, GetInstigator());
     FHitResult hit(ForceInit);
-    GetWorld()->LineTraceSingleByChannel(hit, location, endTrace, ECC_Visibility, traceParams);
+	GetWorld()->LineTraceSingleByChannel(hit, startLocation, endTrace, ECC_Visibility, traceParams);
+
+    /*DrawDebugLine(
+        GetWorld(),
+        startLocation,
+        endTrace,
+        bHit ? FColor::Red : FColor::Green,
+        false, // Persistent lines
+        5.0f,  // Duration (seconds)
+        0,     // Depth priority
+        2.0f   // Thickness
+    );*/
 
     return hit;
 }

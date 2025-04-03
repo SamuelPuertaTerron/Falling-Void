@@ -90,6 +90,11 @@ FHitResult AFVPlayerRobot::Shoot()
 
 	if (playerController)
 	{
+		//FVector2D viewportSize;
+		//GEngine->GameViewport->GetViewportSize(viewportSize);
+		//
+		//UE_LOG(LogTemp, Warning, TEXT("Viewport Size: %s"), *viewportSize.ToString());
+
 		playerController->GetPlayerViewPoint(location, rotation);
 		endTrace = location + (rotation.Vector() * FireRange);
 	}

@@ -6,6 +6,8 @@
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
 #include "FVBTFindPlayerLocation.generated.h"
 
+class AFVEnemyBase;
+class AFVPlayerBase;
 /**
  * 
  */
@@ -27,13 +29,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Condition")
 	FBlackboardKeySelector WaitDuration;
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowPrivateAccess = "true"))
-	bool SearchRandom{ false };
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowPrivateAccess = "true"))
-	float SearchRadius{ 150.0f };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flank", meta = (AllowPrivateAccess = "true"))
+	bool CanFlank { false };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flank", meta = (AllowPrivateAccess = "true"))
+	float FlankRadius{ 150.0f };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Move", meta = (AllowPrivateAccess = "true"))
+	float MoveRadius{ 150.0f };
 
 	UPROPERTY(EditAnywhere, Category = "Range")
 	bool IsRangedEnemy;
 	UPROPERTY(EditAnywhere, Category = "Range")
 	float RangeAmountModifier {5.0f};
+
+private:
+	void MoveToPlayer(UBehaviorTreeComponent& OwnerComp, const AFVPlayerBase* player, const AFVEnemyBase* enemy) const;
+	void FlankPlayer(UBehaviorTreeComponent& OwnerComp, AFVPlayerBase* player, AFVEnemyBase* enemy);
 };
