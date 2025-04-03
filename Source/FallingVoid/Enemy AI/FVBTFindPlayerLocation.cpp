@@ -70,19 +70,13 @@ void UFVBTFindPlayerLocation::TickTask(UBehaviorTreeComponent& OwnerComp, uint8*
 	}
 
 	int maxEnemiesInRound = manager->GetMaxEnemiesThisWave();
+	UE_LOG(LogTemp, Warning, TEXT("Max Enemies this round: %d"), manager->GetMaxEnemiesThisWave());
 	int maxEnemiesToFlank = maxEnemiesInRound / 2;
-
+	
 	if (manager->EnemiesRemaining <= maxEnemiesToFlank)
 	{
 		FlankPlayer(OwnerComp, player, enemy);
 	}
-	else
-	{
-		MoveToPlayer(OwnerComp, player, enemy);
-	}
-
-	//UE_LOG(LogTemp, Warning, TEXT("Moving To Player with his location being %s"), *targetLocation.ToString());
-	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 }
 
 void UFVBTFindPlayerLocation::MoveToPlayer(UBehaviorTreeComponent& OwnerComp, const AFVPlayerBase* player, const AFVEnemyBase* enemy) const

@@ -22,6 +22,11 @@ public:
 
 	virtual void TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flank")
+	bool CanFlank{ false };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flank")
+	float FlankRadius{ 150.0f };
+
 	UPROPERTY(EditAnywhere, Category = "Condition")
 	FBlackboardKeySelector AttackRangeKey;
 	UPROPERTY(EditAnywhere, Category = "Condition")
@@ -29,11 +34,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Condition")
 	FBlackboardKeySelector WaitDuration;
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flank", meta = (AllowPrivateAccess = "true"))
-	bool CanFlank { false };
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Flank", meta = (AllowPrivateAccess = "true"))
-	float FlankRadius{ 150.0f };
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Move", meta = (AllowPrivateAccess = "true"))
 	float MoveRadius{ 150.0f };
 

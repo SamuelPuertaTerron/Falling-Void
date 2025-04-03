@@ -46,7 +46,7 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
         return;
 
     FHitResult result = FireRaycast();
-    UE_LOG(LogTemp, Warning, TEXT("Started Attacking %s"), *GetNameSafe(result.GetActor()));
+    //UE_LOG(LogTemp, Warning, TEXT("Started Attacking %s"), *GetNameSafe(result.GetActor()));
     AFVEnemyBase* enemy = Cast<AFVEnemyBase>(result.GetActor());
     if (enemy)
     {
@@ -63,7 +63,7 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
         const float finalDamage = BaseDamage * DamageBoost * damageMultiplier;
 
         enemy->TakeDamage(finalDamage);
-        UE_LOG(LogTemp, Warning, TEXT("Attacked Enemy at distance: %.2f, Damage multiplier: %.2f, Final damage: %.2f"),
+    	UE_LOG(LogTemp, Warning, TEXT("Attacked Enemy at distance: %.2f, Damage multiplier: %.2f, Final damage: %.2f"),
         result.Distance, damageMultiplier, finalDamage);
     }
 }
