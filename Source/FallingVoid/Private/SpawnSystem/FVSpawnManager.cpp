@@ -25,28 +25,7 @@ void AFVSpawnManager::StartWave()
 
 void AFVSpawnManager::StartNextWave()
 {
-    if (CurrentWaveIndex == 0)
-    {
-        CurrentWave = CurrentWaveIndex;
-        UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
-
-        UE_LOG(LogTemp, Warning, TEXT("Wave Count! %d"), Waves.Num());
-
-        OnWaveChanged(CurrentWave);
-
-        if (Waves.IsValidIndex(CurrentWaveIndex))
-        {
-            StartWaveAfterDelay(Waves[CurrentWaveIndex].WaveDelay);
-        }
-        else
-        {
-            UE_LOG(LogTemp, Warning, TEXT("All Waves Completed!"));
-            OnAllWavesCompleted();
-        }
-        CurrentWaveIndex++;
-        return;
-    }
-
+    CurrentWaveIndex++;
     CurrentWave = CurrentWaveIndex;
     UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
 
