@@ -43,10 +43,10 @@ void AFVSpawnManager::StartNextWave()
             UE_LOG(LogTemp, Warning, TEXT("All Waves Completed!"));
             OnAllWavesCompleted();
         }
+        CurrentWaveIndex++;
         return;
     }
 
-    CurrentWaveIndex++;
     CurrentWave = CurrentWaveIndex;
     UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
 
