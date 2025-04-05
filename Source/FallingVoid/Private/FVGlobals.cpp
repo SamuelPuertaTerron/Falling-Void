@@ -3,6 +3,8 @@
 
 #include "FVGlobals.h"
 
+#include "Kismet/GameplayStatics.h"
+
 void FVGlobals::LogToScreen(const FString& message, FColor color)
 {
 	/*if (GEngine && m_ShouldLog)

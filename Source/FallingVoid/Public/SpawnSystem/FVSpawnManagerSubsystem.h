@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "../Spawn System/FVSpawnManager.h"
 
 #include "FVSpawnManagerSubsystem.generated.h"
 
+class AFVSpawnManager;
 /**
  * Utility class to grab spawn manager quickly (Already done in Blueprints, but need a way to do this in C++)
  */

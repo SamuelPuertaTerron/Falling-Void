@@ -15,9 +15,12 @@ class FALLINGVOID_API UFVBTAttackPlayer : public UBTTask_BlackboardBase
 	GENERATED_BODY()
 
 public:
-	explicit UFVBTAttackPlayer();
-	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	UFVBTAttackPlayer();
 
-	UPROPERTY(EditAnywhere, Category = "Blackboard")
-	FBlackboardKeySelector AttackTimeKey;
+
+	UPROPERTY(EditAnywhere, Category = "Keys")
+	FBlackboardKeySelector LastAttackTIme;
+
+private:
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

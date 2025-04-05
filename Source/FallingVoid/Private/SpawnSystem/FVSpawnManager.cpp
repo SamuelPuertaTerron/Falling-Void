@@ -1,26 +1,26 @@
 // Copyright: Falling Void Studios
 
 
-#include "FVSpawnManager.h"
+#include "SpawnSystem/FVSpawnManager.h"
+
 #include "Characters/Enemies/FVEnemyBase.h"
-#include "FVEnemyAIController.h"
 #include "FVGlobals.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AFVSpawnManager::AFVSpawnManager()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = true;
 
     CurrentWaveIndex = -1;
 }
 
 void AFVSpawnManager::StartWave()
 {
-	EnemiesRemaining = 0;
+    EnemiesRemaining = 0;
 
-	SpawnEnemies();
+    SpawnEnemies();
 }
 
 void AFVSpawnManager::StartNextWave()
@@ -46,7 +46,7 @@ void AFVSpawnManager::StartNextWave()
 
 int AFVSpawnManager::GetMaxEnemiesThisWave()
 {
-    int enemyCount{0};
+    int enemyCount{ 0 };
 
     if (!Waves.IsValidIndex(CurrentWaveIndex))
         return -1;
@@ -117,7 +117,7 @@ void AFVSpawnManager::SpawnEnemies()
             {
                 ActiveEnemies.Add(spawnedEnemy);
                 EnemiesRemaining++;
-    
+
                 // Bind to the enemy's OnDestroyed event
                 spawnedEnemy->OnDestroyed.AddDynamic(this, &AFVSpawnManager::OnEnemyDestroyed);
             }
@@ -146,7 +146,7 @@ void AFVSpawnManager::StartWaveAfterDelay(float Delay)
 // Called every frame
 void AFVSpawnManager::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+    Super::Tick(DeltaTime);
 
 }
 

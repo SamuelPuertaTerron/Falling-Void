@@ -38,8 +38,8 @@ UCLASS()
 class FALLINGVOID_API AFVSpawnManager : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AFVSpawnManager();
 
@@ -78,7 +78,7 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Waves")
-	float SpawnRadius = {15.0f};
+	float SpawnRadius = { 15.0f };
 
 	UPROPERTY(VisibleAnywhere, Category = "Spawning")
 	TArray<AFVSpawnPoint*> SpawnPoints;
@@ -102,7 +102,7 @@ private:
 
 	void StartWave();
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 };

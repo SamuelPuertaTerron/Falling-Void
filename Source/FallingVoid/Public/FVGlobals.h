@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 
+class AFVPlayerBase;
 /**
  *  A class for Globals Function that come in useful
  */

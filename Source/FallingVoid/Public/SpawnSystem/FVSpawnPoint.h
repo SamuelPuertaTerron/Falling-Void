@@ -6,8 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "FVSpawnPoint.generated.h"
 
-
-
+/*
+ * This represents a spawn point within the game world. 
+ */
 UCLASS()
 class FALLINGVOID_API AFVSpawnPoint : public AActor
 {
@@ -16,12 +17,4 @@ class FALLINGVOID_API AFVSpawnPoint : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AFVSpawnPoint();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 };
