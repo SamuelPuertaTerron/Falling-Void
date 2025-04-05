@@ -13,7 +13,7 @@ AFVSpawnManager::AFVSpawnManager()
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
-    CurrentWaveIndex = -1;
+    CurrentWaveIndex = 0;
 }
 
 void AFVSpawnManager::StartWave()
@@ -25,6 +25,27 @@ void AFVSpawnManager::StartWave()
 
 void AFVSpawnManager::StartNextWave()
 {
+    if (CurrentWaveIndex == 0)
+    {
+        CurrentWave = CurrentWaveIndex;
+        UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
+
+        UE_LOG(LogTemp, Warning, TEXT("Wave Count! %d"), Waves.Num());
+
+        OnWaveChanged(CurrentWave);
+
+        if (Waves.IsValidIndex(CurrentWaveIndex))
+        {
+            StartWaveAfterDelay(Waves[CurrentWaveIndex].WaveDelay);
+        }
+        else
+        {
+            UE_LOG(LogTemp, Warning, TEXT("All Waves Completed!"));
+            OnAllWavesCompleted();
+        }
+        return;
+    }
+
     CurrentWaveIndex++;
     CurrentWave = CurrentWaveIndex;
     UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
