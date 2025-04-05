@@ -14,23 +14,26 @@ UFVBTCheckAttackCooldown::UFVBTCheckAttackCooldown()
 
 bool UFVBTCheckAttackCooldown::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const
 {
-	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(OwnerComp.GetAIOwner());
-	if (!controller)
-	{
-		return false;
-	}
+    AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(OwnerComp.GetAIOwner());
+    if (!controller)
+    {
+        return false;
+    }
 
-	AFVEnemyBase* enemy = Cast<AFVEnemyBase>(controller->GetPawn());
-	if (!enemy)
-	{
-		return false;
-	}
+    AFVEnemyBase* enemy = Cast<AFVEnemyBase>(controller->GetPawn());
+    if (!enemy)
+    {
+        return false;
+    }
 
-	float lastAttackTime = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(LastAttackTIme.SelectedKeyName);
-	float currentTime = GetWorld()->GetDeltaSeconds();
+    float lastAttackTime = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(LastAttackTIme.SelectedKeyName);
+    float currentTime = GetWorld()->GetTimeSeconds();
 
-	bool attackCooldown = (currentTime - lastAttackTime) >= enemy->AttackTime;
+    // If never attacked or cooldown has passed
+    if (lastAttackTime <= 0.f || (currentTime - lastAttackTime) >= enemy->AttackTime)
+    {
+        return true;
+    }
 
-	UE_LOG(LogTemp, Warning, TEXT("Attack Cooldown: %d"), attackCooldown);
-	return attackCooldown;
+    return false;
 }

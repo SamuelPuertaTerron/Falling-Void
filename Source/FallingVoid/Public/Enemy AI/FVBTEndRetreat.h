@@ -4,25 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
-#include "FVBTAttackPlayer.generated.h"
+#include "FVBTEndRetreat.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FALLINGVOID_API UFVBTAttackPlayer : public UBTTask_BlackboardBase
+class FALLINGVOID_API UFVBTEndRetreat : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 
 public:
-	UFVBTAttackPlayer();
-
+	UFVBTEndRetreat();
 
 	UPROPERTY(EditAnywhere, Category = "Keys")
-	FBlackboardKeySelector LastAttackTIme;
-	UPROPERTY(EditAnywhere, Category = "Keys")
-	FBlackboardKeySelector PlayerKey;
-
+	FBlackboardKeySelector RetreatKey;
 private:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

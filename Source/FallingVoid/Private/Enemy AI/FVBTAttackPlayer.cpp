@@ -5,6 +5,7 @@
 
 #include "FVEnemyAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Characters/FVPlayerBase.h"
 #include "Characters/Enemies/FVEnemyBase.h"
 
 UFVBTAttackPlayer::UFVBTAttackPlayer()
@@ -26,8 +27,20 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 		return EBTNodeResult::Failed;
 	}
 
+	AFVPlayerBase* player = Cast<AFVPlayerBase>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(PlayerKey.SelectedKeyName));
+	if (!player)
+	{
+		return EBTNodeResult::Failed;
+	}
+
+	if (player->GetIsDeadOrDowned())
+	{
+		return EBTNodeResult::Failed;
+	}
+
+	controller->SetFocus(player);
 	enemy->Attack();
-	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(LastAttackTIme.SelectedKeyName, GetWorld()->GetDeltaSeconds());
+	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(LastAttackTIme.SelectedKeyName, GetWorld()->GetTimeSeconds());
 	UE_LOG(LogTemp, Warning, TEXT("Attacked Player"));
 
 	return EBTNodeResult::Succeeded;

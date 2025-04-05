@@ -21,6 +21,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Keys")
 	FBlackboardKeySelector TargetLocationKey;
+	UPROPERTY(EditAnywhere, Category = "Keys")
+	FBlackboardKeySelector PlayerLocationKey;
 private:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 

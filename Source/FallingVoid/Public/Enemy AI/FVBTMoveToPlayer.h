@@ -22,6 +22,12 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Keys")
 	float Radius = {150.0f};
+
+	UPROPERTY(EditAnywhere, Category = "Random Movement")
+	float MinRandomOffset = { 25.0f };
+	UPROPERTY(EditAnywhere, Category = "Random Movement")
+	float MaxRandomOffset = { 50.0f };
+
 private:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

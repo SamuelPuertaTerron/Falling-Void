@@ -20,6 +20,11 @@ EBTNodeResult::Type UFVBTMoveToPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
     }
 
     FVector targetLocation = OwnerComp.GetBlackboardComponent()->GetValueAsVector(TargetLocationKey.SelectedKeyName);
+
+    FVector randomOffset = FMath::VRand() * FMath::FRandRange(MinRandomOffset, MaxRandomOffset);
+    randomOffset.Z = 0; // Keep movement horizontal
+    targetLocation += randomOffset;
+
     controller->MoveToLocation(targetLocation, Radius);
     return EBTNodeResult::Succeeded;
 }

@@ -1,32 +1,34 @@
 // Copyright: Falling Void Studios
 
 
-#include "Enemy AI/FVBTFindPlayerLocation.h"
+#include "Enemy AI/FVBTIsInOptimalRange.h"
+
+#include "BehaviorTree/BlackboardComponent.h"
 
 #include "FVEnemyAIController.h"
-#include "BehaviorTree/BlackboardComponent.h"
 #include "Characters/FVPlayerBase.h"
 #include "Characters/Enemies/FVEnemyBase.h"
 #include "Kismet/GameplayStatics.h"
 
-UFVBTFindPlayerLocation::UFVBTFindPlayerLocation()
+UFVBTIsInOptimalRange::UFVBTIsInOptimalRange()
 {
-	NodeName = "Find Player Location";
+	NodeName = "Is In Optimal Range";
 }
 
-EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
+bool UFVBTIsInOptimalRange::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const
 {
 	AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(OwnerComp.GetAIOwner());
 	if (!controller)
 	{
-		return EBTNodeResult::Failed;
+		return false;
 	}
 
 	AFVEnemyBase* enemy = Cast<AFVEnemyBase>(controller->GetPawn());
 	if (!enemy)
 	{
-		return EBTNodeResult::Failed;
+		return false;
 	}
+
 
 	AFVPlayerBase* closetPlayer = GetClosetPlayer(enemy);
 	if (!closetPlayer)
@@ -34,13 +36,30 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
 		return EBTNodeResult::Failed;
 	}
 
-	OwnerComp.GetBlackboardComponent()->SetValueAsObject(PlayerLocationKey.SelectedKeyName, closetPlayer);
+	OwnerComp.GetBlackboardComponent()->SetValueAsObject(PlayerKey.SelectedKeyName, closetPlayer);
 	OwnerComp.GetBlackboardComponent()->SetValueAsVector(TargetLocationKey.SelectedKeyName, closetPlayer->GetActorLocation());
 
-	return EBTNodeResult::Succeeded;
+	FVector enemyLocation = enemy->GetActorLocation();
+	FVector playerLocation = closetPlayer->GetActorLocation();
+
+	// Calculate distance with validation
+	float distance = FVector::Distance(playerLocation, enemyLocation);
+	if (!FMath::IsFinite(distance))
+	{
+		UE_LOG(LogTemp, Error, TEXT("Invalid distance calculation: %f"), distance);
+		return false;
+	}
+
+	// Final range check
+	bool isInRange = (distance >= MinRange) && (distance <= MaxRange);
+
+	UE_LOG(LogTemp, Warning, TEXT("Distance: %.2f, Range: [%.2f-%.2f], InRange: %d"),
+		distance, MinRange, MaxRange, isInRange);
+
+	return isInRange;
 }
 
-TArray<AFVPlayerBase*> UFVBTFindPlayerLocation::GetAllPlayers() const
+TArray<AFVPlayerBase*> UFVBTIsInOptimalRange::GetAllPlayers() const
 {
 	TArray<AFVPlayerBase*> players;
 
@@ -60,7 +79,7 @@ TArray<AFVPlayerBase*> UFVBTFindPlayerLocation::GetAllPlayers() const
 	return players;
 }
 
-AFVPlayerBase* UFVBTFindPlayerLocation::GetClosetPlayer(const AFVEnemyBase* enemy) const
+AFVPlayerBase* UFVBTIsInOptimalRange::GetClosetPlayer(const AFVEnemyBase* enemy) const
 {
 	AFVPlayerBase* closetPlayer = nullptr;
 	float minDistance = FLT_MAX;
