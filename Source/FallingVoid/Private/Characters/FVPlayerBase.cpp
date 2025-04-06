@@ -54,35 +54,52 @@ bool AFVPlayerBase::NodeGetIsAlive() const
 
 void AFVPlayerBase::TakeDamage(float damage)
 {
-	float currDamage = damage;
-
-	float armourDamageAmount = Armour;
-
-	if(Armour >= currDamage)
+	//Ignore negative damage
+	if (damage <= 0.0f)
 	{
-		Armour -= currDamage;
-		armourDamageAmount -= Armour;
-		UE_LOG(LogTemp, Error, TEXT("Taken Armour Damage!"));
+		return;
 	}
-	else if (armourDamageAmount > 0 && Armour <= 0)
-	{
-		//Note: Fixed negative damage. 
-		float tempDamageReduction = DamageReduction;
-		Health -= currDamage * FMath::Clamp(tempDamageReduction, 0.0f, FLT_MAX);
-		Armour = 0;
-		UE_LOG(LogTemp, Error, TEXT("Taken Health from Armour"));
-	}
-	else
-	{
-		//Note: Fixed negative damage. 
-		float tempDamageReduction = DamageReduction;
-		Health -= damage * FMath::Clamp(tempDamageReduction, 0.0f, FLT_MAX);
 
-		if (Health <= 0.0f)
-		{
-			OnDied();
-		}
-	}
+    float damageToArmor = FMath::Max(damage * ArmorAbsorptionRatio, MinArmorDamage);
+    float damageToHealth = FMath::Max(damage * (1.0f - ArmorAbsorptionRatio), MinHealthDamage);
+
+    float totalDamage = damageToArmor + damageToHealth;
+    if (totalDamage > damage)
+    {
+        float correctionFactor = damage / totalDamage;
+        damageToArmor *= correctionFactor;
+        damageToHealth *= correctionFactor;
+    }
+
+    // Apply armor damage first
+    if (Armour > 0.0f)
+    {
+        float actualArmorDamage = FMath::Min(damageToArmor, Armour);
+        Armour -= actualArmorDamage;
+
+        // Reduce health damage by the proportion of armor damage that was absorbed
+        if (damageToArmor > 0.0f)
+        {
+            damageToHealth *= (actualArmorDamage / damageToArmor);
+        }
+
+        UE_LOG(LogTemp, Warning, TEXT("Armor damaged by %.1f (remaining: %.1f)"), actualArmorDamage, Armour);
+    }
+
+    // Apply remaining damage to health
+    if (damageToHealth > 0.0f)
+    {
+        // Apply damage reduction if needed
+        float finalHealthDamage = damageToHealth * FMath::Max(0.0f, DamageReduction);
+        Health -= finalHealthDamage;
+
+        UE_LOG(LogTemp, Warning, TEXT("Health damaged by %.1f (remaining: %.1f)"), finalHealthDamage, Health);
+
+        if (Health <= 0.0f)
+        {
+            OnDied();
+        }
+    }
 }
 
 // Called every frame

@@ -13,7 +13,7 @@ AFVSpawnManager::AFVSpawnManager()
     // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = true;
 
-    CurrentWaveIndex = 0;
+    CurrentWaveIndex = -1;
 }
 
 void AFVSpawnManager::StartWave()
@@ -98,6 +98,7 @@ void AFVSpawnManager::SpawnEnemies()
         for (int32 i = 0; i < enemyData.Count; i++)
         {
             int randomIndex = FMath::RandRange(0, SpawnPoints.Num() - 1);
+            bool hasSpawned = false;
 
             if (!SpawnPoints.IsValidIndex(randomIndex))
             {
@@ -107,19 +108,53 @@ void AFVSpawnManager::SpawnEnemies()
 
             const AFVSpawnPoint* point = SpawnPoints[randomIndex];
 
+            // Calculate potential spawn location
             FVector spawnLocation = point->GetActorLocation() + (FMath::VRand() * SpawnRadius);
-            FActorSpawnParameters spawnParams;
-            spawnParams.Owner = this;
-            spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+            FRotator spawnRotation = FRotator::ZeroRotator;
 
-            AFVEnemyBase* spawnedEnemy = world->SpawnActor<AFVEnemyBase>(enemyData.EnemyClass, spawnLocation, FRotator::ZeroRotator, spawnParams);
-            if (spawnedEnemy)
+            // Check if location is clear
+            FCollisionQueryParams collisionParams;
+            collisionParams.AddIgnoredActor(this); // Ignore the spawn manager
+
+            // Adjust this radius based on your enemy size
+            float collisionRadius = 50.0f;
+            float collisionHalfHeight = 90.0f;
+
+            bool bHit = world->OverlapBlockingTestByChannel(
+                spawnLocation,
+                FQuat::Identity,
+                ECC_Pawn, // Or whatever collision channel your enemies use
+                FCollisionShape::MakeCapsule(collisionRadius, collisionHalfHeight),
+                collisionParams
+            );
+
+            if (!bHit)
             {
-                ActiveEnemies.Add(spawnedEnemy);
-                EnemiesRemaining++;
+                FActorSpawnParameters spawnParams;
+                spawnParams.Owner = this;
+                spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
-                // Bind to the enemy's OnDestroyed event
-                spawnedEnemy->OnDestroyed.AddDynamic(this, &AFVSpawnManager::OnEnemyDestroyed);
+                AFVEnemyBase* spawnedEnemy = world->SpawnActor<AFVEnemyBase>(
+                    enemyData.EnemyClass,
+                    spawnLocation,
+                    spawnRotation,
+                    spawnParams
+                );
+
+                if (spawnedEnemy)
+                {
+                    ActiveEnemies.Add(spawnedEnemy);
+                    EnemiesRemaining++;
+
+                    // Bind to the enemy's OnDestroyed event
+                    spawnedEnemy->OnDestroyed.AddDynamic(this, &AFVSpawnManager::OnEnemyDestroyed);
+                    hasSpawned = true;
+                }
+
+                if (!hasSpawned)
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("Failed to find valid spawn location after multiple attempts"));
+                }
             }
         }
     }

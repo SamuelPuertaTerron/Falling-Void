@@ -36,11 +36,7 @@ bool UFVBTIsPlayerInAttackRange::CalculateRawConditionValue(UBehaviorTreeCompone
 	FVector playerLocation = player->GetActorLocation();
 	FVector enemyLocation = enemy->GetActorLocation();
 
-	float attackRange = enemy->AttackRange;
 	float distance = FVector::Distance(playerLocation, enemyLocation);
 
-	bool isInRange = distance <= attackRange;
-	//UE_LOG(LogTemp, Warning, TEXT("In Range: %d"), isInRange);
-
-	return isInRange;
+	return distance <= enemy->AttackRange;
 }

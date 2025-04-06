@@ -17,19 +17,19 @@ AFVEnemyAIController::AFVEnemyAIController(const FObjectInitializer& ObjectIniti
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AFVEnemyAIController::SetCanMoveBlackboard(bool value)
+void AFVEnemyAIController::SetIsStunned(bool value)
 {
     UBlackboardComponent* blackboardComp = GetBlackboardComponent();
     if (blackboardComp)
     {
-        FBlackboard::FKey KeyID = blackboardComp->GetKeyID("CanMove");
+        FBlackboard::FKey KeyID = blackboardComp->GetKeyID("IsStunned");
         if (KeyID != FBlackboard::InvalidKey)
         {
-            blackboardComp->SetValueAsBool("CanMove", value);
+            blackboardComp->SetValueAsBool("IsStunned", value);
         }
         else
         {
-            UE_LOG(LogTemp, Warning, TEXT("CanMove key not found in Blackboard!"));
+            UE_LOG(LogTemp, Warning, TEXT("IsStunned key not found in Blackboard!"));
         }
     }
 }

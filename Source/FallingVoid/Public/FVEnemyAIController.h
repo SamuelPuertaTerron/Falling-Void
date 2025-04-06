@@ -23,8 +23,12 @@ public:
 
 	/* Functions that might be used multiple times */
 
-	/** Sets the can move key to the blackboard if it exist */
-	void SetCanMoveBlackboard(bool value);
+	/**
+	 * @brief:  Sets the IsStunned key to the blackboard if it exist.
+	 *			Makes the enemy no longer move and attack.
+	 *			They still will know the player location.
+	 */
+	void SetIsStunned(bool value);
 
 protected:
 	virtual void OnPossess(APawn* InPawn) override;

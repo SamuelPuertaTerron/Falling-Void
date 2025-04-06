@@ -74,9 +74,6 @@ protected:
 
 	FHitResult Shoot();
 
-	/** Make the enemy not able to move or attack for a delay */
-	void StunEnemy() const;
-
 private:
 	FTimerHandle m_SunTimer;
 
