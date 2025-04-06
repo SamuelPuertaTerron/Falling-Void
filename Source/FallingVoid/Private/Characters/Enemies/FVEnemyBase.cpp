@@ -29,12 +29,11 @@ void AFVEnemyBase::Stun(float delay)
 {
 	m_pController->SetIsStunned(true);
 	m_pController->StopMovement();
-	GetWorldTimerManager().SetTimer(m_SunTimer, this, &AFVEnemyBase::StunEnemy, delay, false);
-}
+	GetWorldTimerManager().SetTimer(m_SunTimer, [this]()
+	{
+			m_pController->SetIsStunned(false);
+	}, delay, false);
 
-void AFVEnemyBase::StunEnemy() const
-{
-	m_pController->SetIsStunned(false);
 }
 
 void AFVEnemyBase::StopMovement() const

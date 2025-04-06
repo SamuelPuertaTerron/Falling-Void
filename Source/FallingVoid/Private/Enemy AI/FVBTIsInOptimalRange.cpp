@@ -51,9 +51,8 @@ bool UFVBTIsInOptimalRange::CalculateRawConditionValue(UBehaviorTreeComponent& O
 	}
 
 	// Final range check
-	bool isInRange = (distance >= MinRange) && (distance <= MaxRange);
 
-	return isInRange;
+	return distance <= MaxRange;
 }
 
 TArray<AFVPlayerBase*> UFVBTIsInOptimalRange::GetAllPlayers() const

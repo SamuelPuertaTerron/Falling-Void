@@ -59,6 +59,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float Armour{ 0 };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float ArmorAbsorptionRatio{ 0.6f };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float MinArmorDamage{ 15.0f };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float MinHealthDamage{ 10.0f };
+
 	bool GetIsDeadOrDowned() const;
 	bool GetIsAlive() const;
 
@@ -73,7 +80,7 @@ public:
 	UFUNCTION(BlueprintPure, DisplayName = "GetIsAlive")
 	bool NodeGetIsAlive() const;
 
-	virtual void TakeDamage(float damage);
+	virtual void TakeDamage(float damage) override;
 
 protected:
 	// Called when the game starts or when spawned

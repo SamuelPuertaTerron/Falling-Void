@@ -14,7 +14,7 @@ bool UFVBTIsEnemyStunned::CalculateRawConditionValue(UBehaviorTreeComponent& Own
 {
 	bool isStunned = OwnerComp.GetBlackboardComponent()->GetValueAsBool(IsStunnedKey.SelectedKeyName);
 
-	UE_LOG(LogTemp, Warning, TEXT("Is Stunned: %d"), isStunned);
+	//UE_LOG(LogTemp, Warning, TEXT("Is Stunned: %d"), isStunned);
 
 	return isStunned;
 }

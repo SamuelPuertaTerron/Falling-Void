@@ -23,9 +23,7 @@ public :
 	FBlackboardKeySelector PlayerKey;
 
 	UPROPERTY(EditAnywhere, Category = "Keys")
-	float MinRange = {500.0f};
-	UPROPERTY(EditAnywhere, Category = "Keys")
-	float MaxRange = {100.0f};
+	float MaxRange = {1500.0f};
 private:
 	virtual bool CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const override;
 
