@@ -27,13 +27,14 @@ void AFVEnemyBase::TakeDamage(float damage)
 
 void AFVEnemyBase::Stun(float delay)
 {
-	m_pController->SetCanMoveBlackboard(false);
+	m_pController->SetIsStunned(true);
+	m_pController->StopMovement();
 	GetWorldTimerManager().SetTimer(m_SunTimer, this, &AFVEnemyBase::StunEnemy, delay, false);
 }
 
 void AFVEnemyBase::StunEnemy() const
 {
-	m_pController->SetCanMoveBlackboard(true);
+	m_pController->SetIsStunned(false);
 }
 
 void AFVEnemyBase::StopMovement() const
@@ -46,22 +47,13 @@ void AFVEnemyBase::SetWalkSpeed(float modifier)
 {
 	UCharacterMovementComponent* movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 
-	if (modifier == -1.0f)
-	{
-		movement->MaxWalkSpeed = CacheWalkSpeed * SpeedModifer;
-		UE_LOG(LogTemp, Warning, TEXT("Cache Walked Speed: %f"), movement->MaxWalkSpeed);
-	}
-	else
-	{
-		movement->MaxWalkSpeed = CacheWalkSpeed * modifier;
-	}
 }
 
 void AFVEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
 	m_pController = Cast<AFVEnemyAIController>(GetController());
-	m_pController->SetCanMoveBlackboard(true);
+	m_pController->SetIsStunned(false);
 
 	UCharacterMovementComponent* movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	CacheWalkSpeed = movement->MaxWalkSpeed;

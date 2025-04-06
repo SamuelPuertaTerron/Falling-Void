@@ -53,9 +53,6 @@ bool UFVBTIsInOptimalRange::CalculateRawConditionValue(UBehaviorTreeComponent& O
 	// Final range check
 	bool isInRange = (distance >= MinRange) && (distance <= MaxRange);
 
-	UE_LOG(LogTemp, Warning, TEXT("Distance: %.2f, Range: [%.2f-%.2f], InRange: %d"),
-		distance, MinRange, MaxRange, isInRange);
-
 	return isInRange;
 }
 
