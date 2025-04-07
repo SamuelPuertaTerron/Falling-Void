@@ -27,9 +27,9 @@ void AFVSpawnManager::StartNextWave()
 {
     CurrentWaveIndex++;
     CurrentWave = CurrentWaveIndex;
-    UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
+    //UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
 
-    UE_LOG(LogTemp, Warning, TEXT("Wave Count! %d"), Waves.Num());
+    //UE_LOG(LogTemp, Warning, TEXT("Wave Count! %d"), Waves.Num());
 
     OnWaveChanged(CurrentWave);
 
@@ -39,7 +39,7 @@ void AFVSpawnManager::StartNextWave()
     }
     else
     {
-        UE_LOG(LogTemp, Warning, TEXT("All Waves Completed!"));
+        //UE_LOG(LogTemp, Warning, TEXT("All Waves Completed!"));
         OnAllWavesCompleted();
     }
 }
@@ -85,7 +85,7 @@ void AFVSpawnManager::BeginPlay()
     }
 
     MaxWaves = Waves.Num();
-    UE_LOG(LogTemp, Warning, TEXT("Max Waves: %d"), MaxWaves);
+    //UE_LOG(LogTemp, Warning, TEXT("Max Waves: %d"), MaxWaves);
 }
 
 void AFVSpawnManager::SpawnEnemies()
@@ -106,7 +106,7 @@ void AFVSpawnManager::SpawnEnemies()
 
             if (!SpawnPoints.IsValidIndex(randomIndex))
             {
-                UE_LOG(LogTemp, Warning, TEXT("Spawn Point index out of range. Size of SpawnPoints is %d"), SpawnPoints.Num());
+                //UE_LOG(LogTemp, Warning, TEXT("Spawn Point index out of range. Size of SpawnPoints is %d"), SpawnPoints.Num());
                 continue;
             }
 

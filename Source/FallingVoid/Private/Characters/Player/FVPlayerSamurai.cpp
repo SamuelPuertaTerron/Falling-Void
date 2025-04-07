@@ -11,7 +11,7 @@ void AFVPlayerSamurai::Attack()
 {
     if (!CollisionComponent)
     {
-        UE_LOG(LogTemp, Error, TEXT("Collision Component has not been set in the inspector"));
+        //UE_LOG(LogTemp, Error, TEXT("Collision Component has not been set in the inspector"));
         return;
     }
 
@@ -63,7 +63,7 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
         const float finalDamage = BaseDamage * DamageBoost * damageMultiplier;
 
         enemy->TakeDamage(finalDamage);
-    	UE_LOG(LogTemp, Warning, TEXT("Attacked Enemy at distance: %.2f, Damage multiplier: %.2f, Final damage: %.2f"),
+    	//UE_LOG(LogTemp, Warning, TEXT("Attacked Enemy at distance: %.2f, Damage multiplier: %.2f, Final damage: %.2f"),
         result.Distance, damageMultiplier, finalDamage);
     }
 }

@@ -69,7 +69,7 @@ void AFVPlayerBase::TakeDamage(float damage)
         Armour -= damageToArmor;
         damageToHealth -= damageToArmor;
 
-        UE_LOG(LogTemp, Error, TEXT("Taken Armour Damage! Armour remaining: %f"), Armour);
+        //UE_LOG(LogTemp, Error, TEXT("Taken Armour Damage! Armour remaining: %f"), Armour);
     }
 
     // Then apply remaining damage to health
@@ -78,7 +78,7 @@ void AFVPlayerBase::TakeDamage(float damage)
         float tempDamageReduction = FMath::Max(0.0f, DamageReduction);
         Health -= damageToHealth * DamageReduction;
 
-        UE_LOG(LogTemp, Error, TEXT("Taken Health Damage! Health remaining: %f"), Health);
+       // UE_LOG(LogTemp, Error, TEXT("Taken Health Damage! Health remaining: %f"), Health);
 
         if (Health <= 0.0f)
         {

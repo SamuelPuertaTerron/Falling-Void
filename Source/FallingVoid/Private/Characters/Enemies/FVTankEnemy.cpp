@@ -19,7 +19,7 @@ void AFVTankEnemy::Attack()
 {
     if (CollisionComponent == nullptr)
     {
-        UE_LOG(LogTemp, Error, TEXT("Collision Component has not been set in the inspector"));
+        //UE_LOG(LogTemp, Error, TEXT("Collision Component has not been set in the inspector"));
         return;
     }
 

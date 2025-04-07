@@ -34,7 +34,7 @@ void AFVBaseCharacter::Attack()
 
 void AFVBaseCharacter::TakeDamage(float damage)
 {
-	UE_LOG(LogTemp, Error, TEXT("Override Me!"));
+	//UE_LOG(LogTemp, Error, TEXT("Override Me!"));
 }
 
 // Called to bind functionality to input

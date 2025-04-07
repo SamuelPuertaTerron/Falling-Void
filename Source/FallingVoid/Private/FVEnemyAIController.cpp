@@ -29,7 +29,7 @@ void AFVEnemyAIController::SetIsStunned(bool value)
         }
         else
         {
-            UE_LOG(LogTemp, Warning, TEXT("IsStunned key not found in Blackboard!"));
+            //UE_LOG(LogTemp, Warning, TEXT("IsStunned key not found in Blackboard!"));
         }
     }
 }
@@ -58,7 +58,7 @@ void AFVEnemyAIController::Tick(float DeltaSeconds)
     AFVEnemyBase* enemy = Cast<AFVEnemyBase>(GetPawn());
     if(!enemy)
     {
-        UE_LOG(LogTemp, Error, TEXT("Enemy is null"))
+        //UE_LOG(LogTemp, Error, TEXT("Enemy is null"))
         return;
     }
     FVector enemyLocation = enemy->GetActorLocation();

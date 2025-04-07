@@ -41,7 +41,7 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 	controller->SetFocus(player);
 	enemy->Attack();
 	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(LastAttackTIme.SelectedKeyName, GetWorld()->GetTimeSeconds());
-	UE_LOG(LogTemp, Warning, TEXT("Attacked Player"));
+	//UE_LOG(LogTemp, Warning, TEXT("Attacked Player"));
 
 	return EBTNodeResult::Succeeded;
 }

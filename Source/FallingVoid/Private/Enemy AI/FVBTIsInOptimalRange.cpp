@@ -46,7 +46,7 @@ bool UFVBTIsInOptimalRange::CalculateRawConditionValue(UBehaviorTreeComponent& O
 	float distance = FVector::Distance(playerLocation, enemyLocation);
 	if (!FMath::IsFinite(distance))
 	{
-		UE_LOG(LogTemp, Error, TEXT("Invalid distance calculation: %f"), distance);
+		//UE_LOG(LogTemp, Error, TEXT("Invalid distance calculation: %f"), distance);
 		return false;
 	}
 
