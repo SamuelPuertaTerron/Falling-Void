@@ -86,7 +86,7 @@ FHitResult AFVPlayerRobot::Shoot()
 	FRotator rotation = GetActorRotation();
 	FVector endTrace = FVector::ZeroVector;
 
-	const APlayerController* playerController = GetWorld()->GetFirstPlayerController();
+	const APlayerController* playerController =Cast<APlayerController>(GetController());
 
 	if (playerController)
 	{
