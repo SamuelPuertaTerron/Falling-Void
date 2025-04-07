@@ -85,7 +85,7 @@ void AFVSpawnManager::BeginPlay()
     }
 
     MaxWaves = Waves.Num();
-    LOG("Max Waves: ", MaxWaves);
+    UE_LOG(LogTemp, Warning, TEXT("Max Waves: %d"), MaxWaves);
 }
 
 void AFVSpawnManager::SpawnEnemies()

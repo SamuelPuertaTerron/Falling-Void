@@ -20,6 +20,6 @@ void AFVSpawnPoint::Tick(float DeltaSeconds)
 	{
 		static auto spawnManager = GetGameInstance()->GetSubsystem<UFVSpawnManagerSubsystem>()->GetSpawnManager();
 
-		DrawDebugSphere(GetWorld(), GetActorLocation(), spawnManager->GetSpawnRadius(), 12, FColor::Red);
+		//DrawDebugSphere(GetWorld(), GetActorLocation(), spawnManager->GetSpawnRadius(), 12, FColor::Red);
 	}
 }

@@ -75,9 +75,8 @@ void AFVPlayerBase::TakeDamage(float damage)
     // Then apply remaining damage to health
     if (damageToHealth > 0)
     {
-        // Apply damage reduction (ensuring it's not negative)
         float tempDamageReduction = FMath::Max(0.0f, DamageReduction);
-        Health -= damageToHealth * tempDamageReduction;
+        Health -= damageToHealth * DamageReduction;
 
         UE_LOG(LogTemp, Error, TEXT("Taken Health Damage! Health remaining: %f"), Health);
 

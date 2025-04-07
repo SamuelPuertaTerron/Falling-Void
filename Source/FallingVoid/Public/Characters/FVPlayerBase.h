@@ -14,6 +14,7 @@ enum class EPlayerHealthState : uint8
 	Alive	 UMETA(DisplayName = "Alive"),
 	Downed   UMETA(DisplayName = "Downed"),
 	Dead     UMETA(DisplayName = "Dead"),
+	Pinned	 UMETA(DisplayName = "Pinned"),
 };
 
 UENUM(Blueprintable)

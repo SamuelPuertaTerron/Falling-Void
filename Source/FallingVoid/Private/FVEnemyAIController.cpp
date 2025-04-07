@@ -56,6 +56,11 @@ void AFVEnemyAIController::Tick(float DeltaSeconds)
 
     // Get the enemy location
     AFVEnemyBase* enemy = Cast<AFVEnemyBase>(GetPawn());
+    if(!enemy)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Enemy is null"))
+        return;
+    }
     FVector enemyLocation = enemy->GetActorLocation();
 
     float closestDistance = FLT_MAX; // Correctly initialize
