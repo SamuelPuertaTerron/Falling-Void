@@ -64,7 +64,7 @@ void AFVPlayerSamurai::OnWeaponBeginOverlap(UPrimitiveComponent* OverlappedCompo
 
         enemy->TakeDamage(finalDamage);
     	//UE_LOG(LogTemp, Warning, TEXT("Attacked Enemy at distance: %.2f, Damage multiplier: %.2f, Final damage: %.2f"),
-        result.Distance, damageMultiplier, finalDamage);
+        //result.Distance, damageMultiplier, finalDamage);
     }
 }
 
