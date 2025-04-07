@@ -10,6 +10,10 @@ void UFVSpawnManagerSubsystem::SetSpawnManager(AFVSpawnManager* manager)
 
 AFVSpawnManager* UFVSpawnManagerSubsystem::GetSpawnManager() const
 {
+	if (!m_SpawnManager)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Spawn Manager has not been set"));
+	}
 	return m_SpawnManager;
 }
 

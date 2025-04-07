@@ -4,6 +4,11 @@
 #include "Characters/Enemies/FVSpitterEnemy.h"
 #include "FVProjectile.h"
 
+AFVSpitterEnemy::AFVSpitterEnemy()
+{
+    SetCapsuleCollision();
+}
+
 void AFVSpitterEnemy::Attack()
 {
 	if (!Projectile) return;

@@ -3,12 +3,11 @@
 
 #include "Characters/Enemies/FVEnemyBase.h"
 
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 #include "FVEnemyAIController.h"
 #include "Characters/FVPlayerBase.h"
-
-#include "BehaviorTree/BlackboardComponent.h"
-
-#include "GameFramework/CharacterMovementComponent.h"
 
 float AFVEnemyBase::GetDamage() const
 {
@@ -46,6 +45,14 @@ void AFVEnemyBase::SetWalkSpeed(float modifier)
 {
 	UCharacterMovementComponent* movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 
+}
+
+void AFVEnemyBase::SetCapsuleCollision() const
+{
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECR_Block); // Block other pawns
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Block); // Block dynamic objects
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Ignore); // Ignore physics objects if not needed
 }
 
 void AFVEnemyBase::BeginPlay()

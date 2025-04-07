@@ -60,40 +60,26 @@ void AFVPlayerBase::TakeDamage(float damage)
 		return;
 	}
 
-    float damageToArmor = FMath::Max(damage * ArmorAbsorptionRatio, MinArmorDamage);
-    float damageToHealth = FMath::Max(damage * (1.0f - ArmorAbsorptionRatio), MinHealthDamage);
+    float damageToHealth = damage;
 
-    float totalDamage = damageToArmor + damageToHealth;
-    if (totalDamage > damage)
+    // First, apply damage to armor if we have any
+    if (Armour > 0)
     {
-        float correctionFactor = damage / totalDamage;
-        damageToArmor *= correctionFactor;
-        damageToHealth *= correctionFactor;
+        float damageToArmor = FMath::Min(Armour, damage);
+        Armour -= damageToArmor;
+        damageToHealth -= damageToArmor;
+
+        UE_LOG(LogTemp, Error, TEXT("Taken Armour Damage! Armour remaining: %f"), Armour);
     }
 
-    // Apply armor damage first
-    if (Armour > 0.0f)
+    // Then apply remaining damage to health
+    if (damageToHealth > 0)
     {
-        float actualArmorDamage = FMath::Min(damageToArmor, Armour);
-        Armour -= actualArmorDamage;
+        // Apply damage reduction (ensuring it's not negative)
+        float tempDamageReduction = FMath::Max(0.0f, DamageReduction);
+        Health -= damageToHealth * tempDamageReduction;
 
-        // Reduce health damage by the proportion of armor damage that was absorbed
-        if (damageToArmor > 0.0f)
-        {
-            damageToHealth *= (actualArmorDamage / damageToArmor);
-        }
-
-        UE_LOG(LogTemp, Warning, TEXT("Armor damaged by %.1f (remaining: %.1f)"), actualArmorDamage, Armour);
-    }
-
-    // Apply remaining damage to health
-    if (damageToHealth > 0.0f)
-    {
-        // Apply damage reduction if needed
-        float finalHealthDamage = damageToHealth * FMath::Max(0.0f, DamageReduction);
-        Health -= finalHealthDamage;
-
-        UE_LOG(LogTemp, Warning, TEXT("Health damaged by %.1f (remaining: %.1f)"), finalHealthDamage, Health);
+        UE_LOG(LogTemp, Error, TEXT("Taken Health Damage! Health remaining: %f"), Health);
 
         if (Health <= 0.0f)
         {

@@ -68,6 +68,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	UBehaviorTree* BehaviorTree{};
 
+	void SetCapsuleCollision() const;
+
 protected:
 
 	virtual void BeginPlay() override;

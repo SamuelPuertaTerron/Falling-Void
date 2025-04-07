@@ -11,6 +11,8 @@ AFVMeleeEnemy::AFVMeleeEnemy()
 
     CollisionComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Attack Collision"));
     CollisionComponent->SetupAttachment(GetMesh(), "hand_r");
+
+    SetCapsuleCollision();
 }
 
 void AFVMeleeEnemy::Attack()

@@ -60,6 +60,8 @@ public:
 	/* Returns the max number of enemies for this round */
 	int GetMaxEnemiesThisWave();
 
+	float GetSpawnRadius() const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -79,6 +81,9 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category = "Waves")
 	float SpawnRadius = { 15.0f };
+
+	UPROPERTY(EditAnywhere, Category = "Waves")
+	float SpawnHeightOffset = { 90.0f };
 
 	UPROPERTY(VisibleAnywhere, Category = "Spawning")
 	TArray<AFVSpawnPoint*> SpawnPoints;

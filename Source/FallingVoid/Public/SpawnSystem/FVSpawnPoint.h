@@ -17,4 +17,10 @@ class FALLINGVOID_API AFVSpawnPoint : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AFVSpawnPoint();
+
+	virtual void Tick(float DeltaSeconds) override;
+
+private:
+	UPROPERTY(EditAnywhere, meta=(AllowPrivateAccess))
+	bool IsDebug{ true };
 };

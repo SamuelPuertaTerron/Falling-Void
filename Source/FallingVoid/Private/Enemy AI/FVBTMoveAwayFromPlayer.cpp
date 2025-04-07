@@ -4,6 +4,7 @@
 #include "Enemy AI/FVBTMoveAwayFromPlayer.h"
 
 #include "BehaviorTree/BlackboardComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 #include "FVEnemyAIController.h"
 #include "Characters/FVPlayerBase.h"
@@ -52,8 +53,21 @@ EBTNodeResult::Type UFVBTMoveAwayFromPlayer::ExecuteTask(UBehaviorTreeComponent&
 	// Calculate target location
 	FVector targetLocation = enemyLocation + (awayFromPlayer * RetreatDistance) + randomOffset;
 
-	controller->SetControlRotation(targetLocation.Rotation());
-	enemy->GetMesh()->SetWorldRotation(targetLocation.Rotation());
+	// Calculate the direction the enemy should face (toward the movement direction)
+	FVector moveDirection = (targetLocation - enemyLocation).GetSafeNormal();
+	if (moveDirection.IsNearlyZero())
+	{
+		return EBTNodeResult::Failed;
+	}
+
+	FRotator targetRotation = moveDirection.Rotation();
+	targetRotation.Pitch = 0.f;
+	targetRotation.Roll = 0.f;
+
+
+	enemy->GetCharacterMovement()->bOrientRotationToMovement = true;
+
+	controller->SetControlRotation(targetRotation);
 
 	controller->MoveToLocation(targetLocation);
 

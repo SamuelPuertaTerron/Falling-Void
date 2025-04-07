@@ -16,6 +16,8 @@ class FALLINGVOID_API AFVSpitterEnemy : public AFVEnemyBase
 	GENERATED_BODY()
 
 public:
+	AFVSpitterEnemy();
+
 	virtual void Attack() override;
 
 protected:
