@@ -21,8 +21,8 @@ UENUM(Blueprintable)
 enum class EPlayerInteractionState : uint8
 {
 	None = 0	 UMETA(DisplayName = "None"),
-	Interaction	 UMETA(DisplayName = "Interaction"),
 	Reviving	 UMETA(DisplayName = "Reviving"),
+	MedkitReviving	 UMETA(DisplayName = "Medkit Reviving"),
 	Healing		 UMETA(DisplayName = "Healing"),
 	OtherHealing UMETA(DisplayName = "Healing Other"),
 	BeingHealing UMETA(DisplayName = "Being Healing"),
