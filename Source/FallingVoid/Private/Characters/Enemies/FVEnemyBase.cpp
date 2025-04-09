@@ -26,13 +26,24 @@ void AFVEnemyBase::TakeDamage(float damage)
 
 void AFVEnemyBase::Stun(float delay)
 {
+	if (!m_pController || !IsValid(m_pController))
+	{
+		UE_LOG(LogTemp, Error, TEXT("Controller is null or invalid!"));
+		return;
+	}
+
 	m_pController->SetIsStunned(true);
 	m_pController->StopMovement();
-	GetWorldTimerManager().SetTimer(m_SunTimer, [this]()
-	{
-			m_pController->SetIsStunned(false);
-	}, delay, false);
 
+	// Use weak pointer to avoid accessing invalid memory
+	TWeakObjectPtr<AFVEnemyBase> thisWeak = this;
+	GetWorldTimerManager().SetTimer(m_SunTimer, [thisWeak]()
+		{
+			if (thisWeak.IsValid() && thisWeak->m_pController && IsValid(thisWeak->m_pController))
+			{
+				thisWeak->m_pController->SetIsStunned(false);
+			}
+		}, delay, false);
 }
 
 void AFVEnemyBase::StopMovement() const

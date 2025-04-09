@@ -19,19 +19,28 @@ AFVEnemyAIController::AFVEnemyAIController(const FObjectInitializer& ObjectIniti
 
 void AFVEnemyAIController::SetIsStunned(bool value)
 {
-    UBlackboardComponent* blackboardComp = GetBlackboardComponent();
-    if (blackboardComp)
+    if (!IsValid(this))
     {
-        FBlackboard::FKey KeyID = blackboardComp->GetKeyID("IsStunned");
-        if (KeyID != FBlackboard::InvalidKey)
-        {
-            blackboardComp->SetValueAsBool("IsStunned", value);
-        }
-        else
-        {
-            //UE_LOG(LogTemp, Warning, TEXT("IsStunned key not found in Blackboard!"));
-        }
+        UE_LOG(LogTemp, Error, TEXT("Controller is not valid!"));
+        return;
     }
+
+    UBlackboardComponent* blackboardComp = GetBlackboardComponent();
+    if (!blackboardComp)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Blackboard component is null!"));
+        return;
+    }
+
+    FBlackboard::FKey KeyID = blackboardComp->GetKeyID("IsStunned");
+    if (KeyID == FBlackboard::InvalidKey)
+    {
+        UE_LOG(LogTemp, Error, TEXT("IsStunned key not found in Blackboard!"));
+        return;
+    }
+
+    blackboardComp->SetValueAsBool("IsStunned", value);
+    UE_LOG(LogTemp, Warning, TEXT("Called SetIsStunned: %d"), value);
 }
 
 void AFVEnemyAIController::OnPossess(APawn* InPawn)
