@@ -87,6 +87,8 @@ void AFVPlayerBase::TakeDamage(float damage)
             OnDied();
         }
     }
+
+	OnTakenDamageLate();
 }
 
 // Called every frame

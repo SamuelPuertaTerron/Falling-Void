@@ -73,6 +73,9 @@ public:
 	bool NodeGetIsDeadOrDowned() const;
 	UFUNCTION(BlueprintPure, DisplayName = "GetIsAlive")
 	bool NodeGetIsAlive() const;
+	// Event that gets called when the Character had died. Implemneted all base characters.
+	UFUNCTION(BlueprintImplementableEvent, Category = "Character")
+	void OnTakenDamageLate();
 
 	virtual void TakeDamage(float damage) override;
 
