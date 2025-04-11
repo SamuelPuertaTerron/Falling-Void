@@ -62,6 +62,8 @@ void AFVPlayerBase::TakeDamage(float damage)
 
     float damageToHealth = damage;
 
+	OnTakenDamage();
+
     // First, apply damage to armor if we have any
     if (Armour > 0)
     {

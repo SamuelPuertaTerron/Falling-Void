@@ -43,6 +43,9 @@ public:
 	// Event that gets called when the Character had died. Implemneted all base characters.
 	UFUNCTION(BlueprintImplementableEvent, Category = "Character")
 	void OnDied();
+	// Event that gets called when the Character had died. Implemneted all base characters.
+	UFUNCTION(BlueprintImplementableEvent, Category = "Character")
+	void OnTakenDamage();
 
 protected:
 	// Called when the game starts or when spawned

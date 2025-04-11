@@ -50,10 +50,6 @@ public:
 		/** Gets called whenever the enemy takes damage. Calls the OnTakeDamage() blueprint event. */
 		virtual void TakeDamage(float damage) override;
 
-		/** An Event which gets called from BP when the enemy takes damage */
-		UFUNCTION(BlueprintImplementableEvent)
-		void OnTakenDamage();
-
 		/** Make the enemy not able to move or attack for a delay */
 		UFUNCTION(BlueprintCallable, Category="Enemy")
 		void Stun(float delay);
