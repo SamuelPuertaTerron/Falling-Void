@@ -60,6 +60,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	float Armour{ 0 };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	TMap<FString, int32> Upgrades;
+
 	bool GetIsDeadOrDowned() const;
 	bool GetIsAlive() const;
 
