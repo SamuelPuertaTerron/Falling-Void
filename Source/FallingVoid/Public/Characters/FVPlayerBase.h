@@ -61,6 +61,12 @@ public:
 	float Armour{ 0 };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float SprintSpeed{ 800.0f };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	float WalkSpeed{ 500.0f };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	TMap<FString, int32> Upgrades;
 
 	bool GetIsDeadOrDowned() const;
