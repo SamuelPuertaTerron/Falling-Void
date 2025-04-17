@@ -67,6 +67,18 @@ public:
 	float WalkSpeed{ 500.0f };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	bool CanUpgrade{ true };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	bool CanRegen{ true };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	bool PassiveActive{ true };
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	TArray <bool> Hexes;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	TMap<FString, int32> Upgrades;
 
 	bool GetIsDeadOrDowned() const;
