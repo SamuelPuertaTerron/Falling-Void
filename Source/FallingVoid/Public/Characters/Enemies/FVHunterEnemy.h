@@ -13,5 +13,9 @@ UCLASS()
 class FALLINGVOID_API AFVHunterEnemy : public AFVEnemyBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	virtual void Attack() override;
+private:
+	FTimerHandle m_TimeHandle;
 };

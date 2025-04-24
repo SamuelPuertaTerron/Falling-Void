@@ -7,6 +7,7 @@
 #include "BehaviorTree/BehaviorTreeTypes.h"
 #include "FVEnemyAIController.generated.h"
 
+class AFVPlayerBase;
 class FObjectInitializer;
 /**
  * 
@@ -29,6 +30,11 @@ public:
 	 *			They still will know the player location.
 	 */
 	void SetIsStunned(bool value);
+
+	/**
+	 * @brief Gets the closet player to this Mesh
+	 */
+	AFVPlayerBase* GetClosetPlayer() const;
 
 protected:
 	virtual void OnPossess(APawn* InPawn) override;

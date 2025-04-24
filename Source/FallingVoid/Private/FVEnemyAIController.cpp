@@ -43,6 +43,18 @@ void AFVEnemyAIController::SetIsStunned(bool value)
     UE_LOG(LogTemp, Warning, TEXT("Called SetIsStunned: %d"), value);
 }
 
+AFVPlayerBase* AFVEnemyAIController::GetClosetPlayer() const
+{
+    auto player = Cast<AFVPlayerBase>(GetBlackboardComponent()->GetValueAsObject("Player"));
+    if (!player)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Player is null from the blackboard"));
+        return nullptr;
+    }
+
+    return player;
+}
+
 void AFVEnemyAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
@@ -107,5 +119,4 @@ void AFVEnemyAIController::Tick(float DeltaSeconds)
             GetBlackboardComponent()->SetValueAsObject("Player", playerCharacter);
         }
     }
-
 }
