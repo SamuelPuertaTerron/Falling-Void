@@ -54,6 +54,12 @@ public:
 		UFUNCTION(BlueprintCallable, Category="Enemy")
 		void Stun(float delay);
 
+		UFUNCTION(BlueprintImplementableEvent, Category = "Character")
+		void OnAttackPlayer();
+
+		/*UFUNCTION(BlueprintImplementableEvent, Category = "Character")
+		void OnAttackPlayer();*/
+
 		/** Stops movement of the current enemy */
 		void StopMovement() const;
 

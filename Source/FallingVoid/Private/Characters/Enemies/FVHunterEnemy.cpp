@@ -12,11 +12,13 @@ void AFVHunterEnemy::Attack()
 	AFVPlayerBase* playerBase = enemyController->GetClosetPlayer();
 	if (!playerBase)
 	{
-		return;;
+		return;
 	}
 
 	auto currentState = playerBase->PlayerHealthState;
 	playerBase->PlayerHealthState = EPlayerHealthState::Pinned;
+
+	OnAttackPlayer();
 
 	GetWorldTimerManager().SetTimer(m_TimeHandle, [this, playerBase, currentState]()
 		{
