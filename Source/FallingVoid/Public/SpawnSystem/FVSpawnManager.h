@@ -46,7 +46,9 @@ public:
 	//Starts the series of Waves from the list if not null. 
 	UFUNCTION(BlueprintCallable)
 	void StartNextWave();
-
+	//Starts the next wave after the delay
+	UFUNCTION(BlueprintCallable)
+	void StartNextWaveAfterDelay(float delay, int currentWaveIndex);
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Spawning")
 	int CurrentWave{ 0 };
 

@@ -44,6 +44,12 @@ void AFVSpawnManager::StartNextWave()
     }
 }
 
+void AFVSpawnManager::StartNextWaveAfterDelay(float delay, int currentWaveIndex)
+{
+    CurrentWaveIndex = currentWaveIndex;
+    StartWaveAfterDelay(delay);
+}
+
 int AFVSpawnManager::GetMaxEnemiesThisWave()
 {
     int enemyCount{ 0 };
