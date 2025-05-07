@@ -9,6 +9,11 @@
 void AFVHunterEnemy::Attack()
 {
 	AFVEnemyAIController* enemyController = Cast<AFVEnemyAIController>(GetController());
+	if (!enemyController)
+	{
+		UE_LOG(LogTemp, Error, TEXT(""))
+		return;
+	}
 	AFVPlayerBase* playerBase = enemyController->GetClosetPlayer();
 	if (!playerBase)
 	{
