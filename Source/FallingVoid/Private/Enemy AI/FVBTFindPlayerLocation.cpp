@@ -52,13 +52,13 @@ TArray<AFVPlayerBase*> UFVBTFindPlayerLocation::GetAllPlayers() const
 		APlayerController* controller = Cast<APlayerController>(actorController);
 		if (!controller) 
 		{
-			return;
+			return players;
 		}
 
 		AFVPlayerBase* player = Cast<AFVPlayerBase>(controller->GetPawn());
 		if (!player) 
 		{
-			return;
+			return players;
 		}
 
 		players.Add(player);
