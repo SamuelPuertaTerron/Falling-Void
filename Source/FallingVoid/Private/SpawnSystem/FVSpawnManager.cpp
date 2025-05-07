@@ -26,10 +26,7 @@ void AFVSpawnManager::StartWave()
 void AFVSpawnManager::StartNextWave()
 {
     CurrentWaveIndex++;
-    CurrentWave = CurrentWaveIndex;
-    //UE_LOG(LogTemp, Warning, TEXT("Started Wave! %d"), CurrentWaveIndex);
-
-    //UE_LOG(LogTemp, Warning, TEXT("Wave Count! %d"), Waves.Num());
+    CurrentWave = CurrentWaveIndex; //Note: Current wave is a different variable as I don't really want the CurrentWaveIndex modifable in BP.
 
     OnWaveChanged(CurrentWave);
 
@@ -112,7 +109,6 @@ void AFVSpawnManager::SpawnEnemies()
 
             if (!SpawnPoints.IsValidIndex(randomIndex))
             {
-                //UE_LOG(LogTemp, Warning, TEXT("Spawn Point index out of range. Size of SpawnPoints is %d"), SpawnPoints.Num());
                 continue;
             }
 

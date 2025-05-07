@@ -28,20 +28,15 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 	}
 
 	AFVPlayerBase* player = Cast<AFVPlayerBase>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(PlayerKey.SelectedKeyName));
-	if (!player)
-	{
-		return EBTNodeResult::Failed;
-	}
-
-	if (player->GetIsDeadOrDowned())
+	if (!player || player->GetIsDeadOrDowned())
 	{
 		return EBTNodeResult::Failed;
 	}
 
 	controller->SetFocus(player);
 	enemy->Attack();
-	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(LastAttackTIme.SelectedKeyName, GetWorld()->GetTimeSeconds());
-	//UE_LOG(LogTemp, Warning, TEXT("Attacked Player"));
+
+	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(LastAttackTIme.SelectedKeyName, GetWorld()->GetTimeSeconds()); // Store the attack time in the blackboard
 
 	return EBTNodeResult::Succeeded;
 }
