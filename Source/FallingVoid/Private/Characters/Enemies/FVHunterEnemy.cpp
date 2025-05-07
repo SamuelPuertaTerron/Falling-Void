@@ -6,6 +6,25 @@
 #include "FVEnemyAIController.h"
 #include "Characters/FVPlayerBase.h"
 
+static FString GetCurrentStateAsString(const EPlayerHealthState& state)
+{
+	switch (state)
+	{
+	case EPlayerHealthState::None:
+		return "None";
+	case EPlayerHealthState::Alive:
+		return "Alive";
+	case EPlayerHealthState::Downed:
+		return "Downed";
+	case EPlayerHealthState::Dead:
+		return "Dead";
+	default:
+		return "NULL";
+	}
+
+	return "NULL";
+}
+
 void AFVHunterEnemy::Attack()
 {
 	AFVEnemyAIController* enemyController = Cast<AFVEnemyAIController>(GetController());
@@ -22,6 +41,8 @@ void AFVHunterEnemy::Attack()
 
 	auto currentState = playerBase->PlayerHealthState;
 	playerBase->PlayerHealthState = EPlayerHealthState::Pinned;
+
+	UE_LOG(LogTemp, Warning, TEXT("Player State: %s"), *GetCurrentStateAsString(playerBase->PlayerHealthState));
 
 	OnAttackPlayer();
 
