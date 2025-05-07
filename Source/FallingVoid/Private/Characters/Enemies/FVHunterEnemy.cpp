@@ -31,5 +31,5 @@ void AFVHunterEnemy::Attack()
 			{
 				playerBase->PlayerHealthState = currentState;
 			}
-		}, AttackTime, false); // Added 'false' for one-shot timer
+		}, AttackTime, false);
 }
