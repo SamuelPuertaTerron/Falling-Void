@@ -69,7 +69,14 @@ void AFVEnemyBase::SetCapsuleCollision() const
 void AFVEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
+
 	m_pController = Cast<AFVEnemyAIController>(GetController());
+	if (!m_pController || !IsValid(m_pController))
+	{
+		UE_LOG(LogTemp, Error, TEXT("Controller is null or invalid!"));
+		return;
+	}
+
 	m_pController->SetIsStunned(false);
 
 	UCharacterMovementComponent* movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
