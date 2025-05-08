@@ -21,8 +21,6 @@ static FString GetCurrentStateAsString(const EPlayerHealthState& state)
 	default:
 		return "NULL";
 	}
-
-	return "NULL";
 }
 
 void AFVHunterEnemy::Attack()
@@ -34,23 +32,22 @@ void AFVHunterEnemy::Attack()
 		return;
 	}
 	AFVPlayerBase* playerBase = enemyController->GetClosetPlayer();
-	if (!playerBase)
+	if (!playerBase || !playerBase->GetIsAlive())
 	{
 		return;
 	}
 
-	auto currentState = playerBase->PlayerHealthState;
 	playerBase->PlayerHealthState = EPlayerHealthState::Pinned;
 
 	UE_LOG(LogTemp, Warning, TEXT("Player State: %s"), *GetCurrentStateAsString(playerBase->PlayerHealthState));
 
 	OnAttackPlayer();
 
-	GetWorldTimerManager().SetTimer(m_TimeHandle, [this, playerBase, currentState]()
+	GetWorldTimerManager().SetTimer(m_TimeHandle, [this, playerBase]()
 		{
 			if (playerBase && playerBase->IsValidLowLevel())
 			{
-				playerBase->PlayerHealthState = currentState;
+				playerBase->PlayerHealthState = EPlayerHealthState::Alive;
 			}
 		}, AttackTime, false);
 }

@@ -52,13 +52,13 @@ TArray<AFVPlayerBase*> UFVBTFindPlayerLocation::GetAllPlayers() const
 		APlayerController* controller = Cast<APlayerController>(actorController);
 		if (!controller) 
 		{
-			return players;
+			return {}; //Return empty array
 		}
 
 		AFVPlayerBase* player = Cast<AFVPlayerBase>(controller->GetPawn());
 		if (!player) 
 		{
-			return players;
+			return {}; //Return empty array
 		}
 
 		players.Add(player);
@@ -73,6 +73,10 @@ AFVPlayerBase* UFVBTFindPlayerLocation::GetClosetPlayer(const AFVEnemyBase* enem
 	float minDistance = FLT_MAX;
 
 	static auto players = GetAllPlayers(); // Lazy load as in theory no player could join through the game.
+	if (players.IsEmpty())
+	{
+		return nullptr;
+	}
 
 	for (AFVPlayerBase* player : players)
 	{
