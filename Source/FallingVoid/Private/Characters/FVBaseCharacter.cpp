@@ -29,7 +29,7 @@ void AFVBaseCharacter::Tick(float DeltaTime)
 
 void AFVBaseCharacter::Attack()
 {
-	
+	UE_LOG(LogTemp, Warning, TEXT("Base Character Attack called"));
 }
 
 void AFVBaseCharacter::TakeDamage(float damage)

@@ -52,7 +52,7 @@ public:
 
 		/** Make the enemy not able to move or attack for a delay */
 		UFUNCTION(BlueprintCallable, Category="Enemy")
-		void Stun(float delay);
+		virtual void Stun(float delay);
 
 		UFUNCTION(BlueprintImplementableEvent, Category = "Character")
 		void OnAttackPlayer();
