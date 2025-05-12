@@ -26,7 +26,13 @@ bool UFVBTCheckAttackCooldown::CalculateRawConditionValue(UBehaviorTreeComponent
         return false;
     }
 
-    float lastAttackTime = OwnerComp.GetBlackboardComponent()->GetValueAsFloat(LastAttackTIme.SelectedKeyName); //TODO: Add error checking for BB components. 
+    
+    UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
+    if (!blackboard) 
+    {
+        return false;
+    }
+    float lastAttackTime = blackboard->GetValueAsFloat(LastAttackTIme.SelectedKeyName); 
     float currentTime = GetWorld()->GetTimeSeconds();
 
     // If never attacked or cooldown has passed

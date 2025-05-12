@@ -34,31 +34,48 @@ EBTNodeResult::Type UFVBTFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent&
 		return EBTNodeResult::Failed;
 	}
 
-	OwnerComp.GetBlackboardComponent()->SetValueAsObject(PlayerLocationKey.SelectedKeyName, closetPlayer);
-	OwnerComp.GetBlackboardComponent()->SetValueAsVector(TargetLocationKey.SelectedKeyName, closetPlayer->GetActorLocation());
+	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
+	if (!blackboard) 
+	{
+		return EBTNodeResult::Failed;
+	}
+
+	blackboard->SetValueAsObject(PlayerLocationKey.SelectedKeyName, closetPlayer);
+	blackboard->SetValueAsVector(TargetLocationKey.SelectedKeyName, closetPlayer->GetActorLocation());
 
 	return EBTNodeResult::Succeeded;
 }
 
 TArray<AFVPlayerBase*> UFVBTFindPlayerLocation::GetAllPlayers() const
 {
+	UWorld* world = GetWorld();
+	if (!world)
+	{
+		return {};
+	}
+
 	TArray<AFVPlayerBase*> players;
 
 	TArray<AActor*> playerControllers;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerController::StaticClass(), playerControllers);
+
+	if(playerControllers.IsEmpty())
+	{
+		return {};
+	}
 
 	for (AActor* actorController : playerControllers)
 	{
 		APlayerController* controller = Cast<APlayerController>(actorController);
 		if (!controller) 
 		{
-			return {}; //Return empty array
+			return {};
 		}
 
 		AFVPlayerBase* player = Cast<AFVPlayerBase>(controller->GetPawn());
 		if (!player) 
 		{
-			return {}; //Return empty array
+			return {};
 		}
 
 		players.Add(player);
@@ -72,7 +89,7 @@ AFVPlayerBase* UFVBTFindPlayerLocation::GetClosetPlayer(const AFVEnemyBase* enem
 	AFVPlayerBase* closetPlayer = nullptr;
 	float minDistance = FLT_MAX;
 
-	static auto players = GetAllPlayers(); // Lazy load as in theory no player could join through the game.
+	auto players = GetAllPlayers();
 	if (players.IsEmpty())
 	{
 		return nullptr;

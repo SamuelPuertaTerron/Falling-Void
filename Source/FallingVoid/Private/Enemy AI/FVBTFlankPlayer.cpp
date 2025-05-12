@@ -28,12 +28,7 @@ EBTNodeResult::Type UFVBTFlankPlayer::ExecuteTask(UBehaviorTreeComponent& OwnerC
 	}
 
 	AFVPlayerBase* player = Cast<AFVPlayerBase>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(PlayerKey.SelectedKeyName));
-	if (!player)
-	{
-		return EBTNodeResult::Failed;
-	}
-
-	if (player->GetIsDeadOrDowned())
+	if (!player || player->GetIsDeadOrDowned())
 	{
 		return EBTNodeResult::Failed;
 	}

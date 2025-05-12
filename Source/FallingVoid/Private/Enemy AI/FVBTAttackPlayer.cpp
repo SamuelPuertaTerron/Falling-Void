@@ -33,10 +33,15 @@ EBTNodeResult::Type UFVBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent& Owner
 		return EBTNodeResult::Failed;
 	}
 
+	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
+	if(!blackboard)
+	{
+		return EBTNodeResult::Failed;
+	}
+
 	controller->SetFocus(player);
 	enemy->Attack();
-
-	OwnerComp.GetBlackboardComponent()->SetValueAsFloat(LastAttackTIme.SelectedKeyName, GetWorld()->GetTimeSeconds()); // Store the attack time in the blackboard
+	blackboard->SetValueAsFloat(LastAttackTIme.SelectedKeyName, GetWorld()->GetTimeSeconds()); // Store the attack time in the blackboard
 
 	return EBTNodeResult::Succeeded;
 }

@@ -20,13 +20,13 @@ enum class EPlayerHealthState : uint8
 UENUM(Blueprintable)
 enum class EPlayerInteractionState : uint8
 {
-	None = 0	 UMETA(DisplayName = "None"),
-	Reviving	 UMETA(DisplayName = "Reviving"),
-	MedkitReviving	 UMETA(DisplayName = "Medkit Reviving"),
-	Healing		 UMETA(DisplayName = "Healing"),
-	OtherHealing UMETA(DisplayName = "Healing Other"),
-	BeingHealing UMETA(DisplayName = "Being Healing"),
-	Trapping	 UMETA(DisplayName = "Trapping"),
+	None = 0		UMETA(DisplayName = "None"),
+	Reviving		UMETA(DisplayName = "Reviving"),
+	MedkitReviving	UMETA(DisplayName = "Medkit Reviving"),
+	Healing			UMETA(DisplayName = "Healing"),
+	OtherHealing	UMETA(DisplayName = "Healing Other"),
+	BeingHealing	UMETA(DisplayName = "Being Healing"),
+	Trapping		UMETA(DisplayName = "Trapping"),
 };
 
 UCLASS()

@@ -35,7 +35,6 @@ void AFVEnemyBase::Stun(float delay)
 	m_pController->SetIsStunned(true);
 	m_pController->StopMovement();
 
-	// Use weak pointer to avoid accessing invalid memory
 	TWeakObjectPtr<AFVEnemyBase> thisWeak = this;
 	GetWorldTimerManager().SetTimer(m_SunTimer, [thisWeak]()
 		{

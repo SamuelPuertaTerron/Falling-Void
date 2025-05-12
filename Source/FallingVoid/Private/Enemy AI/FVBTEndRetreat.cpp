@@ -12,7 +12,12 @@ UFVBTEndRetreat::UFVBTEndRetreat()
 
 EBTNodeResult::Type UFVBTEndRetreat::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	OwnerComp.GetBlackboardComponent()->SetValueAsBool(RetreatKey.SelectedKeyName, false);
+	UBlackboardComponent* blackboard = OwnerComp.GetBlackboardComponent();
+	if(!blackboard)
+	{
+		return EBTNodeResult::Failed;
+	}
+	blackboard->SetValueAsBool(RetreatKey.SelectedKeyName, false);
 
 	return EBTNodeResult::Succeeded;
 }
