@@ -38,3 +38,8 @@ void AFVSpitterEnemy::Attack()
         //UE_LOG(LogTemp, Error, TEXT("Failed to spawn projectile!"));
     }
 }
+
+void AFVSpitterEnemy::TakeDamage(float damage)
+{
+    Super::TakeDamage(damage);
+}
