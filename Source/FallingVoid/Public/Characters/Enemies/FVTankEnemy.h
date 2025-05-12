@@ -19,7 +19,6 @@ public:
 	~AFVTankEnemy() = default;
 
 	virtual void Attack() override;
-	virtual void TakeDamage(float damage) override;
 
 	//Uproperty defines here
 public:

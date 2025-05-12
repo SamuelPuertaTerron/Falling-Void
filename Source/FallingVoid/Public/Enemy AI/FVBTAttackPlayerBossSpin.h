@@ -14,10 +14,4 @@ class FALLINGVOID_API UFVBTAttackPlayerBossSpin : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 	
-public:
-	UFVBTAttackPlayerBossSpin();
-	~UFVBTAttackPlayerBossSpin() = default;
-
-private:
-	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

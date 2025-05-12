@@ -28,11 +28,6 @@ void AFVTankEnemy::Attack()
     GetWorld()->GetTimerManager().SetTimer(m_TimerHandler, this, &AFVTankEnemy::ResetCollision, FireRate, false);
 }
 
-void AFVTankEnemy::TakeDamage(float damage)
-{
-    Super::TakeDamage(damage);
-}
-
 void AFVTankEnemy::ResetCollision()
 {
     CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);

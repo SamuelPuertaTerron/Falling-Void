@@ -51,8 +51,3 @@ void AFVHunterEnemy::Attack()
 			}
 		}, AttackTime, false);
 }
-
-void AFVHunterEnemy::TakeDamage(float damage)
-{
-	Super::TakeDamage(damage);
-}

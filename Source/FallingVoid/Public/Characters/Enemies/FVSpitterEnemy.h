@@ -20,8 +20,6 @@ public:
 
 	virtual void Attack() override;
 
-	virtual void TakeDamage(float damage) override;
-
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	TSubclassOf<AFVProjectile> Projectile;

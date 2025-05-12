@@ -23,8 +23,6 @@ public:
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Enemy")
 	class UCapsuleComponent* CollisionComponent;
-	
-	virtual void TakeDamage(float damage) override;
 
 private:
 	/** Reset the attacking collision to no collision when none attacking */
