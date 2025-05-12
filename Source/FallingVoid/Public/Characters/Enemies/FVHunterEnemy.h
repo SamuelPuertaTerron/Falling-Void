@@ -16,6 +16,8 @@ class FALLINGVOID_API AFVHunterEnemy : public AFVEnemyBase
 
 public:
 	virtual void Attack() override;
+	virtual void TakeDamage(float damage) override;
+
 private:
 	FTimerHandle m_TimeHandle;
 };

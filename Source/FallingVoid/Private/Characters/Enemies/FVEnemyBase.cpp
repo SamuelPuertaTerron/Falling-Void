@@ -20,8 +20,11 @@ void AFVEnemyBase::TakeDamage(float damage)
 	OnTakenDamage();
 	if (Health <= 0.0f)
 	{
+		UE_LOG(LogTemp, Error, TEXT("Died!"));
 		OnDied();
 	}
+
+	UE_LOG(LogTemp, Error, TEXT("Taken Damage!"));
 }
 
 void AFVEnemyBase::Stun(float delay)

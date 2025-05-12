@@ -4,19 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
-#include "FVBTAttackPlayerBossSpin.generated.h"
+#include "FVBTEvent.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FALLINGVOID_API UFVBTAttackPlayerBossSpin : public UBTTask_BlackboardBase
+class FALLINGVOID_API UFVBTEvent : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 	
 public:
-	UFVBTAttackPlayerBossSpin();
-	~UFVBTAttackPlayerBossSpin() = default;
+	UFVBTEvent();
+	~UFVBTEvent() = default;
 
 private:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
