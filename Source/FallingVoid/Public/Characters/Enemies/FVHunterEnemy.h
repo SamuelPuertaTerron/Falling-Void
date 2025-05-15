@@ -18,6 +18,12 @@ public:
 	virtual void Attack() override;
 	virtual void TakeDamage(float damage) override;
 
+	UFUNCTION(BlueprintCallable)
+	void SetPlayerAlive();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
+	bool IsPlayerPinned { false };
+
 private:
 	FTimerHandle m_TimeHandle;
 };

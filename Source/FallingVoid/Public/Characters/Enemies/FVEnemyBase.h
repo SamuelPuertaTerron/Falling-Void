@@ -30,7 +30,6 @@ public:
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
 		float AttackTime = { 0.5f };
 
-
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
 		float SpeedModifer = { 600.0f };
 

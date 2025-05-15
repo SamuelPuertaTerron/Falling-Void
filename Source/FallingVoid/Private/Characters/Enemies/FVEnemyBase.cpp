@@ -46,6 +46,8 @@ void AFVEnemyBase::Stun(float delay)
 				thisWeak->m_pController->SetIsStunned(false);
 			}
 		}, delay, false);
+
+
 }
 
 void AFVEnemyBase::StopMovement() const
