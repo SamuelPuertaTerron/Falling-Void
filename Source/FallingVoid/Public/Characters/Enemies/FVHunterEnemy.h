@@ -24,6 +24,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy", meta = (AllowPrivateAccess = "true"))
 	bool IsPlayerPinned { false };
 
+
+
 private:
 	FTimerHandle m_TimeHandle;
 };

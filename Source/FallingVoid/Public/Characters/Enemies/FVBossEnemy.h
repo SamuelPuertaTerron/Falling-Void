@@ -44,12 +44,16 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Enemy|Boss")
 	class UCapsuleComponent* CollisionComponent;
 
+	
+	UFUNCTION(BlueprintCallable)
+	void ResetCollision();
+
+
 	virtual void Attack() override;
 
 	virtual void TakeDamage(float damage) override;
 
 private:
-	void ResetCollision();
 
 	FTimerHandle m_TimerHandler;
 };

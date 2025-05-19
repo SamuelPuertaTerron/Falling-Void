@@ -20,7 +20,7 @@ void AFVBossEnemy::Attack()
 
     CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
-    GetWorld()->GetTimerManager().SetTimer(m_TimerHandler, this, &AFVBossEnemy::ResetCollision, TimeBetweenAttacks, false);
+    OnAttackPlayer();
 }
 
 void AFVBossEnemy::TakeDamage(float damage)
@@ -36,4 +36,6 @@ void AFVBossEnemy::ResetCollision()
 
 	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetWorldTimerManager().ClearTimer(m_TimerHandler);
+
+    UE_LOG(LogTemp, Warning, TEXT("Logging"));
 }
