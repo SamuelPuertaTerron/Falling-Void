@@ -16,7 +16,7 @@ class FALLINGVOID_API UFVBTAttackPlayer : public UBTTask_BlackboardBase
 
 public:
 	UFVBTAttackPlayer();
-
+	virtual ~UFVBTAttackPlayer() override = default;
 
 	UPROPERTY(EditAnywhere, Category = "Keys")
 	FBlackboardKeySelector LastAttackTIme;

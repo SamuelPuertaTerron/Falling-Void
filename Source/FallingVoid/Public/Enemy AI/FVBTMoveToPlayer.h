@@ -28,6 +28,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Random Movement")
 	float MaxRandomOffset = { 50.0f };
 
+	UPROPERTY(EditAnywhere, Category = "Boss")
+	bool IsBoss = { false };
+
 private:
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

@@ -43,17 +43,13 @@ EBTNodeResult::Type UFVBTMoveAwayFromPlayer::ExecuteTask(UBehaviorTreeComponent&
 	FVector enemyLocation = enemy->GetActorLocation();
 	FVector playerLocation = player->GetActorLocation();
 
-	// Calculate retreat direction (away from player)
 	FVector awayFromPlayer = (enemyLocation - playerLocation).GetSafeNormal();
 
-	// Add some randomness to avoid predictable movement
 	FVector randomOffset = FMath::VRand() * FMath::FRandRange(0.f, RetreatRandomness);
 	randomOffset.Z = 0.f;
 
-	// Calculate target location
 	FVector targetLocation = enemyLocation + (awayFromPlayer * RetreatDistance) + randomOffset;
 
-	// Calculate the direction the enemy should face (toward the movement direction)
 	FVector moveDirection = (targetLocation - enemyLocation).GetSafeNormal();
 	if (moveDirection.IsNearlyZero())
 	{
