@@ -46,7 +46,7 @@ EBTNodeResult::Type UFVBTBossAttackShort::ExecuteTask(UBehaviorTreeComponent& Ow
 		return EBTNodeResult::Failed;
 	}
 
-	enemy->IsComboAAttacking = true;
+	enemy->IsComboBAttacking = true;
 	enemy->PlayAnimMontage(enemy->ShortAttackMontage); //The attack logic will be called from a notify inside the anim montage
 
 	return EBTNodeResult::Succeeded;

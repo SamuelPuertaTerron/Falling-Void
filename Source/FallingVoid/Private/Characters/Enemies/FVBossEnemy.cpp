@@ -36,6 +36,4 @@ void AFVBossEnemy::ResetCollision()
 
 	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	GetWorldTimerManager().ClearTimer(m_TimerHandler);
-
-    UE_LOG(LogTemp, Warning, TEXT("Logging"));
 }
