@@ -43,6 +43,31 @@ void AFVEnemyAIController::SetIsStunned(bool value)
     UE_LOG(LogTemp, Warning, TEXT("Called SetIsStunned: %d"), value);
 }
 
+void AFVEnemyAIController::SetIsDead(bool value)
+{
+    if (!IsValid(this))
+    {
+        UE_LOG(LogTemp, Error, TEXT("Controller is not valid!"));
+        return;
+    }
+
+    UBlackboardComponent* blackboardComp = GetBlackboardComponent();
+    if (!blackboardComp)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Blackboard component is null!"));
+        return;
+    }
+
+    FBlackboard::FKey KeyID = blackboardComp->GetKeyID("IsStunned");
+    if (KeyID == FBlackboard::InvalidKey)
+    {
+        UE_LOG(LogTemp, Error, TEXT("IsStunned key not found in Blackboard!"));
+        return;
+    }
+
+    blackboardComp->SetValueAsBool("IsDead", value);
+}
+
 AFVPlayerBase* AFVEnemyAIController::GetClosetPlayer() const
 {
     auto player = Cast<AFVPlayerBase>(GetBlackboardComponent()->GetValueAsObject("Player"));

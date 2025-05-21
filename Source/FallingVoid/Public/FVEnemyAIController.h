@@ -32,6 +32,11 @@ public:
 	void SetIsStunned(bool value);
 
 	/**
+	 *  @brief : Sets the IsDead key in the blackboard to true if the enemy is dead. Only used for the boss.
+	 */
+	void SetIsDead(bool value);
+
+	/**
 	 * @brief Gets the closet player to this Mesh
 	 */
 	AFVPlayerBase* GetClosetPlayer() const;

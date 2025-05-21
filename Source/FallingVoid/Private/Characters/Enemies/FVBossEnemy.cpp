@@ -3,6 +3,7 @@
 
 #include "Characters/Enemies/FVBossEnemy.h"
 
+#include "FVEnemyAIController.h"
 #include "Components/CapsuleComponent.h"
 
 void AFVBossEnemy::Stun(float delay)
@@ -18,6 +19,11 @@ void AFVBossEnemy::Attack()
         return;
     }
 
+	if (!IsDead)
+	{
+		return;
+	}
+
     CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
     OnAttackPlayer();
@@ -25,7 +31,25 @@ void AFVBossEnemy::Attack()
 
 void AFVBossEnemy::TakeDamage(float damage)
 {
-	Super::TakeDamage(damage);
+	Health -= damage;
+	OnTakenDamage();
+	if (Health <= 0.0f)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Died!"));
+		IsDead = true;
+
+		AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
+		if (!controller)
+		{
+			return;
+		}
+
+		controller->SetIsDead(IsDead);
+
+		OnDied();
+	}
+
+	UE_LOG(LogTemp, Error, TEXT("Taken Damage!"));
 }
 
 void AFVBossEnemy::ResetCollision()

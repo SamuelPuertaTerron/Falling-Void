@@ -36,6 +36,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy|Boss")
 	bool IsComboCAttacking = { false };
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy|Boss")
+	bool IsDead = { false };
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy|Boss|Anims")
 	UAnimMontage*  ShortAttackMontage;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy|Boss|Anims")
