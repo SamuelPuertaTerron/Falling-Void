@@ -40,14 +40,7 @@ EBTNodeResult::Type UFVBTBossAttackShort::ExecuteTask(UBehaviorTreeComponent& Ow
 		return EBTNodeResult::Failed;
 	}
 
-	if (!enemy->ComboAAnimMontage)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Boss short attack montage variable is not set!"))
-		return EBTNodeResult::Failed;
-	}
-
 	enemy->IsComboAAttacking = true;
-	enemy->PlayAnimMontage(enemy->ComboAAnimMontage); //The attack logic will be called from a notify inside the anim montage
 
 	return EBTNodeResult::Succeeded;
 }
