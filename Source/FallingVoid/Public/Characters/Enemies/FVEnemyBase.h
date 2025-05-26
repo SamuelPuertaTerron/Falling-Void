@@ -56,6 +56,11 @@ public:
 		UFUNCTION(BlueprintImplementableEvent, Category = "Character")
 		void OnAttackPlayer();
 
+		UFUNCTION(BlueprintImplementableEvent, Category = "Stun")
+		void OnStunStart();
+		UFUNCTION(BlueprintImplementableEvent, Category = "Stun")
+		void OnStunEnd();
+
 		/*UFUNCTION(BlueprintImplementableEvent, Category = "Character")
 		void OnAttackPlayer();*/
 

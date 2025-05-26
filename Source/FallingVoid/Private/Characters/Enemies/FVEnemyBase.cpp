@@ -38,16 +38,17 @@ void AFVEnemyBase::Stun(float delay)
 	m_pController->SetIsStunned(true);
 	m_pController->StopMovement();
 
+	OnStunStart();
+
 	TWeakObjectPtr<AFVEnemyBase> thisWeak = this;
 	GetWorldTimerManager().SetTimer(m_SunTimer, [thisWeak]()
 		{
 			if (thisWeak.IsValid() && thisWeak->m_pController && IsValid(thisWeak->m_pController))
 			{
 				thisWeak->m_pController->SetIsStunned(false);
+				thisWeak->OnStunEnd();
 			}
 		}, delay, false);
-
-
 }
 
 void AFVEnemyBase::StopMovement() const
