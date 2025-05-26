@@ -5,7 +5,7 @@ A game for our final group project at University.
 
 ### Jake
 
-### Ben
+### Ben Sanders
 
 ### Asher
 
@@ -14,3 +14,13 @@ A game for our final group project at University.
 ### Jolie
 
 ### Sam
+
+## Contracts
+
+### Ben Fields
+
+### Dylan
+
+### Lewis
+
+## Credits from External Source
