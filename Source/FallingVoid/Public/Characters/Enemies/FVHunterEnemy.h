@@ -17,6 +17,7 @@ class FALLINGVOID_API AFVHunterEnemy : public AFVEnemyBase
 public:
 	virtual void Attack() override;
 	virtual void TakeDamage(float damage) override;
+	void Stun(float delay) override;
 
 	UFUNCTION(BlueprintCallable)
 	void SetPlayerAlive();

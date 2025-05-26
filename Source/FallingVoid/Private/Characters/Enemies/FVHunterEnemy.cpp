@@ -56,6 +56,40 @@ void AFVHunterEnemy::TakeDamage(float damage)
 	Super::TakeDamage(damage);
 }
 
+void AFVHunterEnemy::Stun(float delay)
+{
+	if (!m_pController || !IsValid(m_pController))
+	{
+		UE_LOG(LogTemp, Error, TEXT("Controller is null or invalid!"));
+		return;
+	}
+
+	m_pController->SetIsStunned(true);
+	m_pController->StopMovement();
+
+	OnStunStart();
+	
+	AFVEnemyAIController* controller = m_pController;
+	TWeakObjectPtr<AFVEnemyBase> thisWeak = this;
+	GetWorldTimerManager().SetTimer(m_SunTimer, [thisWeak, controller]()
+		{
+			if (thisWeak.IsValid() && controller && IsValid(controller))
+			{
+				controller->SetIsStunned(false);
+				auto player = controller->GetClosetPlayer();
+				if (!player || IsValid(player)) 
+				{
+					UE_LOG(LogTemp, Error, TEXT("Closet Player is null or invalid!"));
+					thisWeak->OnStunEnd();
+					return;
+				}
+
+				player->PlayerHealthState = EPlayerHealthState::Alive;
+				thisWeak->OnStunEnd();
+			}
+		}, delay, false);
+}
+
 void AFVHunterEnemy::SetPlayerAlive()
 {
 	AFVEnemyAIController* enemyController = Cast<AFVEnemyAIController>(GetController());

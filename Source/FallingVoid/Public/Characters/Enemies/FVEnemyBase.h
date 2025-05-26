@@ -82,7 +82,7 @@ protected:
 
 	FHitResult Shoot();
 
-private:
+protected:
 	FTimerHandle m_SunTimer;
 
 	UPROPERTY()
