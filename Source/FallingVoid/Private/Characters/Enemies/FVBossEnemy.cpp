@@ -36,7 +36,6 @@ void AFVBossEnemy::TakeDamage(float damage)
 	OnTakenDamage();
 	if (Health <= 0.0f)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Died!"));
 		IsDead = true;
 
 		AFVEnemyAIController* controller = Cast<AFVEnemyAIController>(GetController());
@@ -49,8 +48,6 @@ void AFVBossEnemy::TakeDamage(float damage)
 
 		OnDied();
 	}
-
-	UE_LOG(LogTemp, Error, TEXT("Taken Damage!"));
 }
 
 void AFVBossEnemy::ResetCollision()
