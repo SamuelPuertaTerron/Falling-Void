@@ -121,7 +121,7 @@ void AFVSpawnManager::SpawnEnemies()
 
             FActorSpawnParameters spawnParams;
             spawnParams.Owner = this;
-            spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+            spawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
             AFVEnemyBase* spawnedEnemy = world->SpawnActor<AFVEnemyBase>(enemyData.EnemyClass, spawnLocation, spawnRotation, spawnParams);
             if (spawnedEnemy)
