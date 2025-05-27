@@ -99,7 +99,7 @@ void AFVHunterEnemy::SetPlayerAlive()
 		return;
 	}
 	AFVPlayerBase* playerBase = enemyController->GetClosetPlayer();
-	if (!playerBase)
+	if (!playerBase || playerBase->GetIsDeadOrDowned())
 	{
 		UE_LOG(LogTemp, Error, TEXT("Player is null"))
 		return;
