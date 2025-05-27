@@ -38,7 +38,7 @@ EBTNodeResult::Type UFVBTBossAttackSpin::ExecuteTask(UBehaviorTreeComponent& Own
 		return EBTNodeResult::Failed;
 	}
 
-	enemy->IsComboCAttacking = true;
+	enemy->OnAttackBegin();
 
 	return EBTNodeResult::Succeeded;
 }

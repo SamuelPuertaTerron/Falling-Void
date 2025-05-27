@@ -40,9 +40,7 @@ EBTNodeResult::Type UFVBTBossAttackShort::ExecuteTask(UBehaviorTreeComponent& Ow
 		return EBTNodeResult::Failed;
 	}
 
-	enemy->IsComboAAttacking = true;
-
-	
+	enemy->OnAttackBegin();
 
 	return EBTNodeResult::Succeeded;
 }

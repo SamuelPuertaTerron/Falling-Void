@@ -46,6 +46,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ResetCollision();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Stun")
+	void OnAttackBegin();
 
 	virtual void Attack() override;
 

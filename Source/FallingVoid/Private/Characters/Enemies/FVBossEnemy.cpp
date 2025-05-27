@@ -20,14 +20,13 @@ void AFVBossEnemy::Attack()
         return;
     }
 
-	if (IsDead)
-	{
-		return;
-	}
+	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
-    CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	OnAttackBegin();
 
-    OnAttackPlayer();
+	UE_LOG(LogTemp, Error, TEXT("Attacking Player"));
+
+    //OnAttackPlayer();
 }
 
 void AFVBossEnemy::TakeDamage(float damage)
