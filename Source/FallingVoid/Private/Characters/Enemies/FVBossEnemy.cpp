@@ -26,7 +26,7 @@ void AFVBossEnemy::Attack()
 
 	UE_LOG(LogTemp, Error, TEXT("Attacking Player"));
 
-    //OnAttackPlayer();
+    OnAttackPlayer();
 }
 
 void AFVBossEnemy::TakeDamage(float damage)
