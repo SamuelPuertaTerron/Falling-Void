@@ -58,7 +58,7 @@ void AFVHunterEnemy::TakeDamage(float damage)
 	if (Health <= 0.0f)
 	{
 		auto player = m_pController->GetClosetPlayer();
-		if (!player || IsValid(player) || player->GetIsAlive())
+		if (!player || IsValid(player))
 		{
 			IsPlayerPinned = false;
 			player->PlayerHealthState = EPlayerHealthState::Alive;
@@ -118,15 +118,6 @@ void AFVHunterEnemy::SetPlayerAlive()
 	}
 
 	IsPlayerPinned = false;
-
-	if (playerBase->GetIsDeadOrDowned())
-	{
-		playerBase->PlayerHealthState = EPlayerHealthState::Downed;
-	}
-	else
-	{
-		playerBase->PlayerHealthState = EPlayerHealthState::Alive;
-	}
-
+	playerBase->PlayerHealthState = EPlayerHealthState::Alive;
 	UE_LOG(LogTemp, Warning, TEXT("Player Unpinned: %s"), *GetCurrentStateAsString(playerBase->PlayerHealthState));
 }
