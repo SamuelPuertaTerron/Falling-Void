@@ -118,6 +118,15 @@ void AFVHunterEnemy::SetPlayerAlive()
 	}
 
 	IsPlayerPinned = false;
-	playerBase->PlayerHealthState = EPlayerHealthState::Alive;
+
+	if (playerBase->GetIsDeadOrDowned())
+	{
+		playerBase->PlayerHealthState = EPlayerHealthState::Downed;
+	}
+	else
+	{
+		playerBase->PlayerHealthState = EPlayerHealthState::Alive;
+	}
+
 	UE_LOG(LogTemp, Warning, TEXT("Player Unpinned: %s"), *GetCurrentStateAsString(playerBase->PlayerHealthState));
 }
