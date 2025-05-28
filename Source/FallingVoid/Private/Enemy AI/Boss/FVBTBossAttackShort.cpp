@@ -40,7 +40,7 @@ EBTNodeResult::Type UFVBTBossAttackShort::ExecuteTask(UBehaviorTreeComponent& Ow
 		return EBTNodeResult::Failed;
 	}
 
-	enemy->OnAttackBegin();
+	enemy->BossState = EBossState::Attacking;
 
 	return EBTNodeResult::Succeeded;
 }

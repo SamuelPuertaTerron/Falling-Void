@@ -11,13 +11,16 @@ AFVSpitterEnemy::AFVSpitterEnemy()
 
 void AFVSpitterEnemy::Attack()
 {
-	if (!Projectile) return;
+    if (!Projectile) return;
 
     UWorld* World = GetWorld();
-    if (!World) return; // Ensure world is valid
+    if (!World)
+    {
+        return;
+    }
 
     FActorSpawnParameters SpawnParams;
-    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn; //Ignores Collision
+    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
     FRotator SpawnRotation = GetActorRotation();
 

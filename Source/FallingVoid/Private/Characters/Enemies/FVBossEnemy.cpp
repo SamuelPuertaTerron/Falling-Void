@@ -22,8 +22,6 @@ void AFVBossEnemy::Attack()
 
 	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 
-	OnAttackBegin();
-
 	UE_LOG(LogTemp, Error, TEXT("Attacking Player"));
 
     OnAttackPlayer();
@@ -43,6 +41,7 @@ void AFVBossEnemy::TakeDamage(float damage)
 			return;
 		}
 
+		BossState = EBossState::Dead;
 		controller->SetIsDead(IsDead);
 
 		OnDied();
@@ -51,10 +50,6 @@ void AFVBossEnemy::TakeDamage(float damage)
 
 void AFVBossEnemy::ResetCollision()
 {
-    IsComboAAttacking = false;
-    IsComboBAttacking = false;
-    IsComboCAttacking = false;
-
 	if (CollisionComponent == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Collision Component has not been set in the inspector"));
@@ -64,4 +59,11 @@ void AFVBossEnemy::ResetCollision()
 	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	UE_LOG(LogTemp, Error, TEXT("Reset Collision"));
+
+	if (BossState == EBossState::Jumping || BossState == EBossState::None)
+	{
+		return;
+	}
+
+	BossState = EBossState::Moving;
 }

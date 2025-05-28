@@ -38,7 +38,7 @@ EBTNodeResult::Type UFVBTBossAttackSpin::ExecuteTask(UBehaviorTreeComponent& Own
 		return EBTNodeResult::Failed;
 	}
 
-	enemy->OnAttackBegin();
+	enemy->BossState = EBossState::Attacking;
 
 	return EBTNodeResult::Succeeded;
 }
