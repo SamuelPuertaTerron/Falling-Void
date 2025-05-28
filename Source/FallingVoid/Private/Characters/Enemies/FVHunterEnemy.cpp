@@ -53,7 +53,19 @@ void AFVHunterEnemy::Attack()
 
 void AFVHunterEnemy::TakeDamage(float damage)
 {
-	Super::TakeDamage(damage);
+	Health -= damage;
+	OnTakenDamage();
+	if (Health <= 0.0f)
+	{
+		auto player = m_pController->GetClosetPlayer();
+		if (!player || IsValid(player))
+		{
+			IsPlayerPinned = false;
+			player->PlayerHealthState = EPlayerHealthState::Alive;
+			return;
+		}
+		OnDied();
+	}
 }
 
 void AFVHunterEnemy::Stun(float delay)
