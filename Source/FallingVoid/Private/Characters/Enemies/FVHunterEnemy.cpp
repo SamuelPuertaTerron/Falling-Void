@@ -58,7 +58,7 @@ void AFVHunterEnemy::TakeDamage(float damage)
 	if (Health <= 0.0f)
 	{
 		auto player = m_pController->GetClosetPlayer();
-		if (!player || IsValid(player))
+		if (!player || IsValid(player) || player->GetIsDeadOrDowned())
 		{
 			IsPlayerPinned = false;
 			player->PlayerHealthState = EPlayerHealthState::Alive;
